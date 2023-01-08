@@ -1,1 +1,1 @@
-"# Bridgestone-Idea-Management-Platform" 
+# Bridgestone-Idea-Management-Platform
