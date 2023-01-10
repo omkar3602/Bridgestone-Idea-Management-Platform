@@ -4,6 +4,35 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;500;600;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        nunito: ["Nunito", "sans-serif"],
+                    },
+                    colors: {
+                        primary_red: '#c50d20',
+                        dark_grey: '#333439',
+                        light_grey: '#b4b4b4',
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+          .main_heading {
+            font-size: larger;
+            background-color: red;
+            color: blue;
+          }
+        }
+      </style>
     <title>{% block title %}{% endblock title %}</title>
 </head>
 <body>
