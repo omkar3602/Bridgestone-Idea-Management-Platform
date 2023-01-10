@@ -18,10 +18,7 @@ def login_user(request):
             return redirect('home')
         else:
             messages.error(request, "Couldn't Login. Please check your credentials.")
-    context = {
-        'is_login':1,
-    }
-    return render(request, 'userauth/login.html', context)
+    return render(request, 'userauth/login.html')
 
 def signup(request):
     if request.user.is_authenticated:
@@ -29,7 +26,14 @@ def signup(request):
     if request.method == 'POST':
         data = request.POST
         # print(data)
+        fullname = data['fullname']
         email = data['email']
+
+        # role = data['role']
+        is_IC = False
+        # if role == 'IC':
+        #     is_IC = True
+
         password = data['password']
         password2 = data['password2']
         if password == password2:
@@ -37,7 +41,7 @@ def signup(request):
                 messages.info(request, 'Email not available. Use another email.')
                 return redirect('signup')
             else:
-                user=Account.objects.create_user(email=email, password=password)
+                user=Account.objects.create_user(fullname=fullname, email=email, is_IC=is_IC, password=password)
                 user.save()
                 login(request, user)
                 messages.info(request, 'Account created successfully.')
@@ -45,10 +49,7 @@ def signup(request):
         else:
             messages.error(request, 'Please make sure the passwords match.')
             return redirect('signup')
-    context = {
-        'is_login':0,
-    }
-    return render(request, 'userauth/signup.html', context)
+    return render(request, 'userauth/signup.html')
 
 def logout_user(request):
     if request.method == 'POST' and request.user.is_authenticated:

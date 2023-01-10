@@ -4,5 +4,18 @@
 {% block title %}Bridgestone{% endblock title %}
 
 {% block content %}
-<h2 class="main_heading">This is the Home page.</h2>
+{% if user.is_admin %}
+<h2 class="main_heading">You are a Admin.</h2>
+{% elif user.is_IC %}
+<h2 class="main_heading">You are a Idea Champion.</h2>
+{% else %}
+<h2 class="main_heading">You are a Ideator.</h2>
+{% endif %}
+<form method="POST" action="{% url 'logout' %}">
+    {% csrf_token %}
+    <button type="submit">Log out</button>
+</form>
+<a href="{% url 'login' %}">Login</a>
+<br>
+<a href="{% url 'signup' %}">Sign up</a>
 {% endblock content %}

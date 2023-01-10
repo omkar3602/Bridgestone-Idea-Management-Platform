@@ -127,12 +127,12 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# LOGIN_URL = '/auth/login/'
+LOGIN_URL = '/auth/login/'
 
-# AUTH_USER_MODEL = 'userauth.Account'
+AUTH_USER_MODEL = 'userauth.Account'
 
-# import os
-# STATICFILES_DIRS = [ os.path.join(BASE_DIR,'static'), ]
+import os
+STATICFILES_DIRS = [ os.path.join(BASE_DIR,'static'), ]
 
 # MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
