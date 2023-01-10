@@ -1,9 +1,39 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;500;600;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        nunito: ["Nunito", "sans-serif"],
+                    },
+                    colors: {
+                        primary_red: '#c50d20',
+                        dark_grey: '#333439',
+                        light_grey: '#b4b4b4',
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+          .bg_image {
+            background-image: url("https://www.google.com/url?sa=i&url=https%3A%2F%2Fwallpapercave.com%2Fbridgestone-wallpapers&psig=AOvVaw28HlmC7jVwdEJbVxnP4mhW&ust=1673445246269000&source=images&cd=vfe&ved=0CBAQjRxqFwoTCNjV_p6UvfwCFQAAAAAdAAAAABAD");
+            background-size: cover;
+            background-position: center;
+          }
+        }
+      </style>
     <title>{% block title %}{% endblock title %}</title>
 </head>
 <body>

@@ -4,5 +4,38 @@
 {% block title %}Signup{% endblock title %}
 
 {% block content %}
-<h2>This is the Signup page.</h2>
+<div class="w-full h-screen bg-[url('./wallpaper.jpeg')] bg-cover bg-center">
+    <div class="w-full h-full flex flex-col justify-center items-center backdrop-blur-sm">
+        <div class="container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2">
+            <div class="bg-white px-6 py-8 rounded shadow-md text-black w-full">   
+                <img src="./logo_hori.png">                
+                <h1 class="mt-6 mb-8 text-3xl font-bold text-center font-nunito">Sign up as ideator</h1>
+                <input type="text" class="block border border-grey-light w-full p-3 rounded mb-4" name="fullname"
+                    placeholder="Full Name" />
+
+                <input type="text" class="block border border-grey-light w-full p-3 rounded mb-4" name="email"
+                    placeholder="Email" />
+
+                <input type="password" class="block border border-grey-light w-full p-3 rounded mb-4"
+                    name="password" placeholder="Password" />
+                <input type="password" class="block border border-grey-light w-full p-3 rounded mb-4"
+                    name="confirm_password" placeholder="Confirm Password" />
+
+                <button type="submit"
+                    class="w-full text-center py-3 rounded bg-primary_red text-white hover:bg-black focus:outline-none my-1">Create
+                    Account</button>
+
+                
+                <div class="text-light_grey text-center">
+                    Already have an account?
+                    <a class="no-underline border-b border-blue text-blue" href="#">
+                        Log in
+                    </a>.
+                </div>
+            </div>
+
+            
+        </div>
+    </div>
+</div>
 {% endblock content %}
