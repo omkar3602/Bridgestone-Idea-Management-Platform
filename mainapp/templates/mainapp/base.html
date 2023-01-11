@@ -2,7 +2,7 @@
 
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 
 <head>
   <meta charset="UTF-8">
@@ -14,21 +14,21 @@
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;500;600900&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
-      tailwind.config = {
-          theme: {
-              extend: {
-                  fontFamily: {
-                      nunito: ["Nunito", "sans-serif"],
-                  },
-                  colors: {
-                      primary_red: '#c50d20',
-                      dark_grey: '#333439',
-                      light_grey: '#b4b4b4',
-                  }
-              }
-          }
-      }
-  </script>
+    tailwind.config = {
+        theme: {
+            extend: {
+                fontFamily: {
+                    nunito: ["Nunito", "sans-serif"],
+                },
+                colors: {
+                    primary_red: '#c50d20',
+                    dark_grey: '#333439',
+                    light_grey: '#b4b4b4',
+                }
+            }
+        }
+    }
+</script>
   <style type="text/tailwindcss">
     @layer utilities {
       .main_heading {
@@ -43,23 +43,23 @@
 </head>
 
 <body>
-  <nav class="bg-white shadow-lg fixed w-full z-10">
-    <div class="max-w-6xl mx-auto px-4">
+  <nav class="bg-white shadow-lg fixed w-full z-10 pl-8">
+    <div class="max-w-6xl">
       <div class="flex justify-between">
         <div class="flex space-x-7">
           <div>
             <!-- Website Logo -->
             <a href="{% url 'home' %}" class="flex items-center py-4 px-2">
-              <img src="{% static 'images/nav-logo.jpeg' %}" alt="Logo" class="h-8 mr-2">
+              <img src="{% static 'images/logo_hori.png' %}" alt="Logo" class="h-8 mr-2">
             </a>
           </div>
           <!-- Primary Navbar items -->
           <div class="hidden md:flex items-center space-x-1">
-            <a href="{% url 'home' %}" class="py-4 px-2 text-red-500 border-b-4 border-red-500 font-semibold ">Home</a>
-            <a href="#BU_PROGRAMS" class="py-4 px-2 text-gray-500 font-semibold hover:text-red-500 transition duration-300">BU
+            <a href="{% url 'home' %}" class="py-4 px-2 text-red-700 hover:border-b-4 hover:border-red-700 font-semibold ">Home</a>
+            <a href="#BU_PROGRAMS" class="py-4 px-2 text-black font-semibold hover:border-b-4 hover:border-red-700 hover:text-red-700 transition duration-300">BU
               Programs</a>
             <a href="#IDEA_CHAMPIONS"
-              class="py-4 px-2 text-gray-500 font-semibold hover:text-red-500 transition duration-300">Idea Champions</a>
+              class="py-4 px-2 text-black font-semibold hover:text-red-700 hover:border-b-4 hover:border-red-700  transition duration-300">Idea Champions</a>
           </div>
         </div>
         <!-- Secondary Navbar items -->
@@ -79,14 +79,14 @@
           
           <form method="POST" action="{% url 'logout' %}">
             {% csrf_token %}
-            <button class="py-2 px-2 font-medium text-white rounded bg-red-500 transition duration-300" type="submit">Log out</button>
+            <button class="py-2 px-2 font-medium text-white rounded bg-red-700 transition duration-300" type="submit">Log out</button>
         </form>
         {% else %}       
         <a href="{% url 'login' %}"
-            class="py-2 px-2 font-medium text-gray-500 rounded hover:bg-red-500 hover:text-white transition duration-300">Log
+            class="py-2 px-2 font-medium text-gray-500 rounded hover:bg-red-700 hover:text-white transition duration-300">Log
             In</a>
           <a href="{% url 'signup' %}"
-            class="py-2 px-2 font-medium text-white bg-red-500 rounded hover:bg-red-400 transition duration-300">Sign
+            class="py-2 px-2 font-medium text-white bg-red-700 rounded hover:bg-red-400 transition duration-300">Sign
             Up</a>
         {% endif %}  
       </div> 
@@ -98,7 +98,7 @@
   {% if messages %}
         <ul class="messages">
           {% for message in messages %}
-            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}><script>alert("{{ message }}")</script> </li>
           {% endfor %}
         </ul>
   {% endif %}

@@ -19,15 +19,26 @@
 <br>
 <a href="{% url 'signup' %}">Sign up</a> {% endcomment %}
 
-  <div>
-    <h1 class="text-center text-red-700 text-5xl font-semibold py-10 pt-28 drop-shadow-lg">Welcome to BSID IDEA submission
-    </h1>
+  <div class="pl-10 pb-16 flex relative justify-between h-[600px] overflow-hidden smooth-scroll bg-gray-200">
+    <div class="w-1/2">
+      <h1 class="text-left text-black text-8xl font-bold pt-[150px] drop-shadow-lg">Welcome to BSID <span class="text-red-700">Idea Submission</span>
+      </h1>
+      <h1 class="text-left text-gray-700 font-normal text-2xl pt-2 pb-10 ">Choose the Business Unit of your choice and submit the idea.</h1>
+     
+    </div>    
+    <img
+      src="{% static 'images/tyres1.png' %}"
+      class="float-right h-3/4 absolute top-[120px] right-[-150px]"
+      alt="Idea"
+      />
+
+      
   </div>
   <div class="h">
     {% comment %} <img src="{% static 'images/bg-img.jpg' %}" class="object-cover w-full " alt=""> {% endcomment %}
   </div>
-  <div>
-    <h3 id="BU_PROGRAMS" class="text-center text-red-700 text-4xl font-semibold py-5 drop-shadow-lg underline hover:underline-offset-8">
+  <div id="BU_PROGRAMS" class="mt-16">
+    <h3 class="py-4  text-center text-red-700 text-6xl font-bold pt-16 drop-shadow-lg  hover:underline-offset-8">
       BU PROGRAMS</h3>
   </div>
   <!-- <div class="flex justify-center"> -->
@@ -55,7 +66,7 @@
       </div>
       <div class="p-10">
         <button
-          class="bg-transparent hover:bg-red-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+          class="bg-transparent hover:bg-red-700 text-black font-semibold hover:text-white py-2 px-4 border border-black hover:border-transparent rounded">
           View Details
 
         </button>
@@ -80,7 +91,7 @@
       </div>
       <div class="p-10">
         <button
-          class="bg-transparent hover:bg-red-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+          class="bg-transparent hover:bg-red-700 text-black font-semibold hover:text-white py-2 px-4 border border-black hover:border-transparent rounded">
           View Details
 
         </button>
@@ -105,14 +116,14 @@
       </div>
       <div class="p-10">
         <button
-          class="bg-transparent hover:bg-red-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+          class="bg-transparent hover:bg-red-700 text-black font-semibold hover:text-white py-2 px-4 border border-black hover:border-transparent rounded">
           View Details
         </button>
       </div>
     </div>
   </div>
-  <div>
-    <h3 id="IDEA_CHAMPIONS" class="text-center text-red-700 text-4xl font-semibold py-5 drop-shadow-lg underline hover:underline-offset-8">
+  <div id="IDEA_CHAMPIONS"  class="mt-28">
+    <h3 class="text-center text-6xl mt-12 text-red-700 text-6xl font-bold py-2 drop-shadow-lg hover:underline-offset-8">
       KNOW YOUR IDEA CHAMPION </h3>
   </div>
 
