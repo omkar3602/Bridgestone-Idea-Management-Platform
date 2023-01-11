@@ -1,50 +1,85 @@
+{% load static %}
+
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;500;600;900&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        nunito: ["Nunito", "sans-serif"],
-                    },
-                    colors: {
-                        primary_red: '#c50d20',
-                        dark_grey: '#333439',
-                        light_grey: '#b4b4b4',
-                    }
-                }
-            }
-        }
-    </script>
-    <style type="text/tailwindcss">
-        @layer utilities {
-          .main_heading {
-            font-size: larger;
-            background-color: red;
-            color: blue;
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;500;600900&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+      tailwind.config = {
+          theme: {
+              extend: {
+                  fontFamily: {
+                      nunito: ["Nunito", "sans-serif"],
+                  },
+                  colors: {
+                      primary_red: '#c50d20',
+                      dark_grey: '#333439',
+                      light_grey: '#b4b4b4',
+                  }
+              }
           }
-        }
-      </style>
-    <title>{% block title %}{% endblock title %}</title>
+      }
+  </script>
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .main_heading {
+        font-size: larger;
+        background-color: red;
+        color: blue;
+      }
+    }
+  </style>
+  <title>{% block title %}{% endblock title %}</title>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
+
 <body>
-    {% if messages %}
+  <nav class="bg-white shadow-lg">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="flex justify-between">
+        <div class="flex space-x-7">
+          <div>
+            <!-- Website Logo -->
+            <a href="{% url 'home' %}" class="flex items-center py-4 px-2">
+              <img src="{% static 'images/nav-logo.jpeg' %}" alt="Logo" class="h-8 mr-2">
+            </a>
+          </div>
+          <!-- Primary Navbar items -->
+          <div class="hidden md:flex items-center space-x-1">
+            <a href="{% url 'home' %}" class="py-4 px-2 text-red-500 border-b-4 border-red-500 font-semibold ">Home</a>
+            <a href="#BU_PROGRAMS" class="py-4 px-2 text-gray-500 font-semibold hover:text-red-500 transition duration-300">BU
+              Programs</a>
+            <a href="#IDEA_CHAMPIONS"
+              class="py-4 px-2 text-gray-500 font-semibold hover:text-red-500 transition duration-300">Idea Champions</a>
+          </div>
+        </div>
+        <!-- Secondary Navbar items -->
+        <div class="hidden md:flex items-center space-x-3 ">
+          <a href="{% url 'login' %}"
+            class="py-2 px-2 font-medium text-gray-500 rounded hover:bg-red-500 hover:text-white transition duration-300">Log
+            In</a>
+          <a href="{% url 'signup' %}"
+            class="py-2 px-2 font-medium text-white bg-red-500 rounded hover:bg-red-400 transition duration-300">Sign
+            Up</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+  {% if messages %}
         <ul class="messages">
           {% for message in messages %}
             <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
           {% endfor %}
         </ul>
-    {% endif %}
-    <h1>Nav</h1>
-    {% block content %}{% endblock content %}
-
+  {% endif %}
+  {% block content %}{% endblock content %}
 </body>
 </html>

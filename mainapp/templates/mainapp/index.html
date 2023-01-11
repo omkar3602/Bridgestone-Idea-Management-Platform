@@ -1,10 +1,10 @@
 {% extends 'mainapp/base.html' %}
 {% load static %}
 
-{% block title %}Bridgestone{% endblock title %}
+{% block title %}Bridgestone India Pvt. Ltd.{% endblock title %}
 
 {% block content %}
-{% if user.is_admin %}
+{% comment %} {% if user.is_admin %}
 <h2 class="main_heading">You are a Admin.</h2>
 {% elif user.is_IC %}
 <h2 class="main_heading">You are a Idea Champion.</h2>
@@ -17,5 +17,129 @@
 </form>
 <a href="{% url 'login' %}">Login</a>
 <br>
-<a href="{% url 'signup' %}">Sign up</a>
-{% endblock content %}
+<a href="{% url 'signup' %}">Sign up</a> {% endcomment %}
+
+  <div>
+    <h1 class="text-center text-red-700 text-5xl font-semibold py-10 drop-shadow-lg">Welcome to BSID IDEA submission
+    </h1>
+  </div>
+  <div class="h">
+    <img src="{% static 'images/bg-img.jpg' %}" class="object-cover w-full " alt="">
+  </div>
+  <div>
+    <h3 id="BU_PROGRAMS" class="text-center text-red-700 text-4xl font-semibold py-5 drop-shadow-lg underline hover:underline-offset-8">
+      BU PROGRAMS</h3>
+  </div>
+  <!-- <div class="flex justify-center"> -->
+
+
+  <div class="grid grid-cols-3 gap-4 justify-center m-5">
+
+
+    <div class="max-w-sm rounded overflow-hidden shadow-lg">
+      <img class="w-full" src="{% static 'images/hr.jfif' %}" alt="Bridgestone - HR">
+      <div class="px-6 py-4">
+        <div class="font-bold text-xl mb-2">Bridgestone - HR</div>
+
+      </div>
+      <div class="px-6 pt-4 pb-2">
+        <span
+          class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Consult</span>
+        <span
+          class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Strategy</span>
+        <span
+          class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Talent</span>
+        <span
+          class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Resources</span>
+
+      </div>
+      <div class="p-10">
+        <button
+          class="bg-transparent hover:bg-red-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+          View Details
+
+        </button>
+      </div>
+    </div>
+    <div class="max-w-sm rounded overflow-hidden shadow-lg">
+      <img class="w-full" src="{% static 'images/marketing.jfif' %}" alt="Bridgestone - Marketing">
+      <div class="px-6 py-4">
+        <div class="font-bold text-xl mb-2">Bridgestone - Marketing</div>
+
+      </div>
+      <div class="px-6 pt-4 pb-2">
+        <span
+          class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Media</span>
+        <span
+          class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Manage</span>
+        <span
+          class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Brand</span>
+        <span
+          class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Engagement</span>
+
+      </div>
+      <div class="p-10">
+        <button
+          class="bg-transparent hover:bg-red-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+          View Details
+
+        </button>
+      </div>
+    </div>
+    <div class="max-w-sm rounded overflow-hidden shadow-lg">
+      <img class="w-full" src="{% static 'images/finance.jfif' %}" alt="Bridgestone - Finance">
+      <div class="px-6 py-4">
+        <div class="font-bold text-xl mb-2">Bridgestone - Finance</div>
+
+      </div>
+      <div class="px-6 pt-4 pb-2">
+        <span
+          class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Technology</span>
+        <span
+          class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Gain</span>
+        <span
+          class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Business</span>
+        <span
+          class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Fund</span>
+
+      </div>
+      <div class="p-10">
+        <button
+          class="bg-transparent hover:bg-red-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+          View Details
+        </button>
+      </div>
+    </div>
+  </div>
+  <div>
+    <h3 id="IDEA_CHAMPIONS" class="text-center text-red-700 text-4xl font-semibold py-5 drop-shadow-lg underline hover:underline-offset-8">
+      KNOW YOUR IDEA CHAMPION </h3>
+  </div>
+
+  <div class="grid grid-cols-3 gap-4 justify-center m-5">
+
+    <div class="max-w-sm rounded overflow-hidden shadow-lg">
+      <img class="w-full" src="{% static 'images/finance.jfif' %}" alt="Bridgestone - Finance">
+      <div class="px-6 py-4">
+        <div class="font-bold text-xl mb-2 text-center">Idea Champ1</div>
+        <div class="text-l text-center">Finance</div>
+      </div>
+  
+    </div>
+    <div class="max-w-sm rounded overflow-hidden shadow-lg">
+      <img class="w-full" src="{% static 'images/hr.jfif' %}" alt="Bridgestone - HR">
+      <div class="px-6 py-4">
+        <div class="font-bold text-xl mb-2 text-center">Idea Champ2</div>
+        <div class="text-l text-center">HR</div>
+      </div>
+    </div>
+    <div class="max-w-sm rounded overflow-hidden shadow-lg">
+      <img class="w-full" src="{% static 'images/hr.jfif' %}" alt="Bridgestone - HR">
+      <div class="px-6 py-4">
+        <div class="font-bold text-xl mb-2 text-center">Idea Champ3</div>
+        <div class="text-l text-center">Marketing</div>
+      </div>
+    </div>
+  </div>
+  
+ {% endblock content %}
