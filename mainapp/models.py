@@ -5,6 +5,7 @@ from userauth.models import Account
 class BusinessUnit(models.Model):
     name = models.CharField(max_length=20, unique=True)
     idea_champion = models.ForeignKey(Account, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to ='business_units/')
 
     def __str__(self):
         return self.name
