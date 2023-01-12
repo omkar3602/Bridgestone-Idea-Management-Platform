@@ -21,13 +21,15 @@ def index(request):
         if request.user.is_admin:
             return HttpResponse("Admin home page")
         elif request.user.is_IC:
+            if request.method == 'POST':
+                data = request.POST
+                print(data)
             business_unit = BusinessUnit.objects.get(idea_champion=request.user)
             submissions = Submission.objects.filter(business_unit=business_unit )
             pending_submissions = submissions.filter(status="Review Pending")
 
             context['business_unit'] = business_unit
             context['pending_submissions'] = pending_submissions
-
             return render(request, 'mainapp/idea_champion/home.html', context)
         else:
             submissions = Submission.objects.filter(ideator=request.user)

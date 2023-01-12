@@ -28,16 +28,16 @@
         </div>
         <form method="POST">
           {% csrf_token %}
-          <div class="basis-1/4 pl-6 text-right flex flex-col justify-evenly">
-            <input type="hidden" value="{{ submission.id }}"></input>
+          <div class="basis-1/4 pl-6 pr-10 text-right flex flex-col justify-evenly">
+            <input type="hidden" name="submission_id" value="{{ submission.id }}"></input>
             <div class="flex justify-around">
-              <input type="submit" value="Accepted" name="status" class="bg-green-500 w-1/2 text-white py-1 px-4 rounded hover:bg-green-600">Accept</input>
+              <input type="submit" value="Accept" name="status" class="bg-green-500 text-white py-1 px-4 rounded hover:bg-green-600 mb-2"></input>
             </div>
             <div class="flex justify-around">
-              <input type="submit" value="On Hold" name="status" class="bg-orange-500 w-1/2 text-white py-1 px-4 rounded hover:bg-red-600">Hold</input>
+              <input type="submit" value="Hold" name="status" class="bg-orange-500 text-white py-1 px-4 rounded hover:bg-red-600 mb-2"></input>
             </div>
             <div class="flex justify-around">
-              <input type="submit" value="Rejected" name="status" class="bg-red-500 w-1/2 text-white py-1 px-4 rounded hover:bg-red-600">Reject</input>
+              <input type="submit" value="Reject" name="status" class="bg-red-500 text-white py-1 px-4 rounded hover:bg-red-600"></input>
             </div>
           </div>
         </form>
