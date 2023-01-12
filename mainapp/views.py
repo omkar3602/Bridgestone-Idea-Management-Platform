@@ -13,6 +13,7 @@ def index(request):
     idea_champions = Account.objects.filter(is_IC=True)
     
     context = {
+        'is_HOMEPAGE':1,
         'bussiness_units':bussiness_units,
         'idea_champions':idea_champions,
     }
