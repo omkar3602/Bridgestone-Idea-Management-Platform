@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <title>Document</title>
+</head>
+
+<body>
+  <nav class="bg-white shadow-lg">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="flex justify-between">
+        <div class="flex space-x-7">
+          <div>
+            <!-- Website Logo -->
+            <a href="#" class="flex items-center py-4 px-2">
+              <img src="logo.png" alt="Logo" class="h-8 mr-2">
+            </a>
+          </div>
+        
+          
+        </div>
+        <!-- Secondary Navbar items -->
+        <div class="hidden md:flex items-center space-x-3 ">
+          <a href=""
+            class="py-2 px-2 font-medium text-gray-500 rounded hover:bg-red-500 hover:text-white transition duration-300">Invite
+            User</a>
+
+        </div>
+      </div>
+    </div>
+  </nav>
+
+
+
+  <!-- Required chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <div class="p-10 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-5">
+    <!--Card 1-->
+    <div class="rounded overflow-hidden shadow-lg">
+
+      <div class="px-6 py-4 h-300">
+        <div class="font-bold text-xl mb-2">Number of Ideas Submitted</div>
+        <p class="text-gray-700 text-base">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus quia, Nonea! Maiores et perferendis
+          eaque, exercitationem praesentium nihil.
+        </p>
+        <br>
+        <div class="shadow-lg rounded-lg overflow-hidden">
+            <div class="py-3 px-5 bg-gray-50">Line chart</div>
+            <canvas class="p-5 h-200" id="chartLine"></canvas>
+          </div>
+          
+          <!-- Required chart.js -->
+          <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+          
+          <!-- Chart line -->
+          <script>
+            const labels = ["12-01", "13-01", "14-01"];
+            const data = {
+              labels: labels,
+              datasets: [
+                {
+                  label: "Ideas",
+                  backgroundColor: "hsl(252, 82.9%, 67.8%)",
+                  borderColor: "hsl(252, 82.9%, 67.8%)",
+                  data: [5,9,8],
+                },
+              ],
+            };
+          
+            const configLineChart = {
+              type: "line",
+              data,
+              options: {},
+            };
+          
+            var chartLine = new Chart(
+              document.getElementById("chartLine"),
+              configLineChart
+            );
+          </script>
+      </div>
+      
+    </div>
+    <!--Card 2-->
+    <div class="rounded overflow-hidden shadow-lg">
+
+      <div class="px-6 py-4">
+        <div class="font-bold text-xl mb-2">Total number of BU</div>
+        <p class="text-gray-700 text-base">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus quia, Nonea! Maiores et perferendis
+          eaque, exercitationem praesentium nihil.
+        </p>
+        <br>
+        <div class="shadow-lg rounded-lg overflow-hidden">
+            <div class="py-3 px-5 bg-gray-50">Ideas per BU</div>
+            <canvas class="p-5 h-[100]" id="chartBar"></canvas>
+          </div>
+          
+          <!-- Required chart.js -->
+          <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+          
+          <!-- Chart bar -->
+          <script>
+            const labelsBarChart = [
+              "HR",
+              "Marketing",
+              "Finance",
+            ];
+            const dataBarChart = {
+              labels: labelsBarChart,
+              datasets: [
+                {
+                  label: "BU's",
+                  backgroundColor: "hsl(252, 82.9%, 67.8%)",
+                  borderColor: "hsl(252, 82.9%, 67.8%)",
+                  data: [50, 70, 200, 20, 30, 45],
+                },
+              ],
+            };
+          
+            const configBarChart = {
+              type: "bar",
+              data: dataBarChart,
+              options: {
+
+              },
+            };
+          
+            var chartBar = new Chart(
+              document.getElementById("chartBar"),
+              configBarChart
+            );
+          </script>
+      </div>
+      
+    </div>
+
+    <!--Card 3-->
+    <div class="rounded overflow-hidden shadow-lg">
+
+      <div class="px-6 py-4">
+        <div class="font-bold text-xl mb-2">Ideas Accepted</div>
+        <p class="text-gray-700 text-base">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus quia, Nonea! Maiores et perferendis
+          eaque, exercitationem praesentium nihil.
+        </p>
+        <br>
+        <div class="shadow-lg rounded-lg overflow-hidden">
+            <div class="py-3 px-5 bg-gray-50">Overview of ideas</div>
+            <canvas class="p-10 h-400" id="chartDoughnut"></canvas>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- Chart doughnut -->
+<script>
+  const dataDoughnut = {
+    labels: ["Accepted", "Rejected", "Hold"],
+    datasets: [
+      {
+        label: "Ideas",
+        data: [30, 50, 20],
+        backgroundColor: [
+          "rgb(0, 255, 0)",
+          "rgb(255, 0,0)",
+          "rgb(250, 179, 0)",
+        ],
+        hoverOffset: 4,
+      },
+    ],
+  };
+
+  const configDoughnut = {
+    type: "doughnut",
+    data: dataDoughnut,
+    options: {},
+  };
+
+  var chartBar = new Chart(
+    document.getElementById("chartDoughnut"),
+    configDoughnut
+  );
+</script>
+      </div>
+    
+    </div>
+  </div>
+  </div>
+</body>
+
+</html>
