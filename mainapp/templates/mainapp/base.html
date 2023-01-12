@@ -52,7 +52,7 @@
             <a href="{% url 'home' %}" class="flex items-center py-4 px-2">
               <img src="{% static 'images/logo_hori.png' %}" alt="Logo" class="h-8 mr-2">
             </a>
-          </div>
+          </div>  
           {% if user.is_admin %}
           <div class="hidden md:flex items-center space-x-1">
             <a href="{% url 'add_BU' %}" class="py-4 px-2 text-black font-semibold hover:border-b-4 hover:border-red-700 hover:text-red-700 transition duration-300">Add BU</a>
