@@ -6,6 +6,7 @@ from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from utils.decorator import login_required_message
 from utils.email_sender import send_mail
+from utils.status_updater import update_status
 
 # Create your views here.
 def index(request):
@@ -23,7 +24,15 @@ def index(request):
         elif request.user.is_IC:
             if request.method == 'POST':
                 data = request.POST
-                print(data)
+                id = data["submission_id"]
+                status_txt = data["status"]
+
+                code = update_status(id, status_txt)
+                if code == 1:
+                    messages.info(request, 'Status updated successfully!')
+
+                return redirect('home')
+
             business_unit = BusinessUnit.objects.get(idea_champion=request.user)
             submissions = Submission.objects.filter(business_unit=business_unit )
             pending_submissions = submissions.filter(status="Review Pending")
@@ -72,6 +81,17 @@ def new_submission(request):
     return render(request, 'mainapp/ideator/submission_form.html', context)
 
 def all(request):
+    if request.method == 'POST':
+        data = request.POST
+        id = data["submission_id"]
+        status_txt = data["status"]
+
+        code = update_status(id, status_txt)
+        if code == 1:
+            messages.info(request, 'Status updated successfully!')
+            
+        return redirect('all')
+
     business_unit = BusinessUnit.objects.get(idea_champion=request.user)
     submissions = Submission.objects.filter(business_unit=business_unit )
 
@@ -82,6 +102,16 @@ def all(request):
     return render(request, 'mainapp/idea_champion/all.html', context)
 
 def onhold(request):
+    if request.method == 'POST':
+        data = request.POST
+        id = data["submission_id"]
+        status_txt = data["status"]
+
+        code = update_status(id, status_txt)
+        if code == 1:
+            messages.info(request, 'Status updated successfully!')
+            
+        return redirect('onhold')
     business_unit = BusinessUnit.objects.get(idea_champion=request.user)
     submissions = Submission.objects.filter(business_unit=business_unit )
     onhold_submissions = submissions.filter(status="On Hold")
@@ -93,6 +123,15 @@ def onhold(request):
     return render(request, 'mainapp/idea_champion/onhold.html', context)
 
 def accepted(request):
+    if request.method == 'POST':
+        data = request.POST
+        id = data["submission_id"]
+        status_txt = data["status"]
+        code = update_status(id, status_txt)
+        if code == 1:
+            messages.info(request, 'Status updated successfully!')
+            
+        return redirect('accepted')
     business_unit = BusinessUnit.objects.get(idea_champion=request.user)
     submissions = Submission.objects.filter(business_unit=business_unit )
     accepted_submissions = submissions.filter(status="Accepted")
@@ -105,6 +144,16 @@ def accepted(request):
     return render(request, 'mainapp/idea_champion/accepted.html', context)
 
 def rejected(request):
+    if request.method == 'POST':
+        data = request.POST
+        id = data["submission_id"]
+        status_txt = data["status"]
+
+        code = update_status(id, status_txt)
+        if code == 1:
+            messages.info(request, 'Status updated successfully!')
+            
+        return redirect('rejected')
     business_unit = BusinessUnit.objects.get(idea_champion=request.user)
     submissions = Submission.objects.filter(business_unit=business_unit )
     rejected_submissions = submissions.filter(status="Rejected")
