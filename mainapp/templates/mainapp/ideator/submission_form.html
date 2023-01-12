@@ -1,0 +1,43 @@
+{% extends 'mainapp/base.html' %}
+{% load static %}
+
+{% block title %}New Submission{% endblock title %}
+
+{% block content %}
+    <div class="w-full bg-[url('{% static 'images/wallpaper.jpeg' %}')] bg-cover bg-center font-nunito">
+        <div class="w-full h-full flex flex-col my-auto justify-center items-center backdrop-blur-sm">
+            <div class="container max-w-lg mx-auto flex-1 flex flex-col items-center justify-center px-2">
+                <div class= "py-20"></div>
+                <div class="bg-white px-8 py-3 rounded shadow-md text-black w-full">
+                    <img src="{% static 'images/logo_hori.png' %}">
+                    <h1 class="mt-6 mb-8 text-2xl font-bold text-center font-nunito">Idea Submission</h1>
+                    <form method="POST">
+                    {% csrf_token %}
+                    <input type="text" class="block border border-grey-light w-full p-3 rounded mb-4 placeholder:text-black" name="idea_title"
+                        placeholder="Idea Title" />
+
+                    <select type="text" class="block border border-grey-light w-full p-3 rounded mb-4"
+                        name="business_unit" placeholder="Business Unit" >
+                        <option value="0">Select Business Unit</option>
+                        {% for bussiness_unit in bussiness_units %}
+                            <option value="{{ bussiness_unit.name }}">{{ bussiness_unit.name }}</option>
+                        {% endfor %}
+                        </select>
+
+
+                    <textarea rows="8" class="block border border-grey-light w-full p-3 rounded mb-4 placeholder:text-black"
+                        name="idea_details" placeholder="Detailed Idea"></textarea>
+                    {% comment %} <input type="file" class="block border border-grey-light w-full p-3 rounded mb-4"
+                        name="business_unit" placeholder="Attachment" /> {% endcomment %}
+                    <button type="submit"
+                        class="w-full text-center py-3 rounded bg-primary_red text-white bg-black focus:outline-none my-1">Submit
+                        Idea</button>
+
+                    </form>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+{% endblock content %}

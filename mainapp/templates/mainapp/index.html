@@ -46,81 +46,34 @@
 
   <div class="grid grid-cols-3 gap-4 justify-center m-5">
 
+    {% for bussiness_unit in bussiness_units %}
+      <div class="max-w-sm rounded overflow-hidden shadow-lg">
+        <img class="w-full" src="{{ bussiness_unit.image.url }}" alt="Bridgestone - HR">
+        <div class="px-6 py-4">
+          <div class="font-bold text-xl mb-2">{{ bussiness_unit.name }}</div>
 
-    <div class="max-w-sm rounded overflow-hidden shadow-lg">
-      <img class="w-full" src="{% static 'images/hr.jfif' %}" alt="Bridgestone - HR">
-      <div class="px-6 py-4">
-        <div class="font-bold text-xl mb-2">Bridgestone - HR</div>
+        </div>
+        <!-- <div class="px-6 pt-4 pb-2">
+          <span
+            class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Consult</span>
+          <span
+            class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Strategy</span>
+          <span
+            class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Talent</span>
+          <span
+            class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Resources</span>
 
+        </div> -->
+        <div class="p-10">
+          <a href="{% url 'new_submission' %}">
+            <button
+              class="bg-transparent hover:bg-red-700 text-black font-semibold hover:text-white py-2 px-4 border border-black hover:border-transparent rounded">
+              Submit idea
+            </button>
+          </a>
+        </div>
       </div>
-      <div class="px-6 pt-4 pb-2">
-        <span
-          class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Consult</span>
-        <span
-          class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Strategy</span>
-        <span
-          class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Talent</span>
-        <span
-          class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Resources</span>
-
-      </div>
-      <div class="p-10">
-        <button
-          class="bg-transparent hover:bg-red-700 text-black font-semibold hover:text-white py-2 px-4 border border-black hover:border-transparent rounded">
-          View Details
-
-        </button>
-      </div>
-    </div>
-    <div class="max-w-sm rounded overflow-hidden shadow-lg">
-      <img class="w-full" src="{% static 'images/marketing.jfif' %}" alt="Bridgestone - Marketing">
-      <div class="px-6 py-4">
-        <div class="font-bold text-xl mb-2">Bridgestone - Marketing</div>
-
-      </div>
-      <div class="px-6 pt-4 pb-2">
-        <span
-          class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Media</span>
-        <span
-          class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Manage</span>
-        <span
-          class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Brand</span>
-        <span
-          class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Engagement</span>
-
-      </div>
-      <div class="p-10">
-        <button
-          class="bg-transparent hover:bg-red-700 text-black font-semibold hover:text-white py-2 px-4 border border-black hover:border-transparent rounded">
-          View Details
-
-        </button>
-      </div>
-    </div>
-    <div class="max-w-sm rounded overflow-hidden shadow-lg">
-      <img class="w-full" src="{% static 'images/finance.jfif' %}" alt="Bridgestone - Finance">
-      <div class="px-6 py-4">
-        <div class="font-bold text-xl mb-2">Bridgestone - Finance</div>
-
-      </div>
-      <div class="px-6 pt-4 pb-2">
-        <span
-          class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Technology</span>
-        <span
-          class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Gain</span>
-        <span
-          class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Business</span>
-        <span
-          class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Fund</span>
-
-      </div>
-      <div class="p-10">
-        <button
-          class="bg-transparent hover:bg-red-700 text-black font-semibold hover:text-white py-2 px-4 border border-black hover:border-transparent rounded">
-          View Details
-        </button>
-      </div>
-    </div>
+    {% endfor %}
   </div>
   <div id="IDEA_CHAMPIONS"  class="mt-28">
     <h3 class="text-center text-6xl mt-12 text-red-700 text-6xl font-bold py-2 drop-shadow-lg hover:underline-offset-8">
