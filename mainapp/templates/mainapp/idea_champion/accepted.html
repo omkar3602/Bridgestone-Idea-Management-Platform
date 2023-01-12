@@ -24,20 +24,7 @@
         </div>
         <div class="basis-1/2 px-6">
           <p class="font-bold text-xl uppercase">{{ submission.name }}</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus imperdiet, nulla et dictum interdum, nisi
-            lorem egestas vitae scel
-
-
-            <span id="dots">...</span>
-
-
-            <span id="more" class="hidden">{{ submission.description }}
-              <span>
-          </p>
-
-
-          <a onclick="toggleText()" id="button" class="mt-3 py-2 text-rose-700 hover:font-bold">Read
-            more</a>
+          <p>{{ submission.description }}</p>
         </div>
         <form method="POST">
           {% csrf_token %}

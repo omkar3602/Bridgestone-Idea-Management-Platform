@@ -22,6 +22,10 @@
             <div class="text-gray-600">Email: {{ submission.ideator.email }}</div>
           </div>
         </div>
+        <div class="basis-1/2 px-6">
+          <p class="font-bold text-xl uppercase">{{ submission.name }}</p>
+          <p>{{ submission.description }}</p>
+        </div>
         <form method="POST">
           {% csrf_token %}
           <div class="basis-1/4 pl-6 text-right flex flex-col justify-evenly">
