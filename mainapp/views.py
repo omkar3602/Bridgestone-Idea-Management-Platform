@@ -2,11 +2,12 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from .models import BusinessUnit, Submission
 from userauth.models import Account
-from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from utils.decorator import login_required_message
 from utils.email_sender import send_mail
 from utils.status_updater import update_status
+import os
+from dotenv import load_dotenv
 
 # Create your views here.
 def index(request):
@@ -20,7 +21,7 @@ def index(request):
     }
     if request.user.is_authenticated:
         if request.user.is_admin:
-            return HttpResponse("Admin home page")
+            return render(request, 'mainapp/admin/home.html', context)
         elif request.user.is_IC:
             if request.method == 'POST':
                 data = request.POST
@@ -67,8 +68,9 @@ def new_submission(request):
         idea_champion_email = business_unit.idea_champion.email
         ideator_email = ideator.email
 
-        send_mail(idea_champion_email, f"New Submission received in BU - {business_unit.name}", f"Hey {business_unit.idea_champion.fullname}! There is a new submission in the business unit {business_unit.name}. Check it out here http://127.0.0.1:8000/")
-        send_mail(ideator_email, f"Your Submission has been received.", f"Hey {ideator.fullname}! Your submission in the business unit {business_unit.name} has been received. Check the status here http://127.0.0.1:8000/#YOUR_SUBMISSIONS")
+        load_dotenv()
+        send_mail(idea_champion_email, f"New Submission received in BU - {business_unit.name}", f"Hey {business_unit.idea_champion.fullname}! There is a new submission in the business unit {business_unit.name}. Check it out here {os.getenv('WEB_URL')}")
+        send_mail(ideator_email, f"Your Submission has been received.", f"Hey {ideator.fullname}! Your submission in the business unit {business_unit.name} has been received. Check the status here {os.getenv('WEB_URL')}/#YOUR_SUBMISSIONS")
 
         messages.info(request, 'Idea submitted successfully!')
         return redirect('home')
@@ -164,3 +166,9 @@ def rejected(request):
 
     return render(request, 'mainapp/idea_champion/rejected.html', context)
 
+from django.http import HttpResponse
+def add_BU(request):
+    return HttpResponse("Add BU page")
+
+def invite_IC(request):
+    return HttpResponse("Invite IC page")

@@ -8,4 +8,6 @@ urlpatterns = [
     path('onhold', views.onhold, name='onhold'),
     path('accepted', views.accepted, name='accepted'),
     path('rejected', views.rejected, name='rejected'),
+    path('add_BU', views.add_BU, name='add_BU'),
+    path('invite_IC', views.invite_IC, name='invite_IC'),
 ]

@@ -53,7 +53,12 @@
               <img src="{% static 'images/logo_hori.png' %}" alt="Logo" class="h-8 mr-2">
             </a>
           </div>
-          {% if user.is_IC %}
+          {% if user.is_admin %}
+          <div class="hidden md:flex items-center space-x-1">
+            <a href="{% url 'add_BU' %}" class="py-4 px-2 text-black font-semibold hover:border-b-4 hover:border-red-700 hover:text-red-700 transition duration-300">Add BU</a>
+            <a href="{% url 'invite_IC' %}" class="py-4 px-2 text-black font-semibold hover:border-b-4 hover:border-red-700 hover:text-red-700 transition duration-300">Invite Idea Champion</a>
+          </div>
+          {% elif user.is_IC %}
           <div class="hidden md:flex items-center space-x-1">
             <a href="{% url 'all' %}" class="py-4 px-2 text-black font-semibold hover:border-b-4 hover:border-red-700 hover:text-red-700 transition duration-300">All</a>
             <a href="{% url 'home' %}" class="py-4 px-2 text-black font-semibold hover:border-b-4 hover:border-red-700 hover:text-red-700 transition duration-300">Pending Reviews</a>
