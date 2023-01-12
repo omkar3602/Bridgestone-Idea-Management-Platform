@@ -124,33 +124,20 @@
   </div>
   <div id="IDEA_CHAMPIONS"  class="mt-28">
     <h3 class="text-center text-6xl mt-12 text-red-700 text-6xl font-bold py-2 drop-shadow-lg hover:underline-offset-8">
-      KNOW YOUR IDEA CHAMPION </h3>
+      KNOW YOUR IDEA CHAMPIONS </h3>
   </div>
 
   <div class="grid grid-cols-3 gap-4 justify-center m-5">
-
+    {% for idea_champion in idea_champions %}
     <div class="max-w-sm rounded overflow-hidden shadow-lg">
-      <img class="w-full" src="{% static 'images/finance.jfif' %}" alt="Bridgestone - Finance">
+      <img class="w-full" src="{% static 'images/user-avatar.png' %}" alt="Bridgestone - Finance">
       <div class="px-6 py-4">
-        <div class="font-bold text-xl mb-2 text-center">Idea Champ1</div>
-        <div class="text-l text-center">Finance</div>
+        <div class="font-bold text-xl mb-2 text-center">{{ idea_champion.fullname }}</div>
+        {% comment %} <div class="text-l text-center">Finance</div> {% endcomment %}
       </div>
   
-    </div>
-    <div class="max-w-sm rounded overflow-hidden shadow-lg">
-      <img class="w-full" src="{% static 'images/hr.jfif' %}" alt="Bridgestone - HR">
-      <div class="px-6 py-4">
-        <div class="font-bold text-xl mb-2 text-center">Idea Champ2</div>
-        <div class="text-l text-center">HR</div>
-      </div>
-    </div>
-    <div class="max-w-sm rounded overflow-hidden shadow-lg">
-      <img class="w-full" src="{% static 'images/hr.jfif' %}" alt="Bridgestone - HR">
-      <div class="px-6 py-4">
-        <div class="font-bold text-xl mb-2 text-center">Idea Champ3</div>
-        <div class="text-l text-center">Marketing</div>
-      </div>
-    </div>
+    </div>  
+    {% endfor %}
   </div>
   
  {% endblock content %}

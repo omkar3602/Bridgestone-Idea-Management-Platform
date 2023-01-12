@@ -31,7 +31,7 @@ class MyAccountManager(BaseUserManager):
 # Create your models here.
 class Account(AbstractBaseUser):
     email           = models.EmailField(max_length=50, unique =True)
-    fullname        = models.TextField(max_length=20)
+    fullname        = models.CharField(max_length=20)
     is_IC           = models.BooleanField(default=False)
     is_admin        = models.BooleanField(default=False)
     is_active       = models.BooleanField(default=True)
