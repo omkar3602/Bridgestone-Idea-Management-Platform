@@ -53,8 +53,14 @@
               <img src="{% static 'images/logo_hori.png' %}" alt="Logo" class="h-8 mr-2">
             </a>
           </div>
-         
-          {% if not user.is_IC %}
+          {% if user.is_IC %}
+          <div class="hidden md:flex items-center space-x-1">
+            <a href="{% url 'home' %}" class="py-4 px-2 text-black font-semibold hover:border-b-4 hover:border-red-700 hover:text-red-700 transition duration-300">Pending Reviews</a>
+            <a href="{% url 'onhold' %}" class="py-4 px-2 text-black font-semibold hover:border-b-4 hover:border-red-700 hover:text-red-700 transition duration-300">On Hold</a>
+            <a href="{% url 'accepted' %}" class="py-4 px-2 text-black font-semibold hover:border-b-4 hover:border-red-700 hover:text-red-700 transition duration-300">Accepted</a>
+            <a href="{% url 'rejected' %}" class="py-4 px-2 text-black font-semibold hover:border-b-4 hover:border-red-700 hover:text-red-700 transition duration-300">Rejected</a>
+            </div>
+          {% else %}
           <div class="hidden md:flex items-center space-x-1">
             <a href="{% url 'home' %}" class="py-4 px-2 text-red-700 hover:border-b-4 hover:border-red-700 font-semibold ">Home</a>
             <a href="#BU_PROGRAMS" class="py-4 px-2 text-black font-semibold hover:border-b-4 hover:border-red-700 hover:text-red-700 transition duration-300">BU

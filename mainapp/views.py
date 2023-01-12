@@ -20,6 +20,13 @@ def index(request):
         if request.user.is_admin:
             return HttpResponse("Admin home page")
         elif request.user.is_IC:
+            business_unit = BusinessUnit.objects.get(idea_champion=request.user)
+            submissions = Submission.objects.filter(business_unit=business_unit )
+            pending_submissions = submissions.filter(status="Review Pending")
+
+            context['business_unit'] = business_unit
+            context['pending_submissions'] = pending_submissions
+
             return render(request, 'mainapp/idea_champion/home.html', context)
         else:
             submissions = Submission.objects.filter(ideator=request.user)
@@ -60,3 +67,38 @@ def new_submission(request):
         'bussiness_units':bussiness_units,
     }
     return render(request, 'mainapp/ideator/submission_form.html', context)
+
+def onhold(request):
+    business_unit = BusinessUnit.objects.get(idea_champion=request.user)
+    submissions = Submission.objects.filter(business_unit=business_unit )
+    onhold_submissions = submissions.filter(status="On Hold")
+
+    context = {}
+    context['business_unit'] = business_unit
+    context['onhold_submissions'] = onhold_submissions
+
+    return render(request, 'mainapp/idea_champion/onhold.html', context)
+
+def accepted(request):
+    business_unit = BusinessUnit.objects.get(idea_champion=request.user)
+    submissions = Submission.objects.filter(business_unit=business_unit )
+    accepted_submissions = submissions.filter(status="Accepted")
+
+
+    context = {}
+    context['business_unit'] = business_unit
+    context['accepted_submissions'] = accepted_submissions
+
+    return render(request, 'mainapp/idea_champion/accepted.html', context)
+
+def rejected(request):
+    business_unit = BusinessUnit.objects.get(idea_champion=request.user)
+    submissions = Submission.objects.filter(business_unit=business_unit )
+    rejected_submissions = submissions.filter(status="Rejected")
+
+    context = {}
+    context['business_unit'] = business_unit
+    context['rejected_submissions'] = rejected_submissions
+
+    return render(request, 'mainapp/idea_champion/rejected.html', context)
+
