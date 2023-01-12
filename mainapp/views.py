@@ -11,12 +11,10 @@ from utils.email_sender import send_mail
 def index(request):
     bussiness_units = BusinessUnit.objects.all()
     idea_champions = Account.objects.filter(is_IC=True)
-    submissions = Submission.objects.filter(ideator=request.user)
     
     context = {
         'bussiness_units':bussiness_units,
         'idea_champions':idea_champions,
-        'submissions':submissions,
     }
     if request.user.is_authenticated:
         if request.user.is_admin:
@@ -24,6 +22,9 @@ def index(request):
         elif request.user.is_IC:
             return HttpResponse("IC home page")
         else:
+            submissions = Submission.objects.filter(ideator=request.user)
+            
+            context['submissions'] = submissions
             return render(request, 'mainapp/ideator/home.html', context)
     else:
         return render(request, 'mainapp/index.html', context)

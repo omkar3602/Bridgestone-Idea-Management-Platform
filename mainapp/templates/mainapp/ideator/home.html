@@ -28,7 +28,8 @@
     <h3 class="py-4 uppercase  mt-28 text-center text-red-700 text-6xl font-bold pt-16 drop-shadow-lg  hover:underline-offset-8">
         Your Submissions</h3>
     </div>
-  <div class="flex justify-center">
+  <div class="flex justify-center">              
+    {% for submission in submissions %}
     <div class="bg-gray-200 px-4 py-8 rounded-lg w-3/4">
         <div class="flex justify-between">
             <!-- <div class="basis-1/4 cloumns-1 border-r-[1px] border-black">
@@ -44,8 +45,9 @@
               <div class="text-gray-600">Phone: 555-555-5555</div>
             </div>
           </div> -->
+          
             <div class="basis-1/2 px-6">
-                <p class="font-bold text-xl uppercase">Idea title</p>
+                <p class="font-bold text-xl uppercase">{{ submission.name }}</p>
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus imperdiet, nulla et dictum
                     interdum, nisi
                     lorem egestas vitae scel
@@ -54,16 +56,7 @@
                     <span id="dots">...</span>
   
                     <!-- This content only be shown as needed -->
-                    <span id="more" class="hidden">erisque enim ligula
-                        venenatis dolor. Maecenas nisl est, ultrices nec congue eget, auctor vitae massa. Fusce
-                        luctus
-                        vestibulum augue ut aliquet. Nunc sagittis dictum nisi, sed ullamcorper ipsum dignissim ac.
-                        In
-                        libero
-                        sed nunc venenatis imperdiet sed ornare turpis. Donec vitae dui eget tellus gravida
-                        venenatis.
-                        Integer
-                        fringilla congue eros non fermentum. Sed dapibus pulvinar nibh tempor porta.
+                    <span id="more" class="hidden">{{ submission.description }}
                         <span>
                 </p>
   
@@ -74,7 +67,7 @@
             <div class="basis-1/4 pl-6 text-right flex flex-col justify-evenly">
                 <div class="flex justify-around">
                     <button
-                        class="bg-green-500 text-white py-8 px-8 rounded-full hover:bg-green-600">Accepted</button>
+                        class="bg-green-500 text-white py-8 px-8 rounded-full hover:bg-green-600">{{ submission.status }}</button>
                 </div>
                 <!-- <div class="flex justify-around">
               <button class="bg-orange-500 w-1/2 text-white py-1 px-4 rounded hover:bg-red-600">Hold</button>
@@ -88,6 +81,7 @@
         </div>
   
     </div>
+    {% endfor %}
   </div>
   <div id="BU_PROGRAMS" class="mt-16">
     <h3 class="py-4  text-center text-red-700 text-6xl font-bold pt-16 drop-shadow-lg  hover:underline-offset-8">
