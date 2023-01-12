@@ -20,7 +20,7 @@ def index(request):
         if request.user.is_admin:
             return HttpResponse("Admin home page")
         elif request.user.is_IC:
-            return HttpResponse("IC home page")
+            return render(request, 'mainapp/idea_champion/home.html', context)
         else:
             submissions = Submission.objects.filter(ideator=request.user)
             

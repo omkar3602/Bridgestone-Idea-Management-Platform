@@ -1,15 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'mainapp/base.html' %}
+{% load static %}
 
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document 2</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-</head>
+{% block title %}Home - Idea Champion{% endblock title %}
 
-<body>
+{% block content %}
 
   <nav class="bg-grey-500 shadow-lg py-2">
     <div class="container mx-auto h-10">
@@ -112,6 +106,5 @@
       }
     }
   </script>
-</body>
 
-</html>
+{% endblock content %}
