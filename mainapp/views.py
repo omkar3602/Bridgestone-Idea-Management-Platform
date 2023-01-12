@@ -68,6 +68,16 @@ def new_submission(request):
     }
     return render(request, 'mainapp/ideator/submission_form.html', context)
 
+def all(request):
+    business_unit = BusinessUnit.objects.get(idea_champion=request.user)
+    submissions = Submission.objects.filter(business_unit=business_unit )
+
+    context = {}
+    context['business_unit'] = business_unit
+    context['submissions'] = submissions
+
+    return render(request, 'mainapp/idea_champion/all.html', context)
+
 def onhold(request):
     business_unit = BusinessUnit.objects.get(idea_champion=request.user)
     submissions = Submission.objects.filter(business_unit=business_unit )

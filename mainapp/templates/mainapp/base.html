@@ -55,6 +55,7 @@
           </div>
           {% if user.is_IC %}
           <div class="hidden md:flex items-center space-x-1">
+            <a href="{% url 'all' %}" class="py-4 px-2 text-black font-semibold hover:border-b-4 hover:border-red-700 hover:text-red-700 transition duration-300">All</a>
             <a href="{% url 'home' %}" class="py-4 px-2 text-black font-semibold hover:border-b-4 hover:border-red-700 hover:text-red-700 transition duration-300">Pending Reviews</a>
             <a href="{% url 'onhold' %}" class="py-4 px-2 text-black font-semibold hover:border-b-4 hover:border-red-700 hover:text-red-700 transition duration-300">On Hold</a>
             <a href="{% url 'accepted' %}" class="py-4 px-2 text-black font-semibold hover:border-b-4 hover:border-red-700 hover:text-red-700 transition duration-300">Accepted</a>
