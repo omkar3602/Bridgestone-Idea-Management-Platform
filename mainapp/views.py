@@ -3,6 +3,7 @@ from .models import BusinessUnit
 from userauth.models import Account
 from django.http import HttpResponse
 
+
 # Create your views here.
 def index(request):
     bussiness_units = BusinessUnit.objects.all()
@@ -24,3 +25,4 @@ def index(request):
 
 def new_submission(request):
     return HttpResponse("New submission")
+
