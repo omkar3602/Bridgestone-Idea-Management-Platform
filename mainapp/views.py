@@ -1,10 +1,24 @@
 from django.shortcuts import render
+from .models import BusinessUnit
+from django.http import HttpResponse
 
 # Create your views here.
 def index(request):
-    # subjects = Subject.objects.all()
+    bussiness_units = BusinessUnit.objects.all()
 
     context = {
-        # 'subjects':subjects,
+        'bussiness_units':bussiness_units,
     }
-    return render(request, 'mainapp/index.html', context)
+    if request.user.is_authenticated:
+        # if request.user.is_admin:
+            # return render(request, 'mainapp/index.html', context)
+        # elif request.user.is_IC:
+        if request.user.is_IC:
+            return render(request, 'mainapp/index.html', context)
+        else:
+            return render(request, 'mainapp/ideator/home.html', context)
+    else:
+        return render(request, 'mainapp/index.html', context)
+
+def new_submission(request):
+    return HttpResponse("New submission")
