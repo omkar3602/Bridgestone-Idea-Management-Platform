@@ -14,9 +14,9 @@ def index(request):
     }
     if request.user.is_authenticated:
         if request.user.is_admin:
-            return render(request, 'mainapp/index.html', context)
+            return HttpResponse("Admin home page")
         elif request.user.is_IC:
-            return render(request, 'mainapp/index.html', context)
+            return HttpResponse("IC home page")
         else:
             return render(request, 'mainapp/ideator/home.html', context)
     else:
