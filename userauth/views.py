@@ -38,7 +38,7 @@ def signup(request):
         password2 = data['password2']
         if password == password2:
             if Account.objects.filter(email=email).exists():
-                messages.info(request, 'Email not available. Use another email.')
+                messages.info(request, 'Email already in use. Please use another email.')
                 return redirect('signup')
             else:
                 user=Account.objects.create_user(fullname=fullname, email=email, is_IC=is_IC, password=password)
