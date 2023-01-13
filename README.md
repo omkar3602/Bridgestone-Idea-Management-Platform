@@ -12,6 +12,24 @@ git clone https://github.com/omkar3602/Bridgestone-Idea-Management-Platform.git
 
 * Make sure you have Python 3.x installed. Or install it from [here](https://www.python.org/downloads/).
 
+* Install the virtualenv package.
+
+```
+pip install virtualenv
+```
+
+* Create a virtual environment.
+
+```
+virtualenv env
+```
+
+* Activate virtual environment.
+
+```
+env\Scripts\activate
+```
+
 * Install the requirements for the project.
 
 ```
@@ -37,7 +55,7 @@ Email: `landgechaitanya2002@gmail.com`
 
 Password: `1234`
 
-### Admin credentials for testing
+### Idea Champion credentials for testing
 
 Email: `rautneha372@gmail.com`
 
