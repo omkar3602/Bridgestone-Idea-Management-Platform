@@ -56,6 +56,7 @@ def index(request):
 def new_submission(request):
     if request.method == 'POST':
         data = request.POST
+        files = request.FILES
         name = data['idea_title']
         business_unit_txt = data['business_unit']
         description = data['idea_details']
@@ -63,7 +64,11 @@ def new_submission(request):
         ideator = request.user
         business_unit = BusinessUnit.objects.get(name=business_unit_txt)
 
-        submission = Submission(name=name, description=description, business_unit=business_unit, ideator=ideator)
+        if 'attachment' in files.keys():
+            attachment = files['attachment']
+            submission = Submission(name=name, description=description, business_unit=business_unit, ideator=ideator, attachment=attachment)
+        else:
+            submission = Submission(name=name, description=description, business_unit=business_unit, ideator=ideator)
         submission.save()
 
 
@@ -78,7 +83,9 @@ def new_submission(request):
         return redirect('home')
 
     bussiness_units = BusinessUnit.objects.all()
-    bu_id = int(request.GET.get('bu_id', ''))
+    bu_id = request.GET.get('bu_id', '')
+    if bu_id != '':
+        bu_id = int(bu_id)
     context = {
         'bussiness_units':bussiness_units,
         'bu_id':bu_id,

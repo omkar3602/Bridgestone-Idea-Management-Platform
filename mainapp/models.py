@@ -15,7 +15,7 @@ class Submission(models.Model):
     business_unit = models.ForeignKey(BusinessUnit, on_delete=models.CASCADE)
     ideator = models.ForeignKey(Account, on_delete=models.CASCADE)
     status = models.CharField(max_length=20, default="Review Pending") # Review Pending, On Hold, Accepted, Rejected
-    # attachments = models.ImageField(upload_to ='submission_attachments/')
+    attachment = models.FileField(upload_to='submission_attachments/', null=True)
 
     def __str__(self):
         return self.name

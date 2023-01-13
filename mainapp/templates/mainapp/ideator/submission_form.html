@@ -11,7 +11,7 @@
                 <div class="bg-white px-8 py-3 rounded shadow-md text-black w-full">
                     <img src="{% static 'images/logo_hori.png' %}">
                     <h1 class="mt-6 mb-8 text-2xl font-bold text-center font-nunito">Idea Submission</h1>
-                    <form method="POST">
+                    <form method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
                     <input type="text" class="block border border-grey-light w-full p-3 rounded mb-4 placeholder:text-black" name="idea_title"
                         placeholder="Idea Title" />
@@ -31,8 +31,8 @@
 
                     <textarea rows="8" class="block border border-grey-light w-full p-3 rounded mb-4 placeholder:text-black"
                         name="idea_details" placeholder="Detailed Idea"></textarea>
-                    {% comment %} <input type="file" class="block border border-grey-light w-full p-3 rounded mb-4"
-                        name="business_unit" placeholder="Attachment" /> {% endcomment %}
+                    <input type="file" accept=".pdf" class="block border border-grey-light w-full p-3 rounded mb-4"
+                        name="attachment" placeholder="Attachment" />
                     <button type="submit"
                         class="w-full text-center py-3 rounded bg-primary_red text-white bg-black focus:outline-none my-1">Submit
                         Idea</button>
