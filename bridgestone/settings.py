@@ -20,12 +20,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-oys#sof#-g(t-%y0iiaifwh2j)92p8vl)h+!0_qt!##6dox(wn'
+import os
+try:
+    SECRET_KEY = os.environ["SECRET_KEY"]
+except KeyError as e:
+    raise RuntimeError("Could not find a SECRET_KEY in environment") from e
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -131,7 +135,6 @@ LOGIN_URL = '/auth/login/'
 
 AUTH_USER_MODEL = 'userauth.Account'
 
-import os
 STATICFILES_DIRS = [ os.path.join(BASE_DIR,'static'), ]
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
