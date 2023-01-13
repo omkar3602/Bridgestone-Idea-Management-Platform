@@ -76,20 +76,35 @@
 <!-- <div class="flex justify-center"> -->
 <div class="grid grid-cols-3 gap-4  justify-center m-5">
   {% for bussiness_unit in bussiness_units %}
-  <div class="shadow-lg group container  rounded-md bg-white  max-w-sm flex justify-center items-center  mx-auto ">
- 
-    <img class="w-full hover:opacity-50" src="{{ bussiness_unit.image.url }}" alt="Bridgestone - HR">
-    <div class="py-8 px-4 bg-white  rounded-b-md group-hover:opacity-25">
-      <span class="block text-lg text-gray-800 font-bold tracking-wide">{{ bussiness_unit.name }}</span>
-    </div>
+      <div class="max-w-sm rounded overflow-hidden shadow-lg">
+        {% if bussiness_unit.image %}
+          <img class="w-full" src="{{ bussiness_unit.image.url }}" alt="{{ bussiness_unit.name }}">
+        {% endif %}
+        <div class="px-6 py-4">
+          <div class="font-bold text-xl mb-2">{{ bussiness_unit.name }}</div>
 
-    <div class="absolute opacity-0 fd-sh group-hover:opacity-100">
-            <div class="pt-8 text-center">
-              <a href="{% url 'new_submission' %}">  <button class="text-center rounded-lg p-4 bg-white  text-red-700 font-bold text-lg">Submit idea</button>     </a>
+        </div>
+        <!-- <div class="px-6 pt-4 pb-2">
+          <span
+            class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Consult</span>
+          <span
+            class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Strategy</span>
+          <span
+            class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Talent</span>
+          <span
+            class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Resources</span>
+
+        </div> -->
+        <div class="p-10">
+          <a href="{% url 'new_submission' %}?bu_id={{ bussiness_unit.id }}">
+            <button
+              class="bg-transparent hover:bg-red-700 text-black font-semibold hover:text-white py-2 px-4 border border-black hover:border-transparent rounded">
+              Submit idea
+            </button>
+          </a>
+        </div>
       </div>
-    </div>
-  </div>
-  {% endfor %}
+    {% endfor %}
 </div>
 
 <!-- <div class="grid grid-cols-3 gap-4 justify-center m-5">
