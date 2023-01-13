@@ -5,146 +5,155 @@
 
 {% block content %}
 <div class="ml-10 flex justify-between relative h-[550px] overflow-hidden">
-    <div>
-        <h1 class="text-left text-black text-8xl font-bold pt-[150px] drop-shadow-lg">Have an <span
-                class="text-red-700">Idea?</span>
-        </h1>
-        <h1 class="text-left text-gray-700 font-normal text-2xl pt-2 pb-10 ">Choose the Business Unit of your choice
-            and submit the idea.</h1>
-        <a href="{% url 'new_submission' %}"
-            class="mt-6 py-6 px-6 text-lg font-medium text-white rounded-full bg-gray-500 hover:bg-black hover:text-white transition duration-300">Submit
-            Idea</a>
-        <a href="#YOUR_SUBMISSIONS"
-            class="mt-6 py-6 px-6 text-lg font-medium text-gray-500 rounded  hover:text-black transition duration-300">Check
-            Status</a>
-  
-    </div>
-    <img src="{% static 'images\landingpage_img.png' %}" class="float-right absolute right-[-450px] top-[-250px] " alt="Idea"
-        height="900px" width="900px" />
-  
-  
+  <div>
+    <h1 class="text-left text-black text-8xl font-bold pt-[150px] drop-shadow-lg">Have an <span
+        class="text-red-700">Idea?</span>
+    </h1>
+    <h1 class="text-left text-gray-700 font-normal text-2xl pt-2 pb-10 ">Choose the Business Unit of your choice
+      and submit the idea.</h1>
+      
+    <a href="{% url 'new_submission' %}"
+      class="mt-6 py-6 px-6 text-lg font-medium text-white rounded-full bg-gray-500 hover:bg-black hover:text-white transition duration-300">Submit
+      Idea</a>
+
+    <a href="#YOUR_SUBMISSIONS"
+      class="mt-6 py-6 px-6 text-lg font-medium text-gray-500 rounded  hover:text-black transition duration-300">Check
+      Status</a>
+    
   </div>
-  <div id="YOUR_SUBMISSIONS" class="mt-16">
-    <h3 class="py-4 uppercase  mt-28 text-center text-red-700 text-6xl font-bold pt-16 drop-shadow-lg  hover:underline-offset-8">
-        Your Submissions</h3>
-    </div>
-    <div class="flex justify-center">
-    <div class="flex flex-col justify-center w-3/4">      
+  <img src="{% static 'images\landingpage_img.png' %}" class="float-right absolute right-[-450px] top-[-250px] "
+    alt="Idea" height="900px" width="900px" />
+
+
+</div>
+<div id="YOUR_SUBMISSIONS" class="mt-16">
+  <h3
+    class="py-4 uppercase  mt-28 text-center text-red-700 text-6xl font-bold pt-16 drop-shadow-lg  hover:underline-offset-8">
+    Your Submissions</h3>
+</div>
+<div class="flex justify-center">
+  <div class="flex flex-col justify-center w-3/4">
     {% for submission in submissions %}
     <div class="bg-gray-200 px-4 py-8 rounded-lg mt-8">
-        <div class="flex justify-between">            
-          
-            <div class="basis-1/2 px-6">
-                <p class="font-bold text-xl uppercase">{{ submission.name }}</p>
-                <p class="idea_description">{{ submission.description }}</p>
-  
-                <!-- Implement the read more/read less button -->
-                {% comment %} <button
-              class="bg-transparent hover:bg-red-700 text-black font-semibold hover:text-white py-2 px-4 border border-black hover:border-transparent rounded">
-              View Details
-            </button> {% endcomment %}
-            </div>
-            <div class="basis-1/4 pl-6 text-right flex flex-col justify-evenly">
-                <div class="flex justify-around">
-                  {% if submission.status == "Accepted" %}
-                    <button
-                        class="bg-green-500 text-white py-8 px-8 rounded-full hover:bg-green-600">{{ submission.status }}</button>
-                  {% elif submission.status == "On Hold" %}<button class="bg-orange-500 text-white py-8 px-8 rounded-full hover:bg-orange-700">{{ submission.status }}</button>
-                  {% elif submission.status == "Review Pending" %} <button class="bg-black text-white py-8 px-8 rounded-full hover:bg-gray-600">{{ submission.status }}</button>
-                  {% else %} <button class="bg-red-500 text-white py-8 px-8 rounded-full hover:bg-red-700">{{ submission.status }}</button>
-                  {% endif %}
-                </div>                
-            </div>  
+      <div class="flex justify-between">
+
+        <div class="basis-1/2 px-6">
+          <p class="font-bold text-xl uppercase">{{ submission.name }}</p>
+          <p class="idea_description">{{ submission.description }}</p>
+
+          <!-- Implement the read more/read less button -->
+          {% comment %} <button
+            class="bg-transparent hover:bg-red-700 text-black font-semibold hover:text-white py-2 px-4 border border-black hover:border-transparent rounded">
+            View Details
+          </button> {% endcomment %}
         </div>
-       
+        <div class="basis-1/4 pl-6 text-right flex flex-col justify-evenly">
+          <div class="flex justify-around">
+            {% if submission.status == "Accepted" %}
+            <button class="bg-green-500 text-white py-8 px-8 rounded-full hover:bg-green-600">{{ submission.status }}</button>
+            {% elif submission.status == "On Hold" %}<button
+              class="bg-orange-500 text-white py-8 px-8 rounded-full hover:bg-orange-700">{{ submission.status }}</button>
+            {% elif submission.status == "Review Pending" %} <button
+              class="bg-black text-white py-8 px-8 rounded-full hover:bg-gray-600">{{ submission.status }}</button>
+            {% else %} <button class="bg-red-500 text-white py-8 px-8 rounded-full hover:bg-red-700">{{ submission.status }}</button>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+
     </div>
     {% endfor %}
-   
+
   </div>
 </div>
-  <div id="BU_PROGRAMS" class="mt-16">
-    <h3 class="py-4  text-center text-red-700 text-6xl font-bold pt-16 drop-shadow-lg  hover:underline-offset-8">
-      BU PROGRAMS</h3>
-  </div>
-  <!-- <div class="flex justify-center"> -->
+<div id="BU_PROGRAMS" class="mt-16">
+  <h3 class="py-4  text-center text-red-700 text-6xl font-bold pt-16 drop-shadow-lg  hover:underline-offset-8">
+    BU PROGRAMS</h3>
+</div>
+<!-- <div class="flex justify-center"> -->
+<div class="grid grid-cols-3 gap-4  justify-center m-5">
+  {% for bussiness_unit in bussiness_units %}
+  <div class="shadow-lg group container  rounded-md bg-white  max-w-sm flex justify-center items-center  mx-auto ">
+ 
+    <img class="w-full hover:opacity-50" src="{{ bussiness_unit.image.url }}" alt="Bridgestone - HR">
+    <div class="py-8 px-4 bg-white  rounded-b-md group-hover:opacity-25">
+      <span class="block text-lg text-gray-800 font-bold tracking-wide">{{ bussiness_unit.name }}</span>
+    </div>
 
-
-  <div class="grid grid-cols-3 gap-4 justify-center m-5">
-
-    {% for bussiness_unit in bussiness_units %}
-      <div class="max-w-sm rounded overflow-hidden shadow-lg">
-        {% if bussiness_unit.image %}
-          <img class="w-full" src="{{ bussiness_unit.image.url }}" alt="{{ bussiness_unit.name }}">
-        {% endif %}
-        <div class="px-6 py-4">
-          <div class="font-bold text-xl mb-2">{{ bussiness_unit.name }}</div>
-
-        </div>
-        <!-- <div class="px-6 pt-4 pb-2">
-          <span
-            class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Consult</span>
-          <span
-            class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Strategy</span>
-          <span
-            class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Talent</span>
-          <span
-            class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Resources</span>
-
-        </div> -->
-        <div class="p-10">
-          <a href="{% url 'new_submission' %}?bu_id={{ bussiness_unit.id }}">
-            <button
-              class="bg-transparent hover:bg-red-700 text-black font-semibold hover:text-white py-2 px-4 border border-black hover:border-transparent rounded">
-              Submit idea
-            </button>
-          </a>
-        </div>
+    <div class="absolute opacity-0 fd-sh group-hover:opacity-100">
+            <div class="pt-8 text-center">
+              <a href="{% url 'new_submission' %}">  <button class="text-center rounded-lg p-4 bg-white  text-red-700 font-bold text-lg">Submit idea</button>     </a>
       </div>
-    {% endfor %}
+    </div>
   </div>
-  <div id="IDEA_CHAMPIONS"  class="mt-28 pt-10">
-    <h3 class="text-center text-6xl mt-12 text-red-700 text-6xl font-bold py-2 drop-shadow-lg hover:underline-offset-8">
-      KNOW YOUR IDEA CHAMPIONS </h3>
-  </div>
+  {% endfor %}
+</div>
 
-  <div class="grid grid-cols-3 gap-4 justify-center m-5">
-    {% for idea_champion in idea_champions %}
-    <div class="max-w-sm rounded overflow-hidden shadow-lg">
-      <img class="w-full" src="{% static 'images/user-avatar.png' %}" alt="Bridgestone - Finance">
-      <div class="px-6 py-4">
-        <div class="font-bold text-xl mb-2 text-center">{{ idea_champion.fullname }}</div>
-        {% comment %} <div class="text-l text-center">Finance</div> {% endcomment %}
-      </div>
-  
-    </div>  
-    {% endfor %}
+<!-- <div class="grid grid-cols-3 gap-4 justify-center m-5">
+
+  {% for bussiness_unit in bussiness_units %}
+  <div class="max-w-sm rounded overflow-hidden shadow-lg ">
+    <img class="w-full" src="{{ bussiness_unit.image.url }}" alt="Bridgestone - HR">
+    <div class="px-6 py-4">
+      <div class="font-bold text-xl mb-2">{{ bussiness_unit.name }}</div>
+
+    </div>
+    
+    <div class="p-10">
+      <a href="{% url 'new_submission' %}">
+        <button
+          class="bg-transparent hover:bg-red-700 text-black font-semibold hover:text-white py-2 px-4 border border-black hover:border-transparent rounded">
+          Submit idea
+        </button>
+      </a>
+    </div>
   </div>
-  <!-- Javascript code -->
-  <script>
-    function toggleText() {
-        var dots = document.getElementById("dots");
-        var moreText = document.getElementById("more");
-        var button = document.getElementById("button");
-  
-        if (dots.classList.contains("hidden")) {
-            // Show the dots
-            dots.classList.remove("hidden");
-  
-            // Hide the more text
-            moreText.classList.add("hidden");
-  
-            // change text of the button
-            button.innerHTML = "Read more";
-        } else {
-            // Hide the dots
-            dots.classList.add("hidden");
-  
-            // hide the more text
-            moreText.classList.remove("hidden");
-  
-            // change text of the button
-            button.innerHTML = "Read less";
-        }
+  {% endfor %}
+</div> -->
+
+<div id="IDEA_CHAMPIONS" class="mt-28 pt-10">
+  <h3 class="text-center text-6xl mt-12 text-red-700 text-6xl font-bold py-2 drop-shadow-lg hover:underline-offset-8">
+    KNOW YOUR IDEA CHAMPIONS </h3>
+</div>
+
+<div class="grid grid-cols-3 gap-4 justify-center m-5">
+  {% for idea_champion in idea_champions %}
+  <div class="max-w-sm rounded overflow-hidden shadow-lg">
+    <img class="w-full" src="{% static 'images/user-avatar.png' %}" alt="Bridgestone - Finance">
+    <div class="px-6 py-4">
+      <div class="font-bold text-xl mb-2 text-center">{{ idea_champion.fullname }}</div>
+      {% comment %} <div class="text-l text-center">Finance</div> {% endcomment %}
+    </div>
+
+  </div>
+  {% endfor %}
+</div>
+<!-- Javascript code -->
+<script>
+  function toggleText() {
+    var dots = document.getElementById("dots");
+    var moreText = document.getElementById("more");
+    var button = document.getElementById("button");
+
+    if (dots.classList.contains("hidden")) {
+      // Show the dots
+      dots.classList.remove("hidden");
+
+      // Hide the more text
+      moreText.classList.add("hidden");
+
+      // change text of the button
+      button.innerHTML = "Read more";
+    } else {
+      // Hide the dots
+      dots.classList.add("hidden");
+
+      // hide the more text
+      moreText.classList.remove("hidden");
+
+      // change text of the button
+      button.innerHTML = "Read less";
     }
-  </script>
- {% endblock content %}
+  }
+</script>
+{% endblock content %}
