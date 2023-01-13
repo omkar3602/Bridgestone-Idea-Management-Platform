@@ -25,7 +25,9 @@
         <div class="basis-1/2 px-6">
           <p class="font-bold text-xl uppercase">{{ submission.name }}</p>
           <p class="mb-4">{{ submission.description }}</p>
-          <a href="" class="underline text-red-700 text-[15px] hover:text-[16px] hover:font-bold transition duration-300">View Attachment</a>
+          {% if submission.attachment %}
+            <a href="{{ submission.attachment.url }}" target="_blank" class="underline text-red-700 text-[15px] hover:text-[16px] hover:font-bold transition duration-300">View Attachment</a>
+          {% endif %}
 
         </div>
         <form method="POST">
