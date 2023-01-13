@@ -77,10 +77,11 @@ def new_submission(request):
         messages.info(request, 'Idea submitted successfully!')
         return redirect('home')
 
-    
     bussiness_units = BusinessUnit.objects.all()
+    bu_id = int(request.GET.get('bu_id', ''))
     context = {
         'bussiness_units':bussiness_units,
+        'bu_id':bu_id,
     }
     return render(request, 'mainapp/ideator/submission_form.html', context)
 

@@ -73,7 +73,9 @@
 
     {% for bussiness_unit in bussiness_units %}
       <div class="max-w-sm rounded overflow-hidden shadow-lg">
-        <img class="w-full" src="{{ bussiness_unit.image.url }}" alt="Bridgestone - HR">
+        {% if bussiness_unit.image %}
+          <img class="w-full" src="{{ bussiness_unit.image.url }}" alt="{{ bussiness_unit.name }}">
+        {% endif %}
         <div class="px-6 py-4">
           <div class="font-bold text-xl mb-2">{{ bussiness_unit.name }}</div>
 
@@ -90,7 +92,7 @@
 
         </div> -->
         <div class="p-10">
-          <a href="{% url 'new_submission' %}">
+          <a href="{% url 'new_submission' %}?bu_id={{ bussiness_unit.id }}">
             <button
               class="bg-transparent hover:bg-red-700 text-black font-semibold hover:text-white py-2 px-4 border border-black hover:border-transparent rounded">
               Submit idea
