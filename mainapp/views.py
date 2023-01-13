@@ -58,8 +58,6 @@ def index(request):
                 graph3_dict[str(submission.status)] += 1
             context['submission_status'] = list(graph3_dict.keys())
             context['no_of_submissions'] = list(graph3_dict.values())
-
-            print(context)
             return render(request, 'mainapp/admin/home.html', context)
         elif request.user.is_IC:
             if request.method == 'POST':
