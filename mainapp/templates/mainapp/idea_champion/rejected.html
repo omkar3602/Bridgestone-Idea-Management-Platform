@@ -10,7 +10,7 @@
 <h3 class="py-4  text-center text-red-700 text-5xl font-bold pt-16 drop-shadow-lg  hover:underline-offset-8">
     Rejected Submissions</h3>
   {% for submission in rejected_submissions %}
-    <div class="bg-gray-200 px-4 py-8 rounded-lg mb-2">
+    <div class="bg-gray-200 mx-20 px-4 py-8 rounded-lg mb-2">
       <div class="flex justify-between">
         <div class="basis-1/4 cloumns-1 border-r-[1px] border-black">
           <div class="container flex items-center">
@@ -19,12 +19,14 @@
             </div>
           </div>
           <div class="container mt-4">
-            <div class="text-gray-600">Email: {{ submission.ideator.email }}</div>
+            <div class="text-gray-600">{{ submission.ideator.email }}</div>
           </div>
         </div>
         <div class="basis-1/2 px-6">
           <p class="font-bold text-xl uppercase">{{ submission.name }}</p>
-          <p>{{ submission.description }}</p>
+          <p class="mb-4">{{ submission.description }}</p>
+          <a href="" class="underline text-red-700 text-[15px] hover:text-[16px] hover:font-bold transition duration-300">View Attachment</a>
+
         </div>
         <form method="POST">
           {% csrf_token %}
