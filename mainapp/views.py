@@ -21,6 +21,45 @@ def index(request):
     }
     if request.user.is_authenticated:
         if request.user.is_admin:
+            graph1_dict = {}
+            ideators = Account.objects.filter(is_IC=False).filter(is_admin=False)
+            submissions = Submission.objects.all()
+
+            for ideator in ideators:
+                graph1_dict[str(ideator.fullname)] = 0
+            
+            for submission in submissions:
+                graph1_dict[str(submission.ideator)] += 1
+            context['ideators'] = list(graph1_dict.keys())
+            context['submissions'] = list(graph1_dict.values())
+
+
+            graph2_dict = {}
+            business_units = BusinessUnit.objects.all()
+            submissions = Submission.objects.all()
+
+            for business_unit in business_units:
+                graph2_dict[str(business_unit.name)] = 0
+            
+            for submission in submissions:
+                graph2_dict[str(submission.business_unit)] += 1
+            context['business_units'] = list(graph2_dict.keys())
+            context['submissions'] = list(graph2_dict.values())
+
+            graph3_dict = {
+                "Review Pending":0, 
+                "Accepted":0, 
+                "Rejected":0, 
+                "On Hold":0,
+            }
+            submissions = Submission.objects.all()
+            
+            for submission in submissions:
+                graph3_dict[str(submission.status)] += 1
+            context['submission_status'] = list(graph3_dict.keys())
+            context['no_of_submissions'] = list(graph3_dict.values())
+
+            print(context)
             return render(request, 'mainapp/admin/home.html', context)
         elif request.user.is_IC:
             if request.method == 'POST':
