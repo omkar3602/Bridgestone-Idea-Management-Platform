@@ -180,12 +180,14 @@ def rejected(request):
 def add_BU(request):
     if request.method == 'POST':
         data = request.POST
+        files = request.FILES
         name = data['name']
         idea_champion_txt = data['idea_champion']
+        business_unit_img = files['business_unit_img']
 
         idea_champion = Account.objects.get(email=idea_champion_txt)
 
-        BU = BusinessUnit.objects.create(name=name, idea_champion=idea_champion)
+        BU = BusinessUnit.objects.create(name=name, idea_champion=idea_champion, image=business_unit_img)
         BU.save()
 
         messages.info(request, 'Business Unit added successfully.')
