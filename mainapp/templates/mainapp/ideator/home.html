@@ -50,15 +50,12 @@
         <div class="basis-1/4 pl-6 text-right flex flex-col justify-evenly">
           <div class="flex justify-around">
             {% if submission.status == "Accepted" %}
-            <button class="bg-green-500 text-white py-8 px-8 rounded-full hover:bg-green-600">{{ submission.status
-              }}</button>
+            <button class="bg-green-500 text-white py-8 px-8 rounded-full hover:bg-green-600">{{ submission.status }}</button>
             {% elif submission.status == "On Hold" %}<button
-              class="bg-orange-500 text-white py-8 px-8 rounded-full hover:bg-orange-700">{{ submission.status
-              }}</button>
+              class="bg-orange-500 text-white py-8 px-8 rounded-full hover:bg-orange-700">{{ submission.status }}</button>
             {% elif submission.status == "Review Pending" %} <button
               class="bg-black text-white py-8 px-8 rounded-full hover:bg-gray-600">{{ submission.status }}</button>
-            {% else %} <button class="bg-red-500 text-white py-8 px-8 rounded-full hover:bg-red-700">{{
-              submission.status }}</button>
+            {% else %} <button class="bg-red-500 text-white py-8 px-8 rounded-full hover:bg-red-700">{{ submission.status }}</button>
             {% endif %}
           </div>
         </div>
