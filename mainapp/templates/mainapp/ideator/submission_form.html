@@ -20,7 +20,11 @@
                         name="business_unit" placeholder="Business Unit" >
                         <option value="0">Select Business Unit</option>
                         {% for bussiness_unit in bussiness_units %}
-                            <option value="{{ bussiness_unit.name }}">{{ bussiness_unit.name }}</option>
+                            {% if bussiness_unit.id == bu_id %}
+                                <option value="{{ bussiness_unit.name }}" selected>{{ bussiness_unit.name }}</option>
+                            {% else %}
+                                <option value="{{ bussiness_unit.name }}">{{ bussiness_unit.name }}</option>
+                            {% endif %}
                         {% endfor %}
                         </select>
 

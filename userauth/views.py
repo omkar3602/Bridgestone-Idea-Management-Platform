@@ -29,10 +29,7 @@ def signup(request):
         fullname = data['fullname']
         email = data['email']
 
-        # role = data['role']
         is_IC = False
-        # if role == 'IC':
-        #     is_IC = True
 
         password = data['password']
         password2 = data['password2']
@@ -50,6 +47,38 @@ def signup(request):
             messages.error(request, 'Please make sure the passwords match.')
             return redirect('signup')
     return render(request, 'userauth/signup.html')
+
+def signup_IC(request):
+    if request.user.is_authenticated:
+        return redirect('home')
+    if request.method == 'POST':
+        data = request.POST
+        # print(data)
+        fullname = data['fullname']
+        email = data['email']
+
+        is_IC = True
+
+        password = data['password']
+        password2 = data['password2']
+        if password == password2:
+            if Account.objects.filter(email=email).exists():
+                messages.info(request, 'Email already in use. Please use another email.')
+                return redirect('signup')
+            else:
+                user=Account.objects.create_user(fullname=fullname, email=email, is_IC=is_IC, password=password)
+                user.save()
+                login(request, user)
+                messages.info(request, 'Account created successfully.')
+                return redirect('login')
+        else:
+            messages.error(request, 'Please make sure the passwords match.')
+            return redirect('signup')
+    email = request.GET.get('email', '')
+    context = {
+        'email':email,
+    }
+    return render(request, 'userauth/signup_IC.html', context)
 
 def logout_user(request):
     if request.method == 'POST' and request.user.is_authenticated:

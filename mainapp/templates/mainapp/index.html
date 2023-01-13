@@ -48,7 +48,9 @@
 
     {% for bussiness_unit in bussiness_units %}
       <div class="max-w-sm rounded overflow-hidden shadow-lg">
-        <img class="w-full" src="{{ bussiness_unit.image.url }}" alt="Bridgestone - HR">
+        {% if bussiness_unit.image %}
+          <img class="w-full" src="{{ bussiness_unit.image.url }}" alt="{{ bussiness_unit.name }}">
+        {% endif %}
         <div class="px-6 py-4">
           <div class="font-bold text-xl mb-2">{{ bussiness_unit.name }}</div>
 
