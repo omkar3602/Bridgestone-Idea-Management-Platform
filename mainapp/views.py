@@ -84,6 +84,8 @@ def new_submission(request):
     }
     return render(request, 'mainapp/ideator/submission_form.html', context)
 
+@login_required_message(message="Please log in, in order to view the requested page.")
+@login_required
 def all(request):
     if request.method == 'POST':
         data = request.POST
@@ -107,6 +109,8 @@ def all(request):
 
     return render(request, 'mainapp/idea_champion/all.html', context)
 
+@login_required_message(message="Please log in, in order to view the requested page.")
+@login_required
 def onhold(request):
     if request.method == 'POST':
         data = request.POST
@@ -130,6 +134,8 @@ def onhold(request):
 
     return render(request, 'mainapp/idea_champion/onhold.html', context)
 
+@login_required_message(message="Please log in, in order to view the requested page.")
+@login_required
 def accepted(request):
     if request.method == 'POST':
         data = request.POST
@@ -153,6 +159,8 @@ def accepted(request):
 
     return render(request, 'mainapp/idea_champion/accepted.html', context)
 
+@login_required_message(message="Please log in, in order to view the requested page.")
+@login_required
 def rejected(request):
     if request.method == 'POST':
         data = request.POST
@@ -177,6 +185,8 @@ def rejected(request):
 
     return render(request, 'mainapp/idea_champion/rejected.html', context)
 
+@login_required_message(message="Please log in, in order to view the requested page.")
+@login_required
 def add_BU(request):
     if request.method == 'POST':
         data = request.POST
@@ -204,6 +214,8 @@ def add_BU(request):
     }
     return render(request, 'mainapp/admin/add_BU.html', context)
 
+@login_required_message(message="Please log in, in order to view the requested page.")
+@login_required
 def invite_IC(request):
 
     if request.method == 'POST':
