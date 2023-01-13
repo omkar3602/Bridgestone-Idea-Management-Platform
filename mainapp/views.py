@@ -183,12 +183,18 @@ def add_BU(request):
         files = request.FILES
         name = data['name']
         idea_champion_txt = data['idea_champion']
-        business_unit_img = files['business_unit_img']
 
         idea_champion = Account.objects.get(email=idea_champion_txt)
 
-        BU = BusinessUnit.objects.create(name=name, idea_champion=idea_champion, image=business_unit_img)
+        if 'business_unit_img' in files.keys():
+            business_unit_img = files['business_unit_img']
+            BU = BusinessUnit.objects.create(name=name, idea_champion=idea_champion, image=business_unit_img)
+        else:
+            BU = BusinessUnit.objects.create(name=name, idea_champion=idea_champion)
         BU.save()
+
+        load_dotenv()
+        send_mail(idea_champion.email, f"New BU assigned - {name}", f"Hey {idea_champion.fullname}! You have been assigned a new business unit {name}. Check it out here {os.getenv('WEB_URL')}auth/login/")
 
         messages.info(request, 'Business Unit added successfully.')
         return redirect('home')
@@ -199,12 +205,12 @@ def add_BU(request):
     return render(request, 'mainapp/admin/add_BU.html', context)
 
 def invite_IC(request):
-    load_dotenv()
 
     if request.method == 'POST':
         data = request.POST
         email = data['email']
 
+        load_dotenv()
         send_mail(email, "You are invited as a Idea Champion.", f"Hey you have been invited as an Idea Champion. Complete the registration process here {os.getenv('WEB_URL')}auth/signup_ic/?email={email}")
 
         messages.info(request, 'Invite sent successfully.')
