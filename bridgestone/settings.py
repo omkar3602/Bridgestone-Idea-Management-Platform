@@ -21,16 +21,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 import os
-try:
-    SECRET_KEY = os.environ["SECRET_KEY"]
-except KeyError as e:
-    raise RuntimeError("Could not find a SECRET_KEY in environment") from e
+SECRET_KEY = "344k$bf34*r61cq4si9nl#&zhvuo%mhqb9ka6be#6_5aeid^)e"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ["*"]
-
+ALLOWED_HOSTS = ["*", "bridgestone.omkarjahagirdar.com"]
 
 # Application definition
 
@@ -137,6 +133,9 @@ AUTH_USER_MODEL = 'userauth.Account'
 
 STATICFILES_DIRS = [ os.path.join(BASE_DIR,'static'), ]
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = "var/www/bridgestone.omkarjahagirdar/media"
 
 MEDIA_URL = '/media/'
+
+STATIC_ROOT = "/var/www/bridgestone.omkarjahagirdar/static"
