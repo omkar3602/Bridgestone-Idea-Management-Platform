@@ -88,3 +88,6 @@ def logout_user(request):
     if not request.user.is_authenticated:
         return redirect('home')
     return redirect('home')
+
+def forgot_password(request):
+    return render(request, 'userauth/forgot_password.html')
