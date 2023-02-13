@@ -1,38 +1,46 @@
-{% extends 'mainapp/base.html' %}
-{% load static %}
-
-{% block title %}Home - Ideator{% endblock title %}
-
-{% block content %}
+{% extends 'mainapp/base.html' %} {% load static %} {% block title %}Home -
+Ideator{% endblock title %} {% block content %}
 <div class="ml-10 flex justify-between relative h-[550px] overflow-hidden">
   <div>
-    <h1 class="text-left text-black text-8xl font-bold pt-[150px] drop-shadow-lg">Have an <span
-        class="text-red-700">Idea?</span>
+    <h1
+      class="text-left text-black text-8xl font-bold pt-[150px] drop-shadow-lg"
+    >
+      Have an <span class="text-red-700">Idea?</span>
     </h1>
-    <h1 class="text-left text-gray-700 font-normal text-2xl pt-2 pb-10 ">Choose the Business Unit of your choice
-      and submit the idea.</h1>
-      
-    <a href="{% url 'new_submission' %}"
-      class="mt-6 py-6 px-6 text-lg font-medium text-white rounded-full bg-gray-500 hover:bg-black hover:text-white transition duration-300">Submit
-      Idea</a>
+    <h1 class="text-left text-gray-700 font-normal text-2xl pt-2 pb-10">
+      Choose the Business Unit of your choice and submit the idea.
+    </h1>
 
-    <a href="#YOUR_SUBMISSIONS"
-      class="mt-6 py-6 px-6 text-lg font-medium text-gray-500 rounded  hover:text-black transition duration-300">Check
-      Status</a>
-    
+    <a
+      href="{% url 'new_submission' %}"
+      class="mt-6 py-6 px-6 text-lg font-medium text-white rounded-full bg-gray-500 hover:bg-black hover:text-white transition duration-300"
+      >Submit Idea</a
+    >
+
+    <a
+      href="#YOUR_SUBMISSIONS"
+      class="mt-6 py-6 px-6 text-lg font-medium text-gray-500 rounded hover:text-black transition duration-300"
+      >Check Status</a
+    >
   </div>
-  <img src="{% static 'images\landingpage_img.png' %}" class="float-right absolute right-[-450px] top-[-250px] "
-    alt="Idea" height="900px" width="900px" />
-
-
+  <img
+    src="{% static 'images\landingpage_img.png' %}"
+    class="float-right absolute right-[-450px] top-[-250px]"
+    alt="Idea"
+    height="600px"
+    width="900px"
+  />
 </div>
 <div id="YOUR_SUBMISSIONS" class="mt-16">
   <h3
-    class="py-4 uppercase  mt-28 text-center text-red-700 text-6xl font-bold pt-16 drop-shadow-lg  hover:underline-offset-8">
-    Your Submissions</h3>
+    class="py-4 uppercase mt-28 text-center text-red-700 text-6xl font-bold pt-16 drop-shadow-lg hover:underline-offset-8"
+  >
+    Hello username
+  </h3>
 </div>
-<div class="flex justify-center">
-  <div class="flex flex-col justify-center w-3/4">
+<br />
+<div class="flex justify-center flex-col alignitems-center h-auto w-auto">
+  <!-- <div class="flex flex-col justify-center w-3/4">
     {% for submission in submissions %}
     <div class="bg-gray-200 px-4 py-8 rounded-lg mt-8">
       <div class="flex justify-between">
@@ -44,7 +52,7 @@
             <a href="{{ submission.attachment.url }}" target="_blank" class="underline text-red-700 text-[15px] hover:text-[16px] hover:font-bold transition duration-300">View Attachment</a>
           {% endif %}
 
-          <!-- Implement the read more/read less button -->
+          
           {% comment %} <button
             class="bg-transparent hover:bg-red-700 text-black font-semibold hover:text-white py-2 px-4 border border-black hover:border-transparent rounded">
             View Details
@@ -67,7 +75,96 @@
     </div>
     {% endfor %}
 
+  </div> -->
+  <div class="alignitems-center">
+    <ul class="flex justify-center pb-3">
+      <li class="mr-3">
+        <a
+          class="inline-block border border-red-500 rounded py-2 px-4 bg-red-500 hover:bg-red-700 text-white"
+          href="#"
+          >All</a
+        >
+      </li>
+      <li class="mr-3">
+        <a
+          class="inline-block border border-white rounded hover:border-gray-200 text-red-500 hover:bg-gray-200 py-2 px-4"
+          href="#"
+          >Accepted</a
+        >
+      </li>
+      <li class="mr-3">
+        <a
+          class="inline-block border border-white rounded hover:border-gray-200 text-red-500 hover:bg-gray-200 py-2 px-4"
+          href="#"
+          >On Hold</a
+        >
+      </li>
+      <li class="mr-3">
+        <a
+          class="inline-block border border-white rounded hover:border-gray-200 text-red-500 hover:bg-gray-200 py-2 px-4"
+          href="#"
+          >Rejected</a
+        >
+      </li>
+    </ul>
   </div>
+  <div class="alignitems-center px-10 mx-5">
+    <div class="overflow-scroll h-96 scroll-smooth overflow-x-hidden">
+      {% for submission in submissions %}
+      <div class="bg-gray-200 px-4 py-4 rounded-lg mt-5 mx-5">
+        <div class="flex justify-between">
+          <div class="basis-1/2 px-6">
+            <p class="font-bold text-xl uppercase">{{ submission.name }}</p>
+            <p class="idea_description">{{ submission.description }}</p>
+            {% if submission.attachment %}
+            <a
+              href="{{ submission.attachment.url }}"
+              target="_blank"
+              class="underline text-red-700 text-[15px] hover:text-[16px] hover:font-bold transition duration-300"
+              >View Attachment</a
+            >
+            {% endif %} {% comment %}
+            <button
+              class="bg-transparent hover:bg-red-700 text-black font-semibold hover:text-white py-2 px-4 border border-black hover:border-transparent rounded"
+            >
+              View Details
+            </button>
+            {% endcomment %}
+          </div>
+          <div class="basis-1/4 pl-6 text-right flex flex-col justify-evenly">
+            <div class="flex justify-around">
+              {% if submission.status == "Accepted" %}
+              <button
+                class="bg-green-500 font-medium text-white py-4 px-4 rounded-lg hover:bg-green-600"
+              >
+                {{ submission.status }}
+              </button>
+              {% elif submission.status == "On Hold" %}<button
+                class="bg-orange-500 font-medium text-white py-4 px-4 rounded-lg hover:bg-orange-700"
+              >
+                {{ submission.status }}
+              </button>
+              {% elif submission.status == "Review Pending" %}
+              <button
+                class="bg-black font-medium text-white py-4 px-4 rounded-lg hover:bg-gray-600"
+              >
+                {{ submission.status }}
+              </button>
+              {% else %}
+              <button
+                class="bg-red-500 font-medium text-white py-4 px-4 rounded-lg hover:bg-red-700"
+              >
+                {{ submission.status }}
+              </button>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  <br />
 </div>
 <!-- Javascript code -->
 <script>
