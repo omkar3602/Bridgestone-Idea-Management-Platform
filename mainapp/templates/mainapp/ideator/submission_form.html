@@ -11,24 +11,26 @@
                 <div class="bg-white px-8 py-3 rounded shadow-md text-black w-full">
                     <img src="{% static 'images/logo_hori.png' %}">
                     <h1 class="mt-6 mb-8 text-2xl font-bold text-center font-nunito">Idea Submission</h1>
-                    <form method="POST" enctype="multipart/form-data">
+                    <form method="POST" enctype="multipart/form-data" name="SubmissionForm">
                     {% csrf_token %}
                     <input type="text" class="block border border-grey-light w-full p-3 rounded mb-4 placeholder:text-black" name="idea_title"
                         placeholder="Idea Title" />
 
-                    <select type="text" class="block border border-grey-light w-full p-3 rounded mb-4"
-                        name="business_unit" placeholder="Business Unit" >
+                    <select type="text" id="BU" class="block border border-grey-light w-full p-3 rounded mb-4"
+                        name="business_unit" placeholder="Business Unit" onchange="showIC()">
                         <option value="0">Select Business Unit</option>
                         {% for bussiness_unit in bussiness_units %}
                             {% if bussiness_unit.id == bu_id %}
-                                <option value="{{ bussiness_unit.name }}" selected>{{ bussiness_unit.name }}</option>
+                                <option value="{{ bussiness_unit.name }}" label="{{ bussiness_unit.name }}" selected>{{ bussiness_unit.idea_champion.fullname }} ({{ bussiness_unit.idea_champion.email }})</option>
                             {% else %}
-                                <option value="{{ bussiness_unit.name }}">{{ bussiness_unit.name }}</option>
+                            <option value="{{ bussiness_unit.name }}" label="{{ bussiness_unit.name }}">{{ bussiness_unit.idea_champion.fullname }} ({{ bussiness_unit.idea_champion.email }})</option>
+                               
                             {% endif %}
                         {% endfor %}
                         </select>
 
 
+                    <p id="displayIC" class="hidden pb-5 font-semibold">The Idea Champion for <span id="BUname" class="text-red-700"></span> bussiness unit is <span id="ICname" class="font-bold"></span></p>
                     <textarea rows="4" class="block border border-grey-light w-full p-3 rounded mb-4 placeholder:text-black"
                         name="idea_details" placeholder="Detailed Idea"></textarea>
                     <input type="file" accept=".pdf" class="block border border-grey-light w-full p-3 rounded mb-4"
@@ -38,6 +40,22 @@
                         Idea</button>
 
                     </form>
+                    <script>
+                        function showIC() {
+                           var BU = document.getElementById('BU');
+                           var IC = document.getElementById('displayIC');      
+                           IC.style.display = 'block';                               
+                           var BusinessUnitName = BU[BU.selectedIndex].value;      
+                           var IdeaChampionName = BU[BU.selectedIndex].text;
+                           if (BusinessUnitName == '0') {
+                              IC.style.display = 'none';
+                           }
+                           var ICname = document.getElementById('ICname');
+                           var BUname = document.getElementById('BUname');
+                           ICname.innerHTML = IdeaChampionName;
+                           BUname.innerHTML = BusinessUnitName;
+                        }
+                     </script>
                 </div>
 
 
