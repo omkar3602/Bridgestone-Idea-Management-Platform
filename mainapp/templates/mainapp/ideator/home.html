@@ -32,11 +32,12 @@ Ideator{% endblock title %} {% block content %}
   />
 </div>
 <div id="YOUR_SUBMISSIONS" class="mt-16">
-  <h3
-    class="py-4 uppercase mt-28 text-center text-red-700 text-6xl font-bold pt-16 drop-shadow-lg hover:underline-offset-8"
-  >
-    Hello username
+  <h3 class="py-4 mt-28 text-center text-red-700 text-6xl font-bold pt-16 drop-shadow-lg hover:underline-offset-8">
+    Hello {{user.fullname }}
   </h3>
+  <h4 class="py-4 text-center text-red-700 text-5xl font-bold pt-16 drop-shadow-lg hover:underline-offset-8">
+    Your Submissions
+  </h4>
 </div>
 <br />
 <div class="flex justify-center flex-col alignitems-center h-auto w-auto">
