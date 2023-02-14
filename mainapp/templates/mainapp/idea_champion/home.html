@@ -6,7 +6,9 @@
 {% block content %}
 <div class= "py-3"></div>
 <h3 class="py-4  text-center text-red-700 text-6xl font-bold pt-16 drop-shadow-lg  hover:underline-offset-8">
-  BU: {{ business_unit }}</h3>
+  Hello {{ user.fullname }}</h3>
+<h3 class="py-4  text-center text-red-700 text-5xl font-bold pt-16 drop-shadow-lg  hover:underline-offset-8">
+    BU: {{ business_unit }}</h3>
 <h3 class="py-8  text-center text-red-700 text-5xl font-bold pt-16 drop-shadow-lg  hover:underline-offset-8">
     Pending Reviews</h3>
   {% for submission in pending_submissions %}
