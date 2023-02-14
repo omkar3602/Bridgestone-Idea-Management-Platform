@@ -124,7 +124,7 @@ Ideator{% endblock title %} {% block content %}
   <div class="alignitems-center px-10 mx-5">
     <div class="overflow-scroll h-96 scroll-smooth overflow-x-hidden">
       {% for submission in submissions %}
-      <div class="bg-gray-200 px-4 rounded-lg mt-5 mx-5">
+      <div class="bg-gray-200 pl-4 rounded-lg mt-5 mx-5">
         <div class="flex justify-between">
           <div class="basis-1/2 px-6 py-4">
             <p class="font-bold text-xl uppercase">{{ submission.name }}</p>
@@ -185,7 +185,36 @@ Ideator{% endblock title %} {% block content %}
           </div>
            
           </div>
-          <div class="basis-1/4 pl-6 text-right flex flex-col justify-evenly">
+          {% if submission.status == "Accepted" %}
+          <div class="basis-1/4 ml-6 text-center flex flex-col justify-evenly bg-green-500">
+            <div class="">
+              <p class="text-xl px-2 text-white font-semibold uppercase">{{ submission.status }}</p>
+              <p class="date_of_action mt-4 text-[15px] text-white">Last Modified On : 15/02/2023 </p>
+            </div>
+          </div>
+          {% elif submission.status == "Rejected" %}         
+          <div class="basis-1/4 ml-6 text-center flex flex-col justify-evenly bg-red-500">
+            <div class="">
+              <p class="text-xl px-2 text-white font-semibold uppercase">{{ submission.status }}</p>
+              <p class="date_of_action mt-4 text-[15px] text-white">Last Modified On : 15/02/2023 </p>
+            </div>
+          </div>         
+          {% elif submission.status == "On Hold" %}
+          <div class="basis-1/4 ml-6 text-center flex flex-col justify-evenly bg-orange-500">
+            <div class="">
+              <p class="text-xl px-2 text-white font-semibold uppercase">{{ submission.status }}</p>
+              <p class="date_of_action mt-4 text-[15px] text-white">Last Modified On : 15/02/2023 </p>
+            </div>
+          </div>
+          {% elif submission.status == "Review Pending" %}        
+          <div class="basis-1/4 ml-6 text-center flex flex-col justify-evenly bg-black">
+            <div class="">
+              <p class="text-xl px-2 text-white font-semibold uppercase">{{ submission.status }}</p>
+              <p class="date_of_action mt-4 text-[15px] text-white">Last Modified On : 15/02/2023 </p>
+            </div>
+          </div>
+          {% endif %}
+          {% comment %} <div class="basis-1/4 pl-6 text-right flex flex-col justify-evenly">
             <div class="flex justify-around">
               {% if submission.status == "Accepted" %}
               <button
@@ -212,7 +241,7 @@ Ideator{% endblock title %} {% block content %}
               </button>
               {% endif %}
             </div>
-          </div>
+          </div> {% endcomment %}
         </div>
       </div>
       {% endfor %}
