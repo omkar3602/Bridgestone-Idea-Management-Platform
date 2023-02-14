@@ -129,9 +129,29 @@ Ideator{% endblock title %} {% block content %}
           <div class="basis-1/2 px-6">
             <p class="font-bold text-xl uppercase">{{ submission.name }}</p>
             <p class="idea_description">{{ submission.description }}</p>
+            <p class="date_of_submission">{{ submission.action }} : {{ submission.date_of_action }}</p>
+
             {% if submission.status == "Review Pending"  %}
-              <a href="{% url 'new_submission' %}">
-              <svg xmlns="http://www.w3.org/2000/svg" width="19" height="18" class="inline" ><path fill-rule="evenodd" fill="#d50000" d="M18.9 18.01H2.1V2.096h8.4V.106H0V20h21v-9.947h-2.1v7.958zM6.3 9.95 16.631 0 21 4.115l-10.666 9.917H6.3V9.95z"/>Edit</svg>
+            <a href="{% url 'edit_submission' submission.id %}">
+                <svg fill="#000000" version="1.1" class="inline" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+	 width="18px" height="18px" viewBox="0 0 494.936 494.936"
+	 xml:space="preserve">
+<g>
+	<g>
+		<path d="M389.844,182.85c-6.743,0-12.21,5.467-12.21,12.21v222.968c0,23.562-19.174,42.735-42.736,42.735H67.157
+			c-23.562,0-42.736-19.174-42.736-42.735V150.285c0-23.562,19.174-42.735,42.736-42.735h267.741c6.743,0,12.21-5.467,12.21-12.21
+			s-5.467-12.21-12.21-12.21H67.157C30.126,83.13,0,113.255,0,150.285v267.743c0,37.029,30.126,67.155,67.157,67.155h267.741
+			c37.03,0,67.156-30.126,67.156-67.155V195.061C402.054,188.318,396.587,182.85,389.844,182.85z"/>
+		<path d="M483.876,20.791c-14.72-14.72-38.669-14.714-53.377,0L221.352,229.944c-0.28,0.28-3.434,3.559-4.251,5.396l-28.963,65.069
+			c-2.057,4.619-1.056,10.027,2.521,13.6c2.337,2.336,5.461,3.576,8.639,3.576c1.675,0,3.362-0.346,4.96-1.057l65.07-28.963
+			c1.83-0.815,5.114-3.97,5.396-4.25L483.876,74.169c7.131-7.131,11.06-16.61,11.06-26.692
+			C494.936,37.396,491.007,27.915,483.876,20.791z M466.61,56.897L257.457,266.05c-0.035,0.036-0.055,0.078-0.089,0.107
+			l-33.989,15.131L238.51,247.3c0.03-0.036,0.071-0.055,0.107-0.09L447.765,38.058c5.038-5.039,13.819-5.033,18.846,0.005
+			c2.518,2.51,3.905,5.855,3.905,9.414C470.516,51.036,469.127,54.38,466.61,56.897z"/>
+	</g>
+</g>
+</svg>
+              {% comment %} <svg xmlns="http://www.w3.org/2000/svg" width="19" height="18" class="inline" ><path fill-rule="evenodd" fill="#d50000" d="M18.9 18.01H2.1V2.096h8.4V.106H0V20h21v-9.947h-2.1v7.958zM6.3 9.95 16.631 0 21 4.115l-10.666 9.917H6.3V9.95z"/>Edit</svg> {% endcomment %}
               Edit</a>
               {% endif %}
               <a class="px-6 py-3" id="remark-btn">
@@ -143,10 +163,13 @@ Ideator{% endblock title %} {% block content %}
               target="_blank"
               class="underline text-red-700 text-[15px] hover:text-[16px] hover:font-bold transition duration-300"
               >
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-link-45deg inline" viewBox="0 0 16 16">
+                <path d="M4.715 6.542 3.343 7.914a3 3 0 1 0 4.243 4.243l1.828-1.829A3 3 0 0 0 8.586 5.5L8 6.086a1.002 1.002 0 0 0-.154.199 2 2 0 0 1 .861 3.337L6.88 11.45a2 2 0 1 1-2.83-2.83l.793-.792a4.018 4.018 0 0 1-.128-1.287z"/>
+                <path d="M6.586 4.672A3 3 0 0 0 7.414 9.5l.775-.776a2 2 0 0 1-.896-3.346L9.12 3.55a2 2 0 1 1 2.83 2.83l-.793.792c.112.42.155.855.128 1.287l1.372-1.372a3 3 0 1 0-4.243-4.243L6.586 4.672z"/>
+              </svg>
               View Attachment</a
             >
             {% endif %}
-            <p class="date_of_submission">{{ submission.action }} : {{ submission.date_of_action }}</p>
             
       
           <div class="fixed bg-black bg-opacity-50 modal fade top-0 left-0 hidden w-full h-full hidden outline-none overflow-x-hidden overflow-y-auto justify-center items-center" id="overlay">
@@ -160,7 +183,7 @@ Ideator{% endblock title %} {% block content %}
                       </svg>
                   </div>
                   <div class="mt-2 text-sm">
-                      <p>{{ submission.remrak }}</p>
+                      <p>{{ submission.remark }}</p>
                   </div>
                   <div class="mt-3 flex justify-end space-x-3">
                       <button class="px-3 py-1 rounded hover:bg-red-300 hover:bg-opacity-50 hover:text-red-900">Okay</button>
