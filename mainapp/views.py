@@ -172,13 +172,17 @@ def edit_submission(request, id):
             ideator = request.user
             business_unit = BusinessUnit.objects.get(name=business_unit_txt)
 
+            submission = Submission.objects.get(id=id)
+            submission.name = name
+            submission.description = description
+            submission.business_unit = business_unit
+            submission.ideator = ideator
+
             if 'attachment' in files.keys():
                 attachment = files['attachment']
-                submission = Submission(name=name, description=description, business_unit=business_unit, ideator=ideator, attachment=attachment)
-            else:
-                submission = Submission(name=name, description=description, business_unit=business_unit, ideator=ideator)
-            # submission.save()
-
+                submission.attachment = attachment
+            
+            submission.save()
 
             idea_champion_email = business_unit.idea_champion.email
             ideator_email = ideator.email
