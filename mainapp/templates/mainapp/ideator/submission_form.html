@@ -14,7 +14,7 @@
                     <form method="POST" enctype="multipart/form-data" name="SubmissionForm">
                     {% csrf_token %}
                     <input type="text" class="block border border-grey-light w-full p-3 rounded mb-4 placeholder:text-black" name="idea_title"
-                        placeholder="Idea Title" />
+                        placeholder="Idea Title" required/>
 
                     <select type="text" id="BU" class="block border border-grey-light w-full p-3 rounded mb-4"
                         name="business_unit" placeholder="Business Unit" onchange="showIC()">
