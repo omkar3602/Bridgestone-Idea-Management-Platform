@@ -123,4 +123,6 @@ def password_reset_request(request):
                 except BadHeaderError:
                     return HttpResponse('Invalid header found.')
                 return redirect ("/password_reset/done/")
+        else:
+            messages.info(request, 'Please enter a email that already exists.')
     return render(request=request, template_name="userauth/password_reset/password_reset.html")
