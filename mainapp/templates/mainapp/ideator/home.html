@@ -87,7 +87,13 @@ Ideator{% endblock title %} {% block content %}
       <div class="bg-gray-200 px-4 py-4 rounded-lg mt-5 mx-5">
         <div class="flex justify-between">
           <div class="basis-1/2 px-6">
-            <p class="font-bold text-xl uppercase">{{ submission.name }}</p>
+            <p class="font-bold text-xl uppercase">{{ submission.name }}
+              {% if submission.status == "Review Pending"  %}
+              <a href="{% url 'new_submission' %}">
+              <svg xmlns="http://www.w3.org/2000/svg" width="21" height="20" class="inline mx-3"><path fill-rule="evenodd" fill="#d50000" d="M18.9 18.01H2.1V2.096h8.4V.106H0V20h21v-9.947h-2.1v7.958zM6.3 9.95 16.631 0 21 4.115l-10.666 9.917H6.3V9.95z"/></svg>
+              </a>
+              {% endif %}
+            </p>
             <p class="idea_description">{{ submission.description }}</p>
             {% if submission.attachment %}
             <a
