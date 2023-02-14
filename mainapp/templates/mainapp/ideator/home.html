@@ -34,7 +34,7 @@ Ideator{% endblock title %} {% block content %}
 
 <div id="YOUR_SUBMISSIONS" class="mt-16">
   <h3 class="py-4 mt-28 text-center text-red-700 text-6xl font-bold pt-16 drop-shadow-lg hover:underline-offset-8">
-    Hello {{user.fullname }}
+    Hello {{ user.fullname }}
   </h3>
   <h4 class="py-4 text-center text-red-700 text-5xl font-bold pt-16 drop-shadow-lg hover:underline-offset-8">
     Your Submissions
@@ -42,70 +42,84 @@ Ideator{% endblock title %} {% block content %}
 </div>
 <br />
 <div class="flex justify-center flex-col alignitems-center h-auto w-auto">
-   <!-- <div class="flex flex-col justify-center w-3/4">
-    {% for submission in submissions %}
-    <div class="bg-gray-200 px-4 py-8 rounded-lg mt-8">
-      <div class="flex justify-between">
-
-        <div class="basis-1/2 px-6">
-          <p class="font-bold text-xl uppercase">{{ submission.name }}</p>
-          <p class="idea_description">{{ submission.description }}</p>
-          {% if submission.attachment %}
-            <a href="{{ submission.attachment.url }}" target="_blank" class="underline text-red-700 text-[15px] hover:text-[16px] hover:font-bold transition duration-300">View Attachment</a>
-          {% endif %}
-           <p class="date_of_submission">{{ submission.action }}: {{ submission.date_of_action }}</p> -->
-        
-           <!-- view more -->
-     
-      <!-- </div> -->
-         <!-- <div class="basis-1/4 pl-6 text-right flex flex-col justify-evenly">
-          <div class="flex justify-around">
-            {% if submission.status == "Accepted" %}
-            <button class="bg-green-500 text-white py-8 px-8 rounded-full hover:bg-green-600">{{ submission.status }}</button>
-            {% elif submission.status == "On Hold" %}<button
-              class="bg-orange-500 text-white py-8 px-8 rounded-full hover:bg-orange-700">{{ submission.status }}</button>
-            {% elif submission.status == "Review Pending" %} <button
-              class="bg-black text-white py-8 px-8 rounded-full hover:bg-gray-600">{{ submission.status }}</button>
-            {% else %} <button class="bg-red-500 text-white py-8 px-8 rounded-full hover:bg-red-700">{{ submission.status }}</button>
-            {% endif %}
-          </div>
-        </div> -->
-      </div>
-    </div>
-    <!-- {% endfor %}  -->
-
-  <!-- </div>  -->
   <div class="alignitems-center">
-    <ul class="flex justify-center pb-3">
-      <li class="mr-3">
-        <a
-          class="inline-block border border-red-500 rounded py-2 px-4 bg-red-500 hover:bg-red-700 text-white"
-          href="#"
-          >All</a
-        >
-      </li>
-      <li class="mr-3">
-        <a
-          class="inline-block border border-white rounded hover:border-gray-200 text-red-500 hover:bg-gray-200 py-2 px-4"
-          href="#"
-          >Accepted</a
-        >
-      </li>
-      <li class="mr-3">
-        <a
-          class="inline-block border border-white rounded hover:border-gray-200 text-red-500 hover:bg-gray-200 py-2 px-4"
-          href="#"
-          >On Hold</a
-        >
-      </li>
-      <li class="mr-3">
-        <a
-          class="inline-block border border-white rounded hover:border-gray-200 text-red-500 hover:bg-gray-200 py-2 px-4"
-          href="#"
-          >Rejected</a
-        >
-      </li>
-    </ul>
+    <form method="POST">
+      {% csrf_token %}
+      <ul class="flex justify-center pb-3">
+        <li class="mr-3">
+          {% if selected == 'all' %}
+          <button
+            class="inline-block border border-red-500 rounded py-2 px-4 text-white bg-red-700"
+            name="selected" value="all"
+            >
+          {% else %}
+          <button
+            class="inline-block border border-white rounded hover:border-gray-200 text-red-500 hover:bg-gray-200 py-2 px-4"
+            name="selected" value="all"
+            >
+          {% endif %}
+            All</button
+          >
+        </li>
+        <li class="mr-3">
+          {% if selected == 'review_pending' %}
+          <button
+            class="inline-block border border-red-500 rounded py-2 px-4 text-white bg-red-700"
+            name="selected" value="review_pending"
+            >
+          {% else %}
+          <button
+            class="inline-block border border-white rounded hover:border-gray-200 text-red-500 hover:bg-gray-200 py-2 px-4"
+            name="selected" value="review_pending"
+            >
+          {% endif %}
+          Review Pending</button>
+        </li>
+        <li class="mr-3">
+          {% if selected == 'accepted' %}
+          <button
+            class="inline-block border border-red-500 rounded py-2 px-4 text-white bg-red-700"
+            name="selected" value="accepted"
+            >
+          {% else %}
+          <button
+            class="inline-block border border-white rounded hover:border-gray-200 text-red-500 hover:bg-gray-200 py-2 px-4"
+            name="selected" value="accepted"
+            >
+          {% endif %}
+          Accepted</button>
+        </li>
+        <li class="mr-3">
+          {% if selected == 'on_hold' %}
+          <button
+            class="inline-block border border-red-500 rounded py-2 px-4 text-white bg-red-700"
+            name="selected" value="on_hold"
+            >
+          {% else %}
+          <button
+            class="inline-block border border-white rounded hover:border-gray-200 text-red-500 hover:bg-gray-200 py-2 px-4"
+            name="selected" value="on_hold"
+            >
+          {% endif %}
+          On Hold</button>
+        </li>
+        <li class="mr-3">
+          {% if selected == 'rejected' %}
+          <button
+            class="inline-block border border-red-500 rounded py-2 px-4 text-white bg-red-700"
+            name="selected" value="rejected"
+            >
+          {% else %}
+          <button
+            class="inline-block border border-white rounded hover:border-gray-200 text-red-500 hover:bg-gray-200 py-2 px-4"
+            name="selected" value="rejected"
+            >
+          {% endif %}
+          Rejected</button
+          >
+        </li>
+      </ul>
+    </form>
   </div>
   <div class="alignitems-center px-10 mx-5">
     <div class="overflow-scroll h-96 scroll-smooth overflow-x-hidden">
@@ -113,7 +127,13 @@ Ideator{% endblock title %} {% block content %}
       <div class="bg-gray-200 px-4 py-4 rounded-lg mt-5 mx-5">
         <div class="flex justify-between">
           <div class="basis-1/2 px-6">
-            <p class="font-bold text-xl uppercase">{{ submission.name }}</p>
+            <p class="font-bold text-xl uppercase">{{ submission.name }}
+              {% if submission.status == "Review Pending"  %}
+              <a href="{% url 'new_submission' %}">
+              <svg xmlns="http://www.w3.org/2000/svg" width="21" height="20" class="inline mx-3"><path fill-rule="evenodd" fill="#d50000" d="M18.9 18.01H2.1V2.096h8.4V.106H0V20h21v-9.947h-2.1v7.958zM6.3 9.95 16.631 0 21 4.115l-10.666 9.917H6.3V9.95z"/></svg>
+              </a>
+              {% endif %}
+            </p>
             <p class="idea_description">{{ submission.description }}</p>
             {% if submission.attachment %}
             <a
@@ -153,24 +173,24 @@ Ideator{% endblock title %} {% block content %}
             <div class="flex justify-around">
               {% if submission.status == "Accepted" %}
               <button
-                class="bg-green-500 font-medium text-white py-4 px-4 rounded-lg hover:bg-green-600"
+                class="bg-green-500 rounded-full font-medium text-white py-4 px-4 pointer-events-none"
               >
                 {{ submission.status }}
               </button>
               {% elif submission.status == "On Hold" %}<button
-                class="bg-orange-500 font-medium text-white py-4 px-4 rounded-lg hover:bg-orange-700"
+                class="bg-orange-500 rounded-full font-medium text-white py-4 px-4 pointer-events-none"
               >
                 {{ submission.status }}
               </button>
               {% elif submission.status == "Review Pending" %}
               <button
-                class="bg-black font-medium text-white py-4 px-4 rounded-lg hover:bg-gray-600"
+                class="bg-black rounded-full font-medium text-white py-4 px-4 pointer-events-none"
               >
                 {{ submission.status }}
               </button>
               {% else %}
               <button
-                class="bg-red-500 font-medium text-white py-4 px-4 rounded-lg hover:bg-red-700"
+                class="bg-red-500 rounded-full font-medium text-white py-4 px-4 pointer-events-none"
               >
                 {{ submission.status }}
               </button>

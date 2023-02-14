@@ -16,13 +16,15 @@ def index(request):
     
     context = {
         'is_HOMEPAGE':1,
+        'selected':'all',
         'bussiness_units':bussiness_units,
         'idea_champions':idea_champions,
     }
+
     if request.user.is_authenticated:
-        if request.user.is_admin:
+        if request.user.is_idea_admin:
             graph1_dict = {}
-            ideators = Account.objects.filter(is_IC=False).filter(is_admin=False)
+            ideators = Account.objects.filter(is_ideator=True)
             submissions = Submission.objects.all()
 
             for ideator in ideators:
@@ -58,7 +60,7 @@ def index(request):
                 graph3_dict[str(submission.status)] += 1
             context['submission_status'] = list(graph3_dict.keys())
             context['no_of_submissions'] = list(graph3_dict.values())
-            return render(request, 'mainapp/admin/home.html', context)
+            return render(request, 'mainapp/idea_admin/home.html', context)
         elif request.user.is_IC:
             if request.method == 'POST':
                 data = request.POST
@@ -80,18 +82,38 @@ def index(request):
                 context['business_unit'] = business_unit
                 context['pending_submissions'] = pending_submissions
             return render(request, 'mainapp/idea_champion/home.html', context)
-        else:
+        elif request.user.is_ideator:
+            if request.method == 'POST':
+                data = request.POST
+                selected = data['selected']
+                
+                if selected == "all":
+                    submissions = Submission.objects.filter(ideator=request.user)
+                elif selected == "review_pending":
+                    submissions = Submission.objects.filter(ideator=request.user).filter(status="Review Pending")
+                elif selected == "accepted":
+                    submissions = Submission.objects.filter(ideator=request.user).filter(status="Accepted")
+                elif selected == "on_hold":
+                    submissions = Submission.objects.filter(ideator=request.user).filter(status="On Hold")
+                elif selected == "rejected":
+                    submissions = Submission.objects.filter(ideator=request.user).filter(status="Rejected")
+
+                context['selected'] = selected
+                context['submissions'] = submissions
+                return render(request, 'mainapp/ideator/home.html', context)
             submissions = Submission.objects.filter(ideator=request.user)
             
             context['submissions'] = submissions
             return render(request, 'mainapp/ideator/home.html', context)
+        else:
+            return render(request, 'mainapp/index.html', context)
     else:
         return render(request, 'mainapp/index.html', context)
 
 @login_required_message(message="Please log in, in order to view the requested page.")
 @login_required
 def new_submission(request):
-    if request.user.is_IC == True or request.user.is_admin == True:
+    if request.user.is_ideator == False:
         messages.info(request, "You don't have access to this page.")
         return redirect('home')
     else:
@@ -253,7 +275,7 @@ def rejected(request):
 @login_required_message(message="Please log in, in order to view the requested page.")
 @login_required
 def add_BU(request):
-    if request.user.is_admin == False:
+    if request.user.is_idea_admin == False:
         messages.info(request, "You don't have access to this page.")
         return redirect('home')
     else:
@@ -281,12 +303,12 @@ def add_BU(request):
         context = {
             'idea_champions':idea_champions,
         }
-        return render(request, 'mainapp/admin/add_BU.html', context)
+        return render(request, 'mainapp/idea_admin/add_BU.html', context)
 
 @login_required_message(message="Please log in, in order to view the requested page.")
 @login_required
 def invite_IC(request):
-    if request.user.is_admin == False:
+    if request.user.is_idea_admin == False:
         messages.info(request, "You don't have access to this page.")
         return redirect('home')
     else:
@@ -299,4 +321,4 @@ def invite_IC(request):
 
             messages.info(request, 'Invite sent successfully.')
             return redirect('home')
-        return render(request, 'mainapp/admin/invite_IC.html')
+        return render(request, 'mainapp/idea_admin/invite_IC.html')
