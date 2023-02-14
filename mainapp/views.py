@@ -16,9 +16,11 @@ def index(request):
     
     context = {
         'is_HOMEPAGE':1,
+        'selected':'all',
         'bussiness_units':bussiness_units,
         'idea_champions':idea_champions,
     }
+
     if request.user.is_authenticated:
         if request.user.is_idea_admin:
             graph1_dict = {}
@@ -81,6 +83,23 @@ def index(request):
                 context['pending_submissions'] = pending_submissions
             return render(request, 'mainapp/idea_champion/home.html', context)
         elif request.user.is_ideator:
+            if request.method == 'POST':
+                data = request.POST
+                selected = data['selected']
+                
+                if selected == "all":
+                    submissions = Submission.objects.filter(ideator=request.user)
+                elif selected == "review_pending":
+                    submissions = Submission.objects.filter(ideator=request.user).filter(status="Review Pending")
+                elif selected == "accepted":
+                    submissions = Submission.objects.filter(ideator=request.user).filter(status="Accepted")
+                elif selected == "on_hold":
+                    submissions = Submission.objects.filter(ideator=request.user).filter(status="On Hold")
+                elif selected == "rejected":
+                    submissions = Submission.objects.filter(ideator=request.user).filter(status="Rejected")
+
+                context['submissions'] = submissions
+                return render(request, 'mainapp/ideator/home.html', context)
             submissions = Submission.objects.filter(ideator=request.user)
             
             context['submissions'] = submissions
