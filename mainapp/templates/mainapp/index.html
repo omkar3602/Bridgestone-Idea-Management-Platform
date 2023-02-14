@@ -4,20 +4,6 @@
 {% block title %}Bridgestone India Pvt. Ltd.{% endblock title %}
 
 {% block content %}
-{% comment %} {% if user.is_admin %}
-<h2 class="main_heading">You are a Admin.</h2>
-{% elif user.is_IC %}
-<h2 class="main_heading">You are a Idea Champion.</h2>
-{% else %}
-<h2 class="main_heading">You are a Ideator.</h2>
-{% endif %}
-<form method="POST" action="{% url 'logout' %}">
-    {% csrf_token %}
-    <button type="submit">Log out</button>
-</form>
-<a href="{% url 'login' %}">Login</a>
-<br>
-<a href="{% url 'signup' %}">Sign up</a> {% endcomment %}
 
   <div class="pl-10 pb-16 flex relative justify-between h-[600px] overflow-hidden smooth-scroll bg-gray-200">
     <div class="w-1/2">
