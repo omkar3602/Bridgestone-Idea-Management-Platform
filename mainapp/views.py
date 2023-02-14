@@ -98,6 +98,7 @@ def index(request):
                 elif selected == "rejected":
                     submissions = Submission.objects.filter(ideator=request.user).filter(status="Rejected")
 
+                context['selected'] = selected
                 context['submissions'] = submissions
                 return render(request, 'mainapp/ideator/home.html', context)
             submissions = Submission.objects.filter(ideator=request.user)

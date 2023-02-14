@@ -47,35 +47,75 @@ Ideator{% endblock title %} {% block content %}
       {% csrf_token %}
       <ul class="flex justify-center pb-3">
         <li class="mr-3">
+          {% if selected == 'all' %}
           <button
             class="inline-block border border-red-500 rounded py-2 px-4 text-white bg-red-700"
-            href="#" name="selected" value="all"
-            >All</button
+            name="selected" value="all"
+            >
+          {% else %}
+          <button
+            class="inline-block border border-white rounded hover:border-gray-200 text-red-500 hover:bg-gray-200 py-2 px-4"
+            name="selected" value="all"
+            >
+          {% endif %}
+            All</button
           >
         </li>
         <li class="mr-3">
+          {% if selected == 'review_pending' %}
+          <button
+            class="inline-block border border-red-500 rounded py-2 px-4 text-white bg-red-700"
+            name="selected" value="review_pending"
+            >
+          {% else %}
           <button
             class="inline-block border border-white rounded hover:border-gray-200 text-red-500 hover:bg-gray-200 py-2 px-4"
-            href="#" name="selected" value="review_pending"
-            >Review Pending</button>
+            name="selected" value="review_pending"
+            >
+          {% endif %}
+          Review Pending</button>
         </li>
         <li class="mr-3">
+          {% if selected == 'accepted' %}
+          <button
+            class="inline-block border border-red-500 rounded py-2 px-4 text-white bg-red-700"
+            name="selected" value="accepted"
+            >
+          {% else %}
           <button
             class="inline-block border border-white rounded hover:border-gray-200 text-red-500 hover:bg-gray-200 py-2 px-4"
-            href="#" name="selected" value="accepted"
-            >Accepted</button>
+            name="selected" value="accepted"
+            >
+          {% endif %}
+          Accepted</button>
         </li>
         <li class="mr-3">
+          {% if selected == 'on_hold' %}
+          <button
+            class="inline-block border border-red-500 rounded py-2 px-4 text-white bg-red-700"
+            name="selected" value="on_hold"
+            >
+          {% else %}
           <button
             class="inline-block border border-white rounded hover:border-gray-200 text-red-500 hover:bg-gray-200 py-2 px-4"
-            href="#" name="selected" value="on_hold"
-            >On Hold</button>
+            name="selected" value="on_hold"
+            >
+          {% endif %}
+          On Hold</button>
         </li>
         <li class="mr-3">
+          {% if selected == 'rejected' %}
+          <button
+            class="inline-block border border-red-500 rounded py-2 px-4 text-white bg-red-700"
+            name="selected" value="rejected"
+            >
+          {% else %}
           <button
             class="inline-block border border-white rounded hover:border-gray-200 text-red-500 hover:bg-gray-200 py-2 px-4"
-            href="#" name="selected" value="rejected"
-            >Rejected</button
+            name="selected" value="rejected"
+            >
+          {% endif %}
+          Rejected</button
           >
         </li>
       </ul>
