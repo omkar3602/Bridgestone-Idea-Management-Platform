@@ -100,6 +100,7 @@ def index(request):
 
                 context['selected'] = selected
                 context['submissions'] = submissions
+                context['go_to_submissions'] = True
                 return render(request, 'mainapp/ideator/home.html', context)
             submissions = Submission.objects.filter(ideator=request.user)
             

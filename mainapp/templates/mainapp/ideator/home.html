@@ -246,5 +246,8 @@ Ideator{% endblock title %} {% block content %}
             closeBtn.addEventListener('click',toggleModal)
             
         })
+    {% if go_to_submissions %}
+      window.location.hash = '#YOUR_SUBMISSIONS';
+    {% endif %}
 </script>
 {% endblock content %}
