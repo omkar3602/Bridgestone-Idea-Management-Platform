@@ -205,6 +205,9 @@ def edit_submission(request, id):
             return redirect('home')
 
         submission = Submission.objects.get(id=id)
+        if request.user != submission.ideator:
+            messages.info(request, "You don't have access to this page.")
+            return redirect('home')
 
         context = {
             'submission':submission,
