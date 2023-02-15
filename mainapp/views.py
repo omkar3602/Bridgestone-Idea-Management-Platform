@@ -100,6 +100,7 @@ def index(request):
 
                 context['selected'] = selected
                 context['submissions'] = submissions
+                context['go_to_submissions'] = True
                 return render(request, 'mainapp/ideator/home.html', context)
             submissions = Submission.objects.filter(ideator=request.user)
             
@@ -154,6 +155,52 @@ def new_submission(request):
             'bu_id':bu_id,
         }
         return render(request, 'mainapp/ideator/submission_form.html', context)
+
+@login_required_message(message="Please log in, in order to view the requested page.")
+@login_required
+def edit_submission(request, id):
+    if request.user.is_ideator == False:
+        messages.info(request, "You don't have access to this page.")
+        return redirect('home')
+    else:
+        if request.method == 'POST':
+            data = request.POST
+            files = request.FILES
+            name = data['idea_title']
+            business_unit_txt = data['business_unit']
+            description = data['idea_details']
+
+            ideator = request.user
+            business_unit = BusinessUnit.objects.get(name=business_unit_txt)
+
+            submission = Submission.objects.get(id=id)
+            submission.name = name
+            submission.description = description
+            submission.business_unit = business_unit
+            submission.ideator = ideator
+
+            if 'attachment' in files.keys():
+                attachment = files['attachment']
+                submission.attachment = attachment
+            
+            submission.save()
+
+            idea_champion_email = business_unit.idea_champion.email
+            ideator_email = ideator.email
+
+            load_dotenv()
+            send_mail(idea_champion_email, f"Submission edited in BU - {business_unit.name}", f"Hey {business_unit.idea_champion.fullname}! There is a edited submission in the business unit {business_unit.name}. Check it out here {os.getenv('WEB_URL')}")
+            send_mail(ideator_email, f"Your Submission has been edited.", f"Hey {ideator.fullname}! Your submission in the business unit {business_unit.name} has been edited. Check the status here {os.getenv('WEB_URL')}#YOUR_SUBMISSIONS")
+
+            messages.info(request, 'Idea edited successfully!')
+            return redirect('home')
+
+        submission = Submission.objects.get(id=id)
+
+        context = {
+            'submission':submission,
+        }
+        return render(request, 'mainapp/ideator/edit_submission.html', context)
 
 @login_required_message(message="Please log in, in order to view the requested page.")
 @login_required
