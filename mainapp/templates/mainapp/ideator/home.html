@@ -132,12 +132,12 @@ Ideator{% endblock title %} {% block content %}
             <p class="date_of_submission mt-4 text-[15px] font-semibold">Submitted On : 15/02/2023 </p>
           <div class="flex flex-row mt-4">              
             <div class="flex-auto pr-1">
-              <a class="text-red-700 text-[15px] font-semibold cursor-pointer hover:underline" id="remark-btn">
+              <a class="text-red-700 text-[15px] font-semibold cursor-pointer hover:underline" id="viewdetails-btn" onclick="show_modal('{{ submission.id }}_overlay')">
                 <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" fill="#d50000" class="inline" viewBox="0 0 16 16"><path fill="#d50000" d="M1 4.5C1 3.11929 2.11929 2 3.5 2H12.5C13.8807 2 15 3.11929 15 4.5V9.5C15 10.8807 13.8807 12 12.5 12H8.68787L5.62533 14.6797C4.99168 15.2342 4 14.7842 4 13.9422V12H3.5C2.11929 12 1 10.8807 1 9.5V4.5ZM3.5 3C2.67157 3 2 3.67157 2 4.5V9.5C2 10.3284 2.67157 11 3.5 11H5V13.8981L8.31213 11H12.5C13.3284 11 14 10.3284 14 9.5V4.5C14 3.67157 13.3284 3 12.5 3H3.5Z"/></svg>
               View Details</a>
             </div>
-            <div class="flex-auto pr-1">
             {% if submission.attachment %}
+            <div class="flex-auto pr-1">
             <a
               href="{{ submission.attachment.url }}"
               target="_blank"
@@ -149,26 +149,26 @@ Ideator{% endblock title %} {% block content %}
               </svg>
               View Attachment</a
             >
-            {% endif %}
             </div>
-            <div class="flex-auto pr-1">
-              {% if submission.status == "Review Pending"  %}
+            {% endif %}
+            {% if submission.status == "Review Pending"  %}
+              <div class="flex-auto pr-1">
               <a class="text-red-700 text-[15px] font-semibold hover:underline" href="{% url 'edit_submission' submission.id %}">          
                   <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-pencil-square inline" viewBox="0 0 16 16">
                     <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
                     <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
                   </svg>
                 Edit</a>
-                {% endif %}
               </div>
+                {% endif %}
         </div>  
             
       
-          <div class="fixed bg-black bg-opacity-50 modal fade top-0 left-0 hidden w-full h-full hidden outline-none overflow-x-hidden overflow-y-auto justify-center items-center" id="overlay" style="z-index:10000;">
-              <div class="bg-gray-200 w-3/4 h-3/4 py-2 px-3 rounded shadow-xl text-gray-800">
+          <div class="fixed bg-black bg-opacity-50 modal fade top-0 left-0 hidden w-full h-full hidden outline-none overflow-x-hidden overflow-y-auto justify-center items-center" id="{{ submission.id }}_overlay" style="z-index:10000;">
+              <div class="bg-gray-200 w-3/4 h-3.5/4 py-2 px-3 rounded shadow-xl text-gray-800">
                   <div class="flex justify-between items-center mb-8">
                       <h4 class="text-lg font-bold">{{submission.title }}</h4>
-                      <svg class="h-6 w-6 cursor-pointer p-1 hover:bg-gray-300 rounded-full" id="close-modal" fill="currentColor" viewBox="0 0 20 20">
+                      <svg class="h-6 w-6 cursor-pointer p-1 hover:bg-gray-300 rounded-full" id="close-modal" onclick="close_modal('{{ submission.id }}_overlay')" fill="currentColor" viewBox="0 0 20 20">
                           <path fill-rule="evenodd"
                               d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
                               clip-rule="evenodd"></path>
@@ -185,31 +185,40 @@ Ideator{% endblock title %} {% block content %}
                       {% if submission.similar_solutions %}
                         <p class="mb-5"><span class="font-bold">Similar  solutions: </span>{{ submission.similar_solutions }}
                       {% endif %}
-                      {% if submission.attachment %}
-                        <a
-                          href="{{ submission.attachment.url }}"
-                          target="_blank"
-                        class="text-red-700 text-[15px] font-semibold hover:underline"
-                          >
-                          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-link-45deg inline" viewBox="0 0 16 16">
-                            <path d="M4.715 6.542 3.343 7.914a3 3 0 1 0 4.243 4.243l1.828-1.829A3 3 0 0 0 8.586 5.5L8 6.086a1.002 1.002 0 0 0-.154.199 2 2 0 0 1 .861 3.337L6.88 11.45a2 2 0 1 1-2.83-2.83l.793-.792a4.018 4.018 0 0 1-.128-1.287z"/>
-                            <path d="M6.586 4.672A3 3 0 0 0 7.414 9.5l.775-.776a2 2 0 0 1-.896-3.346L9.12 3.55a2 2 0 1 1 2.83 2.83l-.793.792c.112.42.155.855.128 1.287l1.372-1.372a3 3 0 1 0-4.243-4.243L6.586 4.672z"/>
-                          </svg>
-                          View Attachment</a
-                        >
-                        {% endif %}
                         <p class="mb-5"><span class="font-bold">Business unit: </span>{{ submission.business_unit }}
                         </p>
                         <p class="mb-5"><span class="font-bold">Idea Champion: </span>{{ submission.business_unit.idea_champion }} ({{ submission.business_unit.idea_champion.email }})
                         </p>
                         {% if submission.remark %}
-                        <p class="mb-5"><span class="font-bold">Remark: </span>{{ submission.remark }}
+                        <p class="mb-5"><span class="font-bold text-red-700">Remark: </span>{{ submission.remark }}
                         </p>
                         {% else %}
-                        <p class="mb-5"><span class="font-bold">Remark: </span> None
+                        <p class="mb-5"><span class="font-bold text-red-700">Remark: </span> None
                         </p>
                         {% endif %}
-
+                        <div class="">
+                          {% if submission.attachment %}
+                          <a
+                            href="{{ submission.attachment.url }}"
+                            target="_blank"
+                          class="text-red-700 text-[15px]font-semibold hover:underline pr-5"
+                            >
+                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-link-45deg inline" viewBox="0 0 16 16">
+                              <path d="M4.715 6.542 3.343 7.914a3 3 0 1 0 4.243 4.243l1.828-1.829A3 3 0 0 0 8.586 5.5L8 6.086a1.002 1.002 0 0 0-.154.199 2 2 0 0 1 .861 3.337L6.88 11.45a2 2 0 1 1-2.83-2.83l.793-.792a4.018 4.018 0 0 1-.128-1.287z"/>
+                              <path d="M6.586 4.672A3 3 0 0 0 7.414 9.5l.775-.776a2 2 0 0 1-.896-3.346L9.12 3.55a2 2 0 1 1 2.83 2.83l-.793.792c.112.42.155.855.128 1.287l1.372-1.372a3 3 0 1 0-4.243-4.243L6.586 4.672z"/>
+                            </svg>
+                            View Attachment</a
+                          >
+                          {% endif %}
+                          {% if submission.status == "Review Pending"  %}
+                            <a class="text-red-700 text-[15px] font-semibold hover:underline" href="{% url 'edit_submission' submission.id %}">          
+                                <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-pencil-square inline" viewBox="0 0 16 16">
+                                  <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                  <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                                </svg>
+                              Edit</a>
+                            {% endif %}
+                          </div>
                   </div>
               </div>
           </div>
@@ -282,21 +291,16 @@ Ideator{% endblock title %} {% block content %}
 </div>
 <!-- Javascript code -->
 <script>
-  
-  window.addEventListener('DOMContentLoaded', () =>{
-            const overlay = document.querySelector('#overlay')
-            const delBtn = document.querySelector('#remark-btn')
-            const closeBtn = document.querySelector('#close-modal')
-
-            const toggleModal = () => {
-                overlay.classList.toggle('hidden')
-                overlay.classList.toggle('flex')
-            }
-
-            delBtn.addEventListener('click', toggleModal)
-            closeBtn.addEventListener('click',toggleModal)
-            
-        })
+    function show_modal(divid){
+      const modal_div = document.getElementById(divid);
+      modal_div.classList.toggle('hidden');
+      modal_div.classList.toggle('flex');
+    }
+    function close_modal(divid){
+      const modal_div = document.getElementById(divid);
+      modal_div.classList.toggle('hidden');
+      modal_div.classList.toggle('flex');
+    }
     {% if go_to_submissions %}
       window.location.hash = '#YOUR_SUBMISSIONS';
     {% endif %}

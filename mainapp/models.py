@@ -15,6 +15,7 @@ class Submission(models.Model):
     proposed_solution = models.CharField(max_length=1000)
     benefit_of_solution = models.CharField(max_length=1000)
     similar_solutions = models.CharField(max_length=1000, null=True, blank=True)
+    
     attachment = models.FileField(upload_to='submission_attachments/', null=True, blank=True)
 
     business_unit = models.ForeignKey(BusinessUnit, on_delete=models.CASCADE)

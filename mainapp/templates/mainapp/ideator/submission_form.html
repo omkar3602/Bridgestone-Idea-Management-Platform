@@ -15,9 +15,9 @@
                     <h1 class="mt-6 mb-8 text-2xl font-bold text-center font-nunito">Idea Submission</h1>
                     <form method="POST" enctype="multipart/form-data" name="SubmissionForm">
                     {% csrf_token %}
-                    <label class="font-semibold">Bussiness Unit</label>
+                    <label class="font-semibold">Bussiness Unit <span class="text-red-500">*</span></label>
                     <select type="text" id="BU" class="block border border-gray-400 w-full p-3 rounded mb-4"
-                        name="business_unit" placeholder="Business Unit" onchange="showIC()">
+                        name="business_unit" placeholder="Business Unit" onchange="showIC()" required>
                         <option value="0">Select Business Unit</option>
                         {% for bussiness_unit in bussiness_units %}
                             {% if bussiness_unit.id == bu_id %}
@@ -30,26 +30,26 @@
                         </select>
                     <p id="displayIC" class="hidden pb-5 font-semibold">The Idea Champion for <span id="BUname" class="text-red-700"></span> bussiness unit is <span id="ICname" class="font-bold"></span></p>
                     
-                    <label class="font-semibold">Idea Title</label>
-                    <input type="text" class="block border border-gray-400 w-full p-3 rounded mb-4 placeholder:text-black" name="title"
+                    <label class="font-semibold">Idea Title <span class="text-red-500">*</span></label>
+                    <input type="text" class="block border border-gray-400 w-full p-3 rounded mb-4 placeholder:text-black" name="title" required
                          />  
 
-                    <label class="font-semibold">What problem have you identified. Please describe in detail.</label>
-                    <input type="text" class="block border border-gray-400 w-full p-3 rounded mb-4 placeholder:text-black" name="identified_problem"
+                    <label class="font-semibold">What problem have you identified. Please describe in detail. <span class="text-red-500">*</span></label>
+                    <input type="text" class="block border border-gray-400 w-full p-3 rounded mb-4 placeholder:text-black" name="identified_problem" required
                          />  
 
-                    <label class="font-semibold">What is your proposed solution? Explain the solution in detail as possible.</label>
+                    <label class="font-semibold">What is your proposed solution? Explain the solution in detail as possible. <span class="text-red-500">*</span></label>
                     <textarea rows="4" class="block border border-gray-400 w-full p-3 rounded mb-4 placeholder:text-black"
-                             name="proposed_solution"></textarea>                              
+                             name="proposed_solution" required></textarea>                              
 
                     <label class="font-semibold">How does implementing your solution benefit Bridgestone India? Kindly explain (e.g. Revenue growth, Process
-                        optimization, Value chain change/ optimization, Customer experience enhancement, Cost reduction)</label>
+                        optimization, Value chain change/ optimization, Customer experience enhancement, Cost reduction) <span class="text-red-500">*</span></label>
                     <textarea rows="4" class="block border border-gray-400 w-full p-3 rounded mb-4 placeholder:text-black"
-                        name="benefit_of_solution"></textarea>   
+                        name="benefit_of_solution" required></textarea>   
 
-                    <label class="font-semibold block">Are there any similar solutions existing in market (e.g. Similar products/ services, developed by competition/startups)</label>
+                    <label class="font-semibold block">Are there any similar solutions existing in market (e.g. Similar products/ services, developed by competition/startups) <span class="text-red-500">*</span></label>
 
-                    <input class="form-check-input appearance-none rounded-full h-5 w-5 border border-gray-400 bg-white checked:bg-red-700 checked:border-red-700 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="radio" name="role" id="yes" value="yes" onclick="showDiv()"/>   
+                    <input class="form-check-input appearance-none rounded-full h-5 w-5 border border-gray-400 bg-white checked:bg-red-700 checked:border-red-700 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="radio" name="role" id="yes" value="yes" onclick="showDiv()" required />   
                     <label class="form-check-label block text-gray-800" for="yes">
                         Yes
                     </label>  

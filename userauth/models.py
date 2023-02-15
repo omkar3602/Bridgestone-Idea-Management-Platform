@@ -39,7 +39,7 @@ class Account(AbstractBaseUser):
     fullname        = models.CharField(max_length=20)
     is_ideator      = models.BooleanField(default=False)
     is_IC           = models.BooleanField(default=False)
-    is_IG_admin   = models.BooleanField(default=False)
+    is_IG_admin     = models.BooleanField(default=False)
     is_admin        = models.BooleanField(default=False)
     is_active       = models.BooleanField(default=True)
     is_staff        = models.BooleanField(default=False)

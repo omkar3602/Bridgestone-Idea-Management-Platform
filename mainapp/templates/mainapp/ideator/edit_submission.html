@@ -65,26 +65,28 @@
                         </select> {% endcomment %}
                         <p id="displayIC" class="pb-5 font-semibold">The Idea Champion for <span id="BUname" class="text-red-700">{{ submission.business_unit }}</span> bussiness unit is <span id="ICname" class="font-bold">{{ submission.business_unit.idea_champion }} ({{ submission.business_unit.idea_champion.email }})</span></p>
                     
-                    <label class="font-semibold">Idea Title</label>
-                    <input type="text" class="block border border-grey-light w-full p-3 rounded mb-4 placeholder:text-black" name="idea_title"
-                        placeholder="Idea Title" value="{{ submission.name }}" />
+                    <label class="font-semibold">Idea Title <span class="text-red-500">*</span></label>
+                    <input type="text" class="block border border-grey-light w-full p-3 rounded mb-4 placeholder:text-black" name="title"
+                        placeholder="Idea Title" value="{{ submission.title }}" />
 
-                    <label class="font-semibold">What problem have you identified. Please describe in detail.</label>
-                    <input type="text" class="block border border-gray-400 w-full p-3 rounded mb-4 placeholder:text-black" name="identified_problem"
+                    <label class="font-semibold">What problem have you identified. Please describe in detail. <span class="text-red-500">*</span></label>
+                    <input type="text" class="block border border-gray-400 w-full p-3 rounded mb-4 placeholder:text-black" name="identified_problem" value="{{ submission.identified_problem }}"
                          />  
 
-                    <label class="font-semibold">What is your proposed solution? Explain the solution in detail as possible.</label>
+                    <label class="font-semibold">What is your proposed solution? Explain the solution in detail as possible. <span class="text-red-500">*</span></label>
                     <textarea rows="4" class="block border border-gray-400 w-full p-3 rounded mb-4 placeholder:text-black"
-                             name="proposed_solution"></textarea>                              
+                             name="proposed_solution">{{ submission.proposed_solution }}</textarea>                              
 
                     <label class="font-semibold">How does implementing your solution benefit Bridgestone India? Kindly explain (e.g. Revenue growth, Process
-                        optimization, Value chain change/ optimization, Customer experience enhancement, Cost reduction)</label>
+                        optimization, Value chain change/ optimization, Customer experience enhancement, Cost reduction) <span class="text-red-500">*</span></label>
                     <textarea rows="4" class="block border border-gray-400 w-full p-3 rounded mb-4 placeholder:text-black"
-                        name="benefit_of_solution"></textarea>   
+                        name="benefit_of_solution">{{ submission.benefit_of_solution }}</textarea>   
 
-                    <label class="font-semibold block">Are there any similar solutions existing in market (e.g. Similar products/ services, developed by competition/startups)</label>
+                    <label class="font-semibold block">Are there any similar solutions existing in market (e.g. Similar products/ services, developed by competition/startups) <span class="text-red-500">*</span></label>
 
-                    <input class="form-check-input appearance-none rounded-full h-5 w-5 border border-gray-400 bg-white checked:bg-red-700 checked:border-red-700 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="radio" name="role" id="yes" value="yes" onclick="showDiv()"/>   
+                    <input class="form-check-input appearance-none rounded-full h-5 w-5 border border-gray-400 bg-white checked:bg-red-700 checked:border-red-700 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="radio" name="role" id="yes" value="yes" onclick="showDiv()"
+                    {% if submission.similar_solutions %}checked{% endif %}
+                    />   
                     <label class="form-check-label block text-gray-800" for="yes">
                         Yes
                     </label>  
@@ -96,7 +98,7 @@
                     <label class="form-check-label block mb-4 text-gray-800" for="maybe">
                         Maybe
                     </label>         
-                    <textarea rows="4" id="available_solution" class="block border border-gray-400 w-full p-3 rounded my-4 placeholder:text-black" name="similar_solutions"  style="display: none;"></textarea>             
+                    <textarea rows="4" id="available_solution" class="block border border-gray-400 w-full p-3 rounded my-4 placeholder:text-black" name="similar_solutions"  style="display: none;">{{ submission.similar_solutions }}</textarea>
                     <label class="font-semibold">Submit additional information/ attachments to support your idea (e.g. sketches, diagrams, pictograms,
                         screenshots, links), if any</label>
                     <input type="file" accept="image/x-png,image/gif,image/jpeg,.pdf,.pptx,.docx" class="block border border-gray-400 w-full p-3 rounded mb-4"
@@ -122,16 +124,20 @@
                            BUname.innerHTML = BusinessUnitName;
                         }
 
-                        function showDiv(val) {
+                        function showDiv() {
                         
                                 document.getElementById('available_solution').style.display = 'block';
                         
                             }
-                        function hideDiv(val) {
-                        
+                        function hideDiv() {
+
                                 document.getElementById('available_solution').style.display = 'none';
+                                document.getElementById('available_solution').value = "";
                         
                             }
+                        {% if submission.similar_solutions %}
+                            showDiv();
+                        {% endif %}
                      </script>
                 </div>
 

@@ -121,18 +121,22 @@ def new_submission(request):
         if request.method == 'POST':
             data = request.POST
             files = request.FILES
-            name = data['idea_title']
+            title = data['title']
+            identified_problem = data['identified_problem']
+            proposed_solution = data['proposed_solution']
+            benefit_of_solution = data['benefit_of_solution']
+            similar_solutions = data['similar_solutions']
+
             business_unit_txt = data['business_unit']
-            description = data['idea_details']
 
             ideator = request.user
             business_unit = BusinessUnit.objects.get(name=business_unit_txt)
 
             if 'attachment' in files.keys():
                 attachment = files['attachment']
-                submission = Submission(name=name, description=description, business_unit=business_unit, ideator=ideator, attachment=attachment)
+                submission = Submission(title=title, identified_problem=identified_problem, proposed_solution=proposed_solution, benefit_of_solution=benefit_of_solution, similar_solutions=similar_solutions, business_unit=business_unit, ideator=ideator, attachment=attachment)
             else:
-                submission = Submission(name=name, description=description, business_unit=business_unit, ideator=ideator)
+                submission = Submission(title=title, identified_problem=identified_problem, proposed_solution=proposed_solution, benefit_of_solution=benefit_of_solution, similar_solutions=similar_solutions, business_unit=business_unit, ideator=ideator)
             submission.save()
 
 
@@ -166,18 +170,23 @@ def edit_submission(request, id):
         if request.method == 'POST':
             data = request.POST
             files = request.FILES
-            name = data['idea_title']
+            title = data['title']
+            identified_problem = data['identified_problem']
+            proposed_solution = data['proposed_solution']
+            benefit_of_solution = data['benefit_of_solution']
+            similar_solutions = data['similar_solutions']
+            
+            submission = Submission.objects.get(id=id)
+            submission.title = title
+            submission.identified_problem = identified_problem
+            submission.proposed_solution = proposed_solution
+            submission.benefit_of_solution = benefit_of_solution
+            submission.similar_solutions = similar_solutions
+
             business_unit_txt = data['business_unit']
-            description = data['idea_details']
 
             ideator = request.user
             business_unit = BusinessUnit.objects.get(name=business_unit_txt)
-
-            submission = Submission.objects.get(id=id)
-            submission.name = name
-            submission.description = description
-            submission.business_unit = business_unit
-            submission.ideator = ideator
 
             if 'attachment' in files.keys():
                 attachment = files['attachment']
