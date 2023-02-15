@@ -3,6 +3,7 @@ from userauth.models import Account
 from utils.email_sender import send_mail
 import os
 from dotenv import load_dotenv
+from django.utils.timezone import localtime
 
 status_dict = {
     'Accept':'Accepted',
@@ -19,6 +20,7 @@ def update_status(id, new_status_txt):
         return -1
     else:
         submission.status = new_status
+        submission.modified_on = localtime()
         submission.save()
 
         load_dotenv()

@@ -129,7 +129,7 @@ Ideator{% endblock title %} {% block content %}
           <div class="basis-1/2 px-6 py-4">
             <p class="font-bold text-xl uppercase">{{ submission.title }}</p>
             <p class="idea_description">{{ submission.identified_problem }}</p>
-            <p class="date_of_submission mt-4 text-[15px] font-semibold">Submitted On : 15/02/2023 </p>
+            <p class="date_of_submission mt-4 text-[15px] font-semibold">Submitted On:<span class="font-bold"> {{ submission.submitted_on|date:"d F Y" }}</span></p>
             <div class="flex flex-row mt-4">              
               <div class="flex-auto pr-1">
                 <a class="text-red-700 text-[15px] font-semibold cursor-pointer hover:underline" id="viewdetails-btn" onclick="show_modal('{{ submission.id }}_overlay')">
@@ -168,8 +168,8 @@ Ideator{% endblock title %} {% block content %}
       
           <div class="fixed bg-black bg-opacity-50 modal fade top-0 left-0 hidden w-full h-full hidden outline-none overflow-x-hidden overflow-y-auto justify-center items-center" id="{{ submission.id }}_overlay" style="z-index:10000;">
               <div class="bg-gray-200 w-3/4 h-3.5/4 py-2 px-3 rounded shadow-xl text-gray-800">
-                  <div class="flex justify-between items-center mb-8">
-                      <h4 class="text-lg font-bold">{{submission.title }}</h4>
+                  <div class="flex justify-between items-center mb-1">
+                      <h4 class="text-lg font-bold">{{ submission.title }}</h4>
                       <svg class="h-6 w-6 cursor-pointer p-1 hover:bg-gray-300 rounded-full" id="close-modal" onclick="close_modal('{{ submission.id }}_overlay')" fill="currentColor" viewBox="0 0 20 20">
                           <path fill-rule="evenodd"
                               d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
@@ -177,7 +177,9 @@ Ideator{% endblock title %} {% block content %}
                       </svg>
 
                   </div>
-                  <div class="mt-2">
+                  <div class="mt-0">
+                    <p class="date_of_submission ml-5 text-[15px] font-bold text-sm">Submitted On:<span class="font-semibold"> {{ submission.submitted_on|date:"d F Y" }}</span></p> 
+                    <p class="date_of_submission mb-10 ml-5 text-[15px] font-bold text-sm">Last Modified On:<span class="font-semibold"> {{ submission.modified_on|date:"d F Y" }}</span></p>
                       <p class="mb-5"><span class="font-bold">Identified problem: </span>{{ submission.identified_problem }}
                       </p>
                       <p class="mb-5"><span class="font-bold">Proposed solution: </span>{{ submission.proposed_solution }}
@@ -237,7 +239,7 @@ Ideator{% endblock title %} {% block content %}
 
                 </div>
                 <div class="font-semibold">
-                  Are you sure, you want to delete the submission: <span class="text-red-700 font-bold">{{submission.title }}</span>?
+                  Are you sure, you want to delete the submission: <span class="text-red-700 font-bold">{{ submission.title }}</span>?
                 </div>
                 <div class="my-5 flex justify-end">
                   <form method="POST" action="{% url 'delete_submission' %}">
@@ -255,31 +257,22 @@ Ideator{% endblock title %} {% block content %}
           <div class="basis-1/4 ml-6 text-center flex flex-col justify-evenly bg-green-500 rounded-lg">
             <div class="">
               <p class="text-xl px-2 text-white font-semibold uppercase">{{ submission.status }}</p>
-              <p class="date_of_action mt-4 text-[15px] text-white">Last Modified On : 15/02/2023 </p>
-            </div>
-          </div>
           {% elif submission.status == "Rejected" %}         
           <div class="basis-1/4 ml-6 text-center flex flex-col justify-evenly bg-red-500 rounded-lg">
             <div class="">
-              <p class="text-xl px-2 text-white font-semibold uppercase">{{ submission.status }}</p>
-              <p class="date_of_action mt-4 text-[15px] text-white">Last Modified On : 15/02/2023 </p>
-            </div>
-          </div>         
+              <p class="text-xl px-2 text-white font-semibold uppercase">{{ submission.status }}</p>        
           {% elif submission.status == "On Hold" %}
           <div class="basis-1/4 ml-6 text-center flex flex-col justify-evenly bg-orange-500 rounded-lg">
             <div class="">
               <p class="text-xl px-2 text-white font-semibold uppercase">{{ submission.status }}</p>
-              <p class="date_of_action mt-4 text-[15px] text-white">Last Modified On : 15/02/2023 </p>
-            </div>
-          </div>
           {% elif submission.status == "Review Pending" %}        
           <div class="basis-1/4 ml-6 text-center flex flex-col justify-evenly bg-black rounded-lg ">
             <div class="">
               <p class="text-xl px-2 text-white font-semibold uppercase">{{ submission.status }}</p>
-              <p class="date_of_action mt-4 text-[15px] text-white">Last Modified On : 15/02/2023 </p>
+              {% endif %}
+              <p class="date_of_action mt-4 text-[15px] text-white">Last Modified On: {{ submission.modified_on|date:"d F Y" }} </p>
             </div>
           </div>
-          {% endif %}
           {% comment %} <div class="basis-1/4 pl-6 text-right flex flex-col justify-evenly">
             <div class="flex justify-around">
               {% if submission.status == "Accepted" %}

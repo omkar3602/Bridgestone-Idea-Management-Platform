@@ -8,6 +8,7 @@ from utils.email_sender import send_mail
 from utils.status_updater import update_status
 import os
 from dotenv import load_dotenv
+from django.utils.timezone import localtime
 
 # Create your views here.
 def index(request):
@@ -183,6 +184,7 @@ def edit_submission(request, id):
             submission.benefit_of_solution = benefit_of_solution
             submission.similar_solutions = similar_solutions
 
+            submission.modified_on = localtime()
             business_unit_txt = data['business_unit']
 
             ideator = request.user

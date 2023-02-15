@@ -1,5 +1,6 @@
 from django.db import models
 from userauth.models import Account
+from django.utils.timezone import localtime
 
 # # Create your models here.
 class BusinessUnit(models.Model):
@@ -22,6 +23,9 @@ class Submission(models.Model):
     ideator = models.ForeignKey(Account, on_delete=models.CASCADE)
     status = models.CharField(max_length=20, default="Review Pending") # Review Pending, On Hold, Accepted, Rejected
     remark = models.CharField(max_length=1000, null=True, blank=True)
+
+    submitted_on = models.DateTimeField(default=localtime())
+    modified_on = models.DateTimeField(default=localtime())
 
     def __str__(self):
         return self.title
