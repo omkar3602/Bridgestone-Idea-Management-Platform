@@ -9,8 +9,10 @@
             <div class="container max-w-3xl mx-auto flex-1 flex flex-col items-center justify-center px-2">
                 <div class= "py-14"></div>
                 <div class="bg-white px-8 py-3 rounded shadow-md text-black flex flex-col">
-                    <div class="flex justify-center">
-                        <img class="w-1/2" src="{% static 'images/logo_hori.png' %}">
+                    <div>
+                        <a class="flex justify-center" href="{% url 'home' %}">
+                            <img class="w-1/2" src="{% static 'images/logo_hori.png' %}">
+                        </a>
                     </div>                    
                     <h1 class="mt-6 mb-8 text-2xl font-bold text-center font-nunito">Idea Submission</h1>
                     <form method="POST" enctype="multipart/form-data" name="SubmissionForm">
@@ -21,14 +23,14 @@
                         <option value="0">Select Business Unit</option>
                         {% for bussiness_unit in bussiness_units %}
                             {% if bussiness_unit.id == bu_id %}
-                                <option value="{{ bussiness_unit.name }}" label="{{ bussiness_unit.name }}" selected>{{ bussiness_unit.idea_champion.fullname }} ({{ bussiness_unit.idea_champion.email }})</option>
+                                <option value="{{ bussiness_unit.name }}" label="{{ bussiness_unit.name }}" selected>{{ bussiness_unit.innovation_champion.fullname }} ({{ bussiness_unit.innovation_champion.email }})</option>
                             {% else %}
-                            <option value="{{ bussiness_unit.name }}" label="{{ bussiness_unit.name }}">{{ bussiness_unit.idea_champion.fullname }} ({{ bussiness_unit.idea_champion.email }})</option>
+                            <option value="{{ bussiness_unit.name }}" label="{{ bussiness_unit.name }}">{{ bussiness_unit.innovation_champion.fullname }} ({{ bussiness_unit.innovation_champion.email }})</option>
                                
                             {% endif %}
                         {% endfor %}
                         </select>
-                    <p id="displayIC" class="hidden pb-5 font-semibold">The Idea Champion for <span id="BUname" class="text-red-700"></span> bussiness unit is <span id="ICname" class="font-bold"></span></p>
+                    <p id="displayIC" class="hidden pb-5 font-semibold">The Innovation Champion for <span id="BUname" class="text-red-700"></span> bussiness unit is <span id="ICname" class="font-bold"></span></p>
                     
                     <label class="font-semibold">Idea Title <span class="text-red-500">*</span></label>
                     <input type="text" class="block border border-gray-400 w-full p-3 rounded mb-4 placeholder:text-black" name="title" required
@@ -77,24 +79,25 @@
                            var IC = document.getElementById('displayIC');      
                            IC.style.display = 'block';                               
                            var BusinessUnitName = BU[BU.selectedIndex].value;      
-                           var IdeaChampionName = BU[BU.selectedIndex].text;
+                           var InnovationChampionName = BU[BU.selectedIndex].text;
                            if (BusinessUnitName == '0') {
                               IC.style.display = 'none';
                            }
                            var ICname = document.getElementById('ICname');
                            var BUname = document.getElementById('BUname');
-                           ICname.innerHTML = IdeaChampionName;
+                           ICname.innerHTML = InnovationChampionName;
                            BUname.innerHTML = BusinessUnitName;
                         }
 
-                        function showDiv(val) {
+                        function showDiv() {
                         
                                 document.getElementById('available_solution').style.display = 'block';
                         
                             }
-                        function hideDiv(val) {
+                        function hideDiv() {
                         
                                 document.getElementById('available_solution').style.display = 'none';
+                                document.getElementById('available_solution').value = "";
                         
                             }
                      </script>

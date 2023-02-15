@@ -8,14 +8,17 @@ def login_user(request):
     if request.user.is_authenticated:
         return redirect('home')
     if request.method == 'POST':
-        # print(request.POST)
         data = request.POST
         email = data['email']
         password = data['password']
+        next_url = data['next_url']
         user = authenticate(request, email=email, password=password)
         if user is not None:
             login(request, user)
-            return redirect('home')
+            if next_url == '':
+                return redirect('home')
+            else:
+                return redirect(next_url)
         else:
             messages.error(request, "Couldn't Login. Please check your credentials.")
     return render(request, 'userauth/login.html')

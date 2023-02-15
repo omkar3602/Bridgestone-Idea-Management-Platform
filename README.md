@@ -55,7 +55,7 @@ Email: `landgechaitanya2002@gmail.com`
 
 Password: `1234`
 
-### Idea Champion credentials for testing
+### Innovation Champion credentials for testing
 
 Email: `rautneha372@gmail.com`
 

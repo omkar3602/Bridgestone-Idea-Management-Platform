@@ -1,7 +1,7 @@
 {% extends 'mainapp/base.html' %}
 {% load static %}
 
-{% block title %}Add BU{% endblock title %}
+{% block title %}Add Business Unit{% endblock title %}
 
 {% block content %}
     <div class="w-full bg-[url('{% static 'images/wallpaper.jpeg' %}')] bg-cover pb-[360px] h-fit bg-center font-nunito">
@@ -13,19 +13,19 @@
                     <h1 class="mt-6 mb-8 text-2xl font-bold text-center font-nunito">Add Business Unit</h1>
                     <form method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
-                    <input class="block border border-grey-light w-full p-3 rounded mb-4" type="text" name="name" placeholder="BU Name"></input>
+                    <input class="block border border-grey-light w-full p-3 rounded mb-4" type="text" name="name" placeholder="Business Unit Name"></input>
                     <select type="text" class="block border border-grey-light w-full p-3 rounded mb-4"
-                        name="idea_champion" placeholder="Business Unit" >
-                        <option value="0">Assign Idea Champion</option>
-                        {% for idea_champion in idea_champions %}
-                            <option value="{{ idea_champion.email }}">{{ idea_champion.fullname }} ({{ idea_champion.email }})</option>
+                        name="innovation_champion" placeholder="Business Unit" >
+                        <option value="0">Assign Innovation Champion</option>
+                        {% for innovation_champion in innovation_champions %}
+                            <option value="{{ innovation_champion.email }}">{{ innovation_champion.fullname }} ({{ innovation_champion.email }})</option>
                         {% endfor %}
                     </select>          
                     <label>Add Image for the Business Unit</label>
                     <input type="file" accept=".png, .jpg, .jpeg, .jfif" class="block border border-grey-light w-full p-3 rounded mb-4"
                     name="business_unit_img" placeholder="Add Image"></input>    
                     <button type="submit"
-                        class="w-full text-center py-3 rounded bg-primary_red text-white bg-black focus:outline-none my-1">Add BU
+                        class="w-full text-center py-3 rounded bg-primary_red text-white bg-black focus:outline-none my-1">Add Business Unit
                 </button>
 
                     </form>
