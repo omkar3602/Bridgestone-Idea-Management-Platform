@@ -189,6 +189,8 @@ def edit_submission(request, id):
             business_unit = BusinessUnit.objects.get(name=business_unit_txt)
 
             if 'attachment' in files.keys():
+                if submission.attachment:
+                    submission.attachment.delete(save=False)
                 attachment = files['attachment']
                 submission.attachment = attachment
             
@@ -213,6 +215,33 @@ def edit_submission(request, id):
             'submission':submission,
         }
         return render(request, 'mainapp/ideator/edit_submission.html', context)
+
+
+@login_required_message(message="Please log in, in order to view the requested page.")
+@login_required
+def delete_submission(request):
+    if request.user.is_ideator == False:
+        messages.info(request, "You don't have access to this page.")
+        return redirect('home')
+    else:
+        if request.method == 'POST':
+            data = request.POST
+            id = data['id']
+            submission = Submission.objects.get(id=id)
+
+            if request.user != submission.ideator:
+                messages.info(request, "You don't have access to this page.")
+                return redirect('home')
+
+            if submission.attachment:
+                submission.attachment.delete(save=False)
+
+            submission.delete()
+
+            messages.info(request, 'Idea has been deleted.')
+            return redirect('home')
+        
+        return redirect('home')
 
 @login_required_message(message="Please log in, in order to view the requested page.")
 @login_required

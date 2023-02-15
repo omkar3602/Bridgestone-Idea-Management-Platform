@@ -157,6 +157,11 @@ Ideator{% endblock title %} {% block content %}
                     </svg>
                   Edit Submission</a>
               </div>
+              <div class="flex-auto pr-1">
+                <a class="text-red-700 text-[15px] font-semibold hover:underline cursor-pointer" onclick="show_modal('{{ submission.id }}_del_confirm')">          
+                  <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 24 24" class="inline"> <g> <path fill="none" d="M0 0h24v24H0z"/> <path d="M4 8h16v13a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V8zm2 2v10h12V10H6zm3 2h2v6H9v-6zm4 0h2v6h-2v-6zM7 5V3a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v2h5v2H2V5h5zm2-1v1h6V4H9z"/> </g> </svg>
+                  Delete Submission</a>
+              </div>
               {% endif %}
             </div>  
             
@@ -172,7 +177,7 @@ Ideator{% endblock title %} {% block content %}
                       </svg>
 
                   </div>
-                  <div class="mt-2 text-sm">
+                  <div class="mt-2">
                       <p class="mb-5"><span class="font-bold">Identified problem: </span>{{ submission.identified_problem }}
                       </p>
                       <p class="mb-5"><span class="font-bold">Proposed solution: </span>{{ submission.proposed_solution }}
@@ -219,6 +224,31 @@ Ideator{% endblock title %} {% block content %}
                   </div>
               </div>
           </div>
+
+          <div class="fixed bg-black bg-opacity-50 modal fade top-0 left-0 hidden w-full h-full hidden outline-none overflow-x-hidden overflow-y-auto justify-center items-center" id="{{ submission.id }}_del_confirm" style="z-index:10000;">
+            <div class="bg-gray-200 w-1/4 h-1/4.5 py-2 px-3 rounded shadow-xl text-gray-800">
+                <div class="flex justify-between items-center mb-8">
+                    <h4 class="text-lg font-bold">Delete submission?</h4>
+                    <svg class="h-6 w-6 cursor-pointer p-1 hover:bg-gray-300 rounded-full" id="close-modal" onclick="close_modal('{{ submission.id }}_del_confirm')" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd"
+                            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                            clip-rule="evenodd"></path>
+                    </svg>
+
+                </div>
+                <div class="font-semibold">
+                  Are you sure, you want to delete the submission: <span class="text-red-700 font-bold">{{submission.title }}</span>?
+                </div>
+                <div class="my-5 flex justify-end">
+                  <form method="POST" action="{% url 'delete_submission' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="id" value="{{ submission.id }}">
+                    <button type="submit" class="py-2 px-2 mx-2 font-medium text-white rounded bg-red-700 transition duration-300 cursor-pointer">Yes</button>
+                  </form>
+                  <button class="py-2 px-2 font-medium text-white rounded bg-gray-500 transition duration-300" onclick="close_modal('{{ submission.id }}_del_confirm')">Cancel</button>
+                </div>
+            </div>
+        </div>
            
           </div>
           {% if submission.status == "Accepted" %}
