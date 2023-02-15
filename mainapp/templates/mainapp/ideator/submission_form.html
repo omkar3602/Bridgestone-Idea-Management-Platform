@@ -6,18 +6,17 @@
 {% block content %}
     <div class="w-full bg-[url('{% static 'images/wallpaper.jpeg' %}')] bg-cover pb-[240px] h-fit bg-center font-nunito">
         <div class="w-full flex flex-col my-auto justify-center items-center backdrop-blur-sm">
-            <div class="container max-w-2xl mx-auto flex-1 flex flex-col items-center justify-center px-2">
+            <div class="container max-w-3xl mx-auto flex-1 flex flex-col items-center justify-center px-2">
                 <div class= "py-14"></div>
-                <div class="bg-white px-8 py-3 rounded shadow-md text-black w-full">
-                    <img src="{% static 'images/logo_hori.png' %}">
+                <div class="bg-white px-8 py-3 rounded shadow-md text-black flex flex-col">
+                    <div class="flex justify-center">
+                        <img class="w-1/2" src="{% static 'images/logo_hori.png' %}">
+                    </div>                    
                     <h1 class="mt-6 mb-8 text-2xl font-bold text-center font-nunito">Idea Submission</h1>
                     <form method="POST" enctype="multipart/form-data" name="SubmissionForm">
                     {% csrf_token %}
-                    <label class="font-semibold">What problem have you identified. Please describe in detail.</label>
-                    <input type="text" class="block border border-gray-400 w-full p-3 rounded mb-4 placeholder:text-black" name="idea_title"
-                         />
-
-                    <select type="text" id="BU" class="block border border-grey-light w-full p-3 rounded mb-4"
+                    <label class="font-semibold">Bussiness Unit</label>
+                    <select type="text" id="BU" class="block border border-gray-400 w-full p-3 rounded mb-4"
                         name="business_unit" placeholder="Business Unit" onchange="showIC()">
                         <option value="0">Select Business Unit</option>
                         {% for bussiness_unit in bussiness_units %}
@@ -29,13 +28,43 @@
                             {% endif %}
                         {% endfor %}
                         </select>
-
-
                     <p id="displayIC" class="hidden pb-5 font-semibold">The Idea Champion for <span id="BUname" class="text-red-700"></span> bussiness unit is <span id="ICname" class="font-bold"></span></p>
+                    
+                    <label class="font-semibold">Idea Title</label>
+                    <input type="text" class="block border border-gray-400 w-full p-3 rounded mb-4 placeholder:text-black" name="title"
+                         />  
+
+                    <label class="font-semibold">What problem have you identified. Please describe in detail.</label>
+                    <input type="text" class="block border border-gray-400 w-full p-3 rounded mb-4 placeholder:text-black" name="identified_problem"
+                         />  
+
                     <label class="font-semibold">What is your proposed solution? Explain the solution in detail as possible.</label>
                     <textarea rows="4" class="block border border-gray-400 w-full p-3 rounded mb-4 placeholder:text-black"
-                        name="idea_details"></textarea>
-                    <input type="file" accept="image/x-png,image/gif,image/jpeg,.pdf,.pptx,.docx" class="block border border-grey-light w-full p-3 rounded mb-4"
+                             name="proposed_solution"></textarea>                              
+
+                    <label class="font-semibold">How does implementing your solution benefit Bridgestone India? Kindly explain (e.g. Revenue growth, Process
+                        optimization, Value chain change/ optimization, Customer experience enhancement, Cost reduction)</label>
+                    <textarea rows="4" class="block border border-gray-400 w-full p-3 rounded mb-4 placeholder:text-black"
+                        name="benefit_of_solution"></textarea>   
+
+                    <label class="font-semibold block">Are there any similar solutions existing in market (e.g. Similar products/ services, developed by competition/startups)</label>
+
+                    <input class="form-check-input appearance-none rounded-full h-5 w-5 border border-gray-400 bg-white checked:bg-red-700 checked:border-red-700 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="radio" name="role" id="yes" value="yes" onclick="showDiv()"/>   
+                    <label class="form-check-label block text-gray-800" for="yes">
+                        Yes
+                    </label>  
+                    <input class="form-check-input appearance-none rounded-full h-5 w-5 border border-gray-400 bg-white checked:bg-red-700 checked:border-red-700  focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="radio" name="role" id="no" value="no" onclick="hideDiv()"/>   
+                    <label class="form-check-label block text-gray-800" for="no">
+                        No
+                    </label>  
+                    <input class="form-check-input appearance-none rounded-full h-5 w-5 border border-gray-400 bg-white checked:bg-red-700 checked:border-red-700 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="radio" name="role" id="maybe" value="no" onclick="hideDiv()"/>   
+                    <label class="form-check-label block mb-4 text-gray-800" for="maybe">
+                        Maybe
+                    </label>         
+                    <textarea rows="4" id="available_solution" class="block border border-gray-400 w-full p-3 rounded my-4 placeholder:text-black" name="similar_solutions"  style="display: none;"></textarea>             
+                    <label class="font-semibold">Submit additional information/ attachments to support your idea (e.g. sketches, diagrams, pictograms,
+                        screenshots, links), if any</label>
+                    <input type="file" accept="image/x-png,image/gif,image/jpeg,.pdf,.pptx,.docx" class="block border border-gray-400 w-full p-3 rounded mb-4"
                         name="attachment" placeholder="Attachment" />
                     <button type="submit"
                         class="w-full text-center py-3 rounded bg-primary_red text-white bg-black focus:outline-none my-1">Submit
@@ -57,6 +86,17 @@
                            ICname.innerHTML = IdeaChampionName;
                            BUname.innerHTML = BusinessUnitName;
                         }
+
+                        function showDiv(val) {
+                        
+                                document.getElementById('available_solution').style.display = 'block';
+                        
+                            }
+                        function hideDiv(val) {
+                        
+                                document.getElementById('available_solution').style.display = 'none';
+                        
+                            }
                      </script>
                 </div>
 

@@ -12,7 +12,8 @@
 <h3 class="py-8  text-center text-red-700 text-5xl font-bold pt-16 drop-shadow-lg  hover:underline-offset-8">
     Pending Reviews</h3>
   {% for submission in pending_submissions %}
-    <div class="bg-gray-200 ml-20 mr-20 px-4 py-8 rounded-lg mb-6 gap-4">
+    name, submission title(problem), submission status, date of submission, remark, last modification, 
+    {% comment %} <div class="bg-gray-200 ml-20 mr-20 px-4 py-8 rounded-lg mb-6 gap-4">
       <div class="flex justify-between">
         <div class="basis-1/4 cloumns-1 border-r-[1px] border-black">
           <div class="container flex items-center">
@@ -51,6 +52,70 @@
 
       </div>
 
+    </div> {% endcomment %}
+    <div class="flex flex-col justify-center">
+      <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+        <div class="py-2 inline-block sm:px-6 lg:px-8">
+          <div class="overflow-hidden">
+            <table class="min-w-full table-auto">
+              <thead class="bg-white border-b">
+                <tr>
+                  <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                    #
+                  </th>
+                  <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                    First
+                  </th>
+                  <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                    Last
+                  </th>
+                  <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                    Handle
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100">
+                  <td class="px-6 py-4 text-sm font-medium text-gray-900">1</td>
+                  <td class="text-sm text-gray-900 font-light px-6 py-4">
+                    Mark
+                  </td>
+                  <td class="text-sm text-gray-900 font-light px-6 py-4">
+                    Otto
+                  </td>
+                  <td class="text-sm text-gray-900 font-light px-6 py-4">
+                    @mdo
+                  </td>
+                </tr>
+                <tr class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100">
+                  <td class="px-6 py-4 text-sm font-medium text-gray-900">2</td>
+                  <td class="text-sm text-gray-900 font-light px-6 py-4">
+                    Jacob
+                  </td>
+                  <td class="text-sm text-gray-900 font-light px-6 py-4">
+                    Thornton
+                  </td>
+                  <td class="text-sm text-gray-900 font-light px-6 py-4">
+                    @fat
+                  </td>
+                </tr>
+                <tr class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100">
+                  <td class="px-6 py-4 text-sm font-medium text-gray-900">3</td>
+                  <td class="text-sm text-gray-900 font-light px-6 py-4">
+                    Larry
+                  </td>
+                  <td class="text-sm text-gray-900 font-light px-6 py-4">
+                    Wild
+                  </td>
+                  <td class="text-sm text-gray-900 font-light px-6 py-4 ">
+                    @twitter
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
     </div>
   {% endfor %}
   </div>
