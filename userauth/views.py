@@ -31,7 +31,7 @@ def signup(request):
 
         is_ideator = True
         is_IC = False
-        is_idea_admin = False
+        is_IG_admin = False
 
         password = data['password']
         password2 = data['password2']
@@ -40,7 +40,7 @@ def signup(request):
                 messages.info(request, 'Email already in use. Please use another email.')
                 return redirect('signup')
             else:
-                user=Account.objects.create_user(fullname=fullname, email=email, is_ideator=is_ideator, is_IC=is_IC, is_idea_admin=is_idea_admin, password=password)
+                user=Account.objects.create_user(fullname=fullname, email=email, is_ideator=is_ideator, is_IC=is_IC, is_IG_admin=is_IG_admin, password=password)
                 user.save()
                 login(request, user)
                 messages.info(request, 'Account created successfully.')
@@ -61,7 +61,7 @@ def signup_IC(request):
 
         is_ideator = False
         is_IC = True
-        is_idea_admin = False
+        is_IG_admin = False
 
         password = data['password']
         password2 = data['password2']
@@ -70,7 +70,7 @@ def signup_IC(request):
                 messages.info(request, 'Email already in use. Please use another email.')
                 return redirect('signup')
             else:
-                user=Account.objects.create_user(fullname=fullname, email=email, is_ideator=is_ideator, is_IC=is_IC, is_idea_admin=is_idea_admin, password=password)
+                user=Account.objects.create_user(fullname=fullname, email=email, is_ideator=is_ideator, is_IC=is_IC, is_IG_admin=is_IG_admin, password=password)
                 user.save()
                 login(request, user)
                 messages.info(request, 'Account created successfully.')

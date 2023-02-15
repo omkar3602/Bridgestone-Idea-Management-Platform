@@ -1,0 +1,156 @@
+{% extends 'mainapp/base.html' %}
+{% load static %}
+
+{% block title %}Home - Admin{% endblock title %}
+
+{% block content %}
+
+
+<!-- Required chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<div class="py-28 px-10 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-5">
+  <!--Card 1-->
+  <div class="rounded overflow-hidden shadow-lg">
+
+      <div class="px-6 py-4">
+        <div class="font-bold text-xl mb-2">Idea submissions per Ideator</div>
+        <p class="text-gray-700 text-base">
+        </p>
+        <br>
+        <div class="shadow-lg rounded-lg overflow-hidden">
+            <div class="py-3 px-5 bg-gray-50">Overview of Idea submissions made by each Ideator</div>
+            <canvas class="p-5 h-[100]" id="chartBar"></canvas>
+          </div>
+          
+          <!-- Required chart.js -->
+          <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+          
+          <!-- Chart bar -->
+          <script>
+            const labelsBarChart = {{ ideators|safe }};
+            const dataBarChart = {
+              labels: labelsBarChart,
+              datasets: [
+                {
+                  label: "Submissions",
+                  backgroundColor: "hsl(252, 82.9%, 67.8%)",
+                  borderColor: "hsl(252, 82.9%, 67.8%)",
+                  data: {{ submissions|safe }},
+                },
+              ],
+            };
+          
+            const configBarChart = {
+              type: "bar",
+              data: dataBarChart,
+              options: {
+
+              },
+            };
+          
+            var chartBar = new Chart(
+              document.getElementById("chartBar"),
+              configBarChart
+            );
+          </script>
+      </div>
+      
+    </div>
+
+    <!--Card 2-->
+    <div class="rounded overflow-hidden shadow-lg">
+
+      <div class="px-6 py-4">
+        <div class="font-bold text-xl mb-2">Idea submissions per Business Unit</div>
+        <p class="text-gray-700 text-base">
+        </p>
+        <br>
+        <div class="shadow-lg rounded-lg overflow-hidden">
+            <div class="py-3 px-5 bg-gray-50">Overview of idea submissions per BU</div>
+            <canvas class="p-10 h-400" id="chartDoughnut1"></canvas>
+        </div>
+      </div>
+    </div>
+    <!--Card 3-->
+    <div class="rounded overflow-hidden shadow-lg">
+
+      <div class="px-6 py-4">
+        <div class="font-bold text-xl mb-2">Idea Submissions Status</div>
+        <p class="text-gray-700 text-base">
+        </p>
+        <br>
+        <div class="shadow-lg rounded-lg overflow-hidden">
+            <div class="py-3 px-5 bg-gray-50">Overview of submission statuses</div>
+            <canvas class="p-10 h-400" id="chartDoughnut2"></canvas>
+        </div>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+      </div>
+    
+    </div>
+  </div>
+  </div>
+  <script>
+    function dynamicColors() {
+      var r = Math.floor(Math.random() * 255);
+      var g = Math.floor(Math.random() * 255);
+      var b = Math.floor(Math.random() * 255);
+      return "rgba(" + r + "," + g + "," + b + ", 0.5)";
+    }
+
+    function poolColors(a) {
+      var pool = [];
+      for(i = 0; i < a; i++) {
+          pool.push(dynamicColors());
+      }
+      return pool;
+    }
+    const dataDoughnut1 = {
+      labels: {{ business_units|safe }},
+      datasets: [
+        {
+          label: "Ideas",
+          data: {{ submissions|safe }},
+          backgroundColor: poolColors({{ submissions|safe }}.length),
+          hoverOffset: 4,
+        },
+      ],
+    };
+  
+    const configDoughnut1 = {
+      type: "doughnut",
+      data: dataDoughnut1,
+      options: {},
+    };
+  
+    var chartBar = new Chart(
+      document.getElementById("chartDoughnut1"),
+      configDoughnut1
+    );
+  
+    const dataDoughnut2 = {
+      labels: {{ submission_status|safe }},
+      datasets: [
+        {
+          label: "Submissions",
+          data: {{ no_of_submissions|safe }},
+          backgroundColor: poolColors({{ no_of_submissions|safe }}.length),
+          hoverOffset: 4,
+        },
+      ],
+    };
+  
+    const configDoughnut2 = {
+      type: "doughnut",
+      data: dataDoughnut2,
+      options: {},
+    };
+  
+    var chartBar = new Chart(
+      document.getElementById("chartDoughnut2"),
+      configDoughnut2
+    );
+  </script>
+{% endblock content %}

@@ -4,7 +4,7 @@ from django.contrib.auth.models import AbstractBaseUser,BaseUserManager
 # Create your models here.
 class MyAccountManager(BaseUserManager):
 
-    def create_user(self, fullname, email, is_ideator, is_IC, is_idea_admin, password):
+    def create_user(self, fullname, email, is_ideator, is_IC, is_IG_admin, password):
         if not email:
             raise ValueError("User must have an email.")
         user = self.model(
@@ -12,16 +12,19 @@ class MyAccountManager(BaseUserManager):
             email = email,
             is_ideator = is_ideator,
             is_IC = is_IC,
-            is_idea_admin = is_idea_admin,
+            is_IG_admin = is_IG_admin,
         )
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, fullname, email, password):
+    def create_superuser(self, fullname, email, is_ideator, is_IC, is_IG_admin, password):
         user = self.create_user(
             fullname = fullname,
             email = email,
+            is_ideator = is_ideator,
+            is_IC = is_IC,
+            is_IG_admin = is_IG_admin,
             password = password,
         )
         user.is_admin = True
@@ -36,7 +39,7 @@ class Account(AbstractBaseUser):
     fullname        = models.CharField(max_length=20)
     is_ideator      = models.BooleanField(default=False)
     is_IC           = models.BooleanField(default=False)
-    is_idea_admin   = models.BooleanField(default=False)
+    is_IG_admin   = models.BooleanField(default=False)
     is_admin        = models.BooleanField(default=False)
     is_active       = models.BooleanField(default=True)
     is_staff        = models.BooleanField(default=False)
@@ -46,7 +49,7 @@ class Account(AbstractBaseUser):
     objects = MyAccountManager()
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['fullname']
+    REQUIRED_FIELDS = ['fullname', 'is_ideator', 'is_IC', 'is_IG_admin']
 
     def __str__(self):
         return self.fullname
