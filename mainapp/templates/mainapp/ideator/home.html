@@ -185,9 +185,9 @@ Ideator{% endblock title %} {% block content %}
                       {% if submission.similar_solutions %}
                         <p class="mb-5"><span class="font-bold">Similar  solutions: </span>{{ submission.similar_solutions }}
                       {% endif %}
-                        <p class="mb-5"><span class="font-bold">Business unit: </span>{{ submission.business_unit }}
+                        <p class="mb-5"><span class="font-bold">Business Unit: </span>{{ submission.business_unit }}
                         </p>
-                        <p class="mb-5"><span class="font-bold">Idea Champion: </span>{{ submission.business_unit.idea_champion }} ({{ submission.business_unit.idea_champion.email }})
+                        <p class="mb-5"><span class="font-bold">Innovation Champion: </span>{{ submission.business_unit.innovation_champion }} ({{ submission.business_unit.innovation_champion.email }})
                         </p>
                         {% if submission.remark %}
                         <p class="mb-5"><span class="font-bold text-red-700">Remark: </span>{{ submission.remark }}
