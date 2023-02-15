@@ -56,6 +56,8 @@
                             name="password" placeholder="Password" />
                         <!-- <input type="password" class="block border border-grey-light w-full p-3 rounded mb-4"
                         name="confirm_password" placeholder="Confirm Password" /> -->
+                        
+                        <input type="hidden" name="next_url" value="{{ request.GET.next }}"/>
 
                         <button type="submit"
                             class="w-full text-center py-3 rounded bg-primary_red text-white hover:bg-black focus:outline-none my-1">
