@@ -162,28 +162,28 @@ Ideator{% endblock title %} {% block content %}
                 {% endif %}
               </div>
         </div>  
-            
-      
-          <div class="fixed bg-black bg-opacity-50 modal fade top-0 left-0 hidden w-full h-full hidden outline-none overflow-x-hidden overflow-y-auto justify-center items-center" id="overlay" style="z-index:10000;">
-              <div class="bg-gray-200 max-w-sm py-2 px-3 rounded shadow-xl text-gray-800">
-                  <div class="flex justify-between items-center">
-                      <h4 class="text-lg font-bold">Remark</h4>
-                      <svg class="h-6 w-6 cursor-pointer p-1 hover:bg-gray-300 rounded-full" id="close-modal" fill="currentColor" viewBox="0 0 20 20">
+          
+    
+          <div class="z-40 fixed md:inset-0 h-modal md:h-full items-center modal fade top-0 left-0 hidden w-full h-full hidden outline-none overflow-x-hidden overflow-y-auto justify-center" id="overlay" tabindex="-1" aria-labelledby="exampleModalScrollableLabel" aria-hidden="true">
+              <div class="bg-white max-w-sm py-6 px-3 border-b-4 rounded shadow-xl modal-dialog modal-dialog-scrollable text-gray-800">
+                  <div class="flex p-4 justify-between items-center border-b rounded-t">
+                      <h4 class="text-lg font-bold ml-6 mt-3">Remark</h4>
+                      <svg class="h-6 w-6 cursor-pointer p-1 hover:bg-gray-300 " id="close-modal" fill="currentColor" viewBox="0 0 20 20">
                           <path fill-rule="evenodd"
                               d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
                               clip-rule="evenodd"></path>
                       </svg>
                   </div>
                   <div class="mt-2 text-sm">
-                      <p>{{ submission.remark }}</p>
+                      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit, cumque soluta libero, aliquam, culpa accusantium porro repellat repellendus quo voluptatum minima tenetur. Quasi expedita omnis dolorum exercitationem ab dolor pariatur!
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem numquam itaque aliquam exercitationem blanditiis soluta at possimus repellat quasi, minus quod dignissimos molestiae eligendi modi amet, unde adipisci esse tenetur.
+                        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sapiente beatae magni nobis nostrum at nesciunt, unde placeat quasi voluptatem sed accusantium pariatur sunt, id iusto ullam fuga dolores, est dolorum?
+                      </p>
                   </div>
-                  <div class="mt-3 flex justify-end space-x-3">
-                      <button class="px-3 py-1 rounded hover:bg-red-300 hover:bg-opacity-50 hover:text-red-900">Okay</button>
-                      
-                  </div>
+                  
               </div>
           </div>
-           
+            
           </div>
           {% if submission.status == "Accepted" %}
           <div class="basis-1/4 ml-6 text-center flex flex-col justify-evenly bg-green-500">
@@ -255,7 +255,7 @@ Ideator{% endblock title %} {% block content %}
   
   window.addEventListener('DOMContentLoaded', () =>{
             const overlay = document.querySelector('#overlay')
-            const delBtn = document.querySelector('#remark-btn')
+            const remarkBtn = document.querySelector('#remark-btn')
             const closeBtn = document.querySelector('#close-modal')
 
             const toggleModal = () => {
@@ -263,10 +263,11 @@ Ideator{% endblock title %} {% block content %}
                 overlay.classList.toggle('flex')
             }
 
-            delBtn.addEventListener('click', toggleModal)
+            remarkBtn.addEventListener('click', toggleModal)
             closeBtn.addEventListener('click',toggleModal)
             
         })
+
     {% if go_to_submissions %}
       window.location.hash = '#YOUR_SUBMISSIONS';
     {% endif %}

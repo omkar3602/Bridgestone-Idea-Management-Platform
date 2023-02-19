@@ -1,0 +1,281 @@
+{% extends 'mainapp/base.html' %}
+{% load static %}
+
+{% block title %}Home - Admin{% endblock title %}
+
+{% block content %}
+
+
+<!-- Required chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<div class="py-28 px-10 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-5">
+  <!--Card 1-->
+  <div class="rounded overflow-hidden shadow-lg">
+
+      <div class="px-6 py-4">
+        <div class="font-bold text-xl mb-2">Idea submissions per Ideator</div>
+        <p class="text-gray-700 text-base">
+        </p>
+        <br>
+        <div class="shadow-lg rounded-lg overflow-hidden">
+            <div class="py-3 px-5 bg-gray-50">Overview of Idea submissions made by each Ideator</div>
+            <canvas class="p-5 h-[100]" id="chartBar"></canvas>
+          </div>
+          
+          <!-- Required chart.js -->
+          <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+          
+          <!-- Chart bar -->
+          <script>
+            const labelsBarChart = {{ ideators|safe }};
+            const dataBarChart = {
+              labels: labelsBarChart,
+              datasets: [
+                {
+                  label: "Submissions",
+                  backgroundColor: "hsl(252, 82.9%, 67.8%)",
+                  borderColor: "hsl(252, 82.9%, 67.8%)",
+                  data: {{ submissions|safe }},
+                },
+              ],
+            };
+          
+            const configBarChart = {
+              type: "bar",
+              data: dataBarChart,
+              options: {
+
+              },
+            };
+          
+            var chartBar = new Chart(
+              document.getElementById("chartBar"),
+              configBarChart
+            );
+          </script>
+      </div>
+      
+    </div>
+
+    <!--Card 2-->
+    <div class="rounded overflow-hidden shadow-lg">
+
+      <div class="px-6 py-4">
+        <div class="font-bold text-xl mb-2">Idea submissions per Business Unit</div>
+        <p class="text-gray-700 text-base">
+        </p>
+        <br>
+        <div class="shadow-lg rounded-lg overflow-hidden">
+            <div class="py-3 px-5 bg-gray-50">Overview of idea submissions per BU</div>
+            <canvas class="p-10 h-400" id="chartDoughnut1"></canvas>
+        </div>
+      </div>
+    </div>
+    <!--Card 3-->
+    <div class="rounded overflow-hidden shadow-lg">
+
+      <div class="px-6 py-4">
+        <div class="font-bold text-xl mb-2">Idea Submissions Status</div>
+        <p class="text-gray-700 text-base">
+        </p>
+        <br>
+        <div class="shadow-lg rounded-lg overflow-hidden">
+            <div class="py-3 px-5 bg-gray-50">Overview of submission statuses</div>
+            <canvas class="p-10 h-400" id="chartDoughnut2"></canvas>
+        </div>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+      </div>
+    
+    </div>
+  </div>
+  </div>
+  <script>
+    function dynamicColors() {
+      var r = Math.floor(Math.random() * 255);
+      var g = Math.floor(Math.random() * 255);
+      var b = Math.floor(Math.random() * 255);
+      return "rgba(" + r + "," + g + "," + b + ", 0.5)";
+    }
+
+    function poolColors(a) {
+      var pool = [];
+      for(i = 0; i < a; i++) {
+          pool.push(dynamicColors());
+      }
+      return pool;
+    }
+    const dataDoughnut1 = {
+      labels: {{ business_units|safe }},
+      datasets: [
+        {
+          label: "Ideas",
+          data: {{ submissions|safe }},
+          backgroundColor: poolColors({{ submissions|safe }}.length),
+          hoverOffset: 4,
+        },
+      ],
+    };
+  
+    const configDoughnut1 = {
+      type: "doughnut",
+      data: dataDoughnut1,
+      options: {},
+    };
+  
+    var chartBar = new Chart(
+      document.getElementById("chartDoughnut1"),
+      configDoughnut1
+    );
+  
+    const dataDoughnut2 = {
+      labels: {{ submission_status|safe }},
+      datasets: [
+        {
+          label: "Submissions",
+          data: {{ no_of_submissions|safe }},
+          backgroundColor: poolColors({{ no_of_submissions|safe }}.length),
+          hoverOffset: 4,
+        },
+      ],
+    };
+  
+    const configDoughnut2 = {
+      type: "doughnut",
+      data: dataDoughnut2,
+      options: {},
+    };
+  
+    var chartBar = new Chart(
+      document.getElementById("chartDoughnut2"),
+      configDoughnut2
+    );
+  </script>
+{% endblock content %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body>
+    <div class="flex flex-col p-10 items-center">
+        <!-- line chart  -->
+        <div class="flex flex-col w-9/12 justify-center">
+            <div class="py-3 px-5 bg-gray-50">Total Ideas submitted per Business Unit</div>
+            <canvas class="p-10" id="chartLine"></canvas>
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+            <!-- Chart line -->
+            <script>
+                const labels = ["January", "February", "March", "April", "May", "June"];
+                const data = {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: "My First dataset",
+                            backgroundColor: "hsl(252, 82.9%, 67.8%)",
+                            borderColor: "hsl(252, 82.9%, 67.8%)",
+                            data: [0, 10, 5, 2, 20, 30, 45],
+                        },
+                    ],
+                };
+
+                const configLineChart = {
+                    type: "line",
+                    data,
+                    options: {},
+                };
+
+                var chartLine = new Chart(
+                    document.getElementById("chartLine"),
+                    configLineChart
+                );
+            </script>
+        </div>
+        <!-- dropdown main with charts-->
+        <div class="flex flex-col items-center w-9/12 p-3">
+            <!-- dropdown -->
+
+            <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown"
+                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                type="button">Dropdown button <svg class="w-4 h-4 ml-2" aria-hidden="true" fill="none"
+                    stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg></button>
+            <!-- Dropdown menu -->
+            <div id="dropdown"
+                class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+                <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+                    <li>
+                        <a href="#"
+                            class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</a>
+                    </li>
+                    <li>
+                        <a href="#"
+                            class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Settings</a>
+                    </li>
+                    <li>
+                        <a href="#"
+                            class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Earnings</a>
+                    </li>
+                    <li>
+                        <a href="#"
+                            class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Sign
+                            out</a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- chart -->
+            <canvas class="p-10" id="chartBar"></canvas>
+            <!-- Required chart.js -->
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+            <!-- Chart bar -->
+            <script>
+                const labelsBarChart = [
+                    "January",
+                    "February",
+                    "March",
+                    "April",
+                    "May",
+                    "June",
+                ];
+                const dataBarChart = {
+                    labels: labelsBarChart,
+                    datasets: [
+                        {
+                            label: "My First dataset",
+                            backgroundColor: "hsl(252, 82.9%, 67.8%)",
+                            borderColor: "hsl(252, 82.9%, 67.8%)",
+                            data: [0, 10, 5, 2, 20, 30, 45],
+                        },
+                    ],
+                };
+
+                const configBarChart = {
+                    type: "bar",
+                    data: dataBarChart,
+                    options: {},
+                };
+
+                var chartBar = new Chart(
+                    document.getElementById("chartBar"),
+                    configBarChart
+                );
+            </script>
+        </div>
+    </div>
+</body>
+
+</html>
