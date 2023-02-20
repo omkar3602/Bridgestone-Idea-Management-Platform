@@ -175,7 +175,7 @@
                     {{ submission.remark }}
                   </td>
                   <td class="text-sm text-red-700 underline font-normal px-6 py-4 cursor-pointer">
-                    View More
+                    <a href="{% url 'individual_submission' submission.id %}">View More</a>
                   </td>
                 </tr>                
                 
