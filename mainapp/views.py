@@ -271,6 +271,9 @@ def delete_submission(request):
 @login_required_message(message="Please log in, in order to view the requested page.")
 @login_required
 def individual_submission(request, id):
+    if request.user.is_IC == False:
+        messages.info(request, "You don't have access to this page.")
+        return redirect('home')
     submission = Submission.objects.filter(id=id)
     submission = submission[0]
 
@@ -278,6 +281,22 @@ def individual_submission(request, id):
         'submission': submission,
     }
     return render(request, 'mainapp/innovation_champion/individual_idea_page.html', context)
+
+@login_required_message(message="Please log in, in order to view the requested page.")
+@login_required
+def update_status(request):
+    if request.user.is_IC == False:
+        messages.info(request, "You don't have access to this page.")
+        return redirect('home')
+    if request.method == 'POST':
+        data = request.POST
+        id = data["submission_id"]
+        status_txt = data["status"]
+
+        code = update_status(id, status_txt)
+        if code == 1:
+            messages.info(request, 'Status updated successfully!')
+    return redirect('individual_submission', id=id)
 
 @login_required_message(message="Please log in, in order to view the requested page.")
 @login_required
