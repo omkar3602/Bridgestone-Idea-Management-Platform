@@ -9,8 +9,9 @@ from utils.status_updater import update_status
 import os
 from dotenv import load_dotenv
 from django.utils.timezone import localtime
+from django.core.paginator import Paginator , EmptyPage
 
-# Create your views here.
+
 def index(request):
     bussiness_units = BusinessUnit.objects.all()
     innovation_champions = Account.objects.filter(is_IC=True)
@@ -127,8 +128,18 @@ def index(request):
                 context['go_to_submissions'] = True
                 return render(request, 'mainapp/ideator/home.html', context)
             submissions = Submission.objects.filter(ideator=request.user)
-            
-            context['submissions'] = submissions
+            p=Paginator(submissions,2)
+            print('no of pages')
+            print(p.num_pages)
+            page_number = request.GET.get('page',1)
+            try:
+                page_obj = p.get_page(page_number)  
+            except PageNotAnInteger:
+                page_obj = p.page(1)
+            except EmptyPage:
+                page_obj = p.page(p.num_pages)
+            context = {'submissions': page_obj}
+            # context['submissions'] = submissions
             return render(request, 'mainapp/ideator/home.html', context)
         else:
             return render(request, 'mainapp/index.html', context)
@@ -348,3 +359,4 @@ def invite_IC(request):
             messages.info(request, 'Invite sent successfully.')
             return redirect('home')
         return render(request, 'mainapp/IG_admin/invite_IC.html')
+    

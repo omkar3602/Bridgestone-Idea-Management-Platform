@@ -1,0 +1,12 @@
+{% for submission in submissions %}
+{{ submission.title }} <br>
+{% endfor %}
+
+{%if submissions.has_previous %} {# whether the previous page exists #}
+            <a href="?page={{submissions.previous_page_number}}">Previous</a> {# link to the prev page #}
+{% endif %}
+        <span>{{page_obj.number}}</span> {# the current page number #}
+        
+{%if submissions.has_next %} {# whether the next page exists #}
+            <a href="?page={{submissions.next_page_number}}">Next</a> {# link to the next page #}
+{% endif %}
