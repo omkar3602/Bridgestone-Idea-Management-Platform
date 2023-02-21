@@ -306,6 +306,7 @@ Ideator{% endblock title %} {% block content %}
       {% endfor %}
       </div>
     </div>
+    {% comment %}
     <div class="flex justify-center items-center ">
     {%if submissions.has_previous %} {# whether the previous page exists #}
     <a href="?page={{submissions.previous_page_number}}">Previous</a> {# link to the prev page #}
@@ -314,7 +315,7 @@ Ideator{% endblock title %} {% block content %}
     {%if submissions.has_next %} {# whether the next page exists #}
     <a href="?page={{submissions.next_page_number}}">Next</a> {# link to the next page #}
     {% endif %}
-    </div>
+    </div> {% endcomment %}
   
   </div>
   <br />
