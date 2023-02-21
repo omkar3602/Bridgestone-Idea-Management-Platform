@@ -367,7 +367,7 @@ def update_status_view(request):
             submission.save()
 
             send_mail(submission.ideator.email, f"Idea status updated to {new_status}", f"Hey {submission.ideator.fullname}! Your submission in the business unit {submission.business_unit.name} has been updated from {old_status} to {new_status}. Remark: {submission.remark}. Check it here {os.getenv('WEB_URL')}#YOUR_SUBMISSIONS")
-            send_mail(submission.business_unit.innovation_champion, f"Idea status updated to {new_status}", f"Hey {submission.business_unit.innovation_champion.fullname}! You have updated a submission in the business unit {submission.business_unit.name} from {old_status} to {new_status}. Remark: {submission.remark}. Check it here {os.getenv('WEB_URL')}#YOUR_SUBMISSIONS")
+            send_mail(submission.business_unit.innovation_champion.email, f"Idea status updated to {new_status}", f"Hey {submission.business_unit.innovation_champion.fullname}! You have updated a submission in the business unit {submission.business_unit.name} from {old_status} to {new_status}. Remark: {submission.remark}. Check it here {os.getenv('WEB_URL')}#YOUR_SUBMISSIONS")
         elif status_change and not remark_change:
             submission.status = new_status
             submission.modified_on = localtime()
@@ -375,7 +375,7 @@ def update_status_view(request):
             submission.save()
 
             send_mail(submission.ideator.email, f"Idea status updated to {new_status}", f"Hey {submission.ideator.fullname}! Your submission in the business unit {submission.business_unit.name} has been updated from {old_status} to {new_status}. Check it here {os.getenv('WEB_URL')}#YOUR_SUBMISSIONS")
-            send_mail(submission.business_unit.innovation_champion, f"Idea status updated to {new_status}", f"Hey {submission.business_unit.innovation_champion.fullname}! You have updated a submission in the business unit {submission.business_unit.name} from {old_status} to {new_status}. Check it here {os.getenv('WEB_URL')}#YOUR_SUBMISSIONS")
+            send_mail(submission.business_unit.innovation_champion.email, f"Idea status updated to {new_status}", f"Hey {submission.business_unit.innovation_champion.fullname}! You have updated a submission in the business unit {submission.business_unit.name} from {old_status} to {new_status}. Check it here {os.getenv('WEB_URL')}#YOUR_SUBMISSIONS")
         elif not status_change and remark_change:
             submission.remark = remark
             submission.modified_on = localtime()
@@ -383,7 +383,7 @@ def update_status_view(request):
             submission.save()
 
             send_mail(submission.ideator.email, f"Your idea has a new remark", f"Hey {submission.ideator.fullname}! Your submission in the business unit {submission.business_unit.name} has a new remark: {submission.remark}. Check it here {os.getenv('WEB_URL')}#YOUR_SUBMISSIONS")
-            send_mail(submission.business_unit.innovation_champion, f"Idea status updated to {new_status}", f"Hey {submission.business_unit.innovation_champion.fullname}! You have updated a submission in the business unit {submission.business_unit.name} with remark: {submission.remark}. Check it here {os.getenv('WEB_URL')}#YOUR_SUBMISSIONS")
+            send_mail(submission.business_unit.innovation_champion.email, f"Idea status updated to {new_status}", f"Hey {submission.business_unit.innovation_champion.fullname}! You have updated a submission in the business unit {submission.business_unit.name} with remark: {submission.remark}. Check it here {os.getenv('WEB_URL')}#YOUR_SUBMISSIONS")
         
         if status_change or remark_change:
             messages.info(request, 'Status updated successfully!')
