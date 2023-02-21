@@ -12,13 +12,13 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import uuid
 
 def index(request):
-    bussiness_units = BusinessUnit.objects.all()
+    business_units = BusinessUnit.objects.all()
     innovation_champions = Account.objects.filter(is_IC=True)
     
     context = {
         'is_HOMEPAGE':1,
         'selected':'all',
-        'bussiness_units':bussiness_units,
+        'business_units':business_units,
         'innovation_champions':innovation_champions,
     }
 
@@ -344,12 +344,12 @@ def new_submission(request):
             messages.info(request, 'Idea submitted successfully!')
             return redirect('home')
 
-        bussiness_units = BusinessUnit.objects.all()
+        business_units = BusinessUnit.objects.all()
         bu_id = request.GET.get('bu_id', '')
         if bu_id != '':
             bu_id = int(bu_id)
         context = {
-            'bussiness_units':bussiness_units,
+            'business_units':business_units,
             'bu_id':bu_id,
         }
         return render(request, 'mainapp/ideator/submission_form.html', context)

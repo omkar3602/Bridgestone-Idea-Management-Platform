@@ -25,17 +25,17 @@
       BUSINESS UNITS</h3>
   </div>
     <div class="grid grid-cols-5 gap-y-10 gap-x-5 flex justify-center m-7">
-    {% for bussiness_unit in bussiness_units %}
+    {% for business_unit in business_units %}
       <div class="max-w-sm rounded overflow-hidden shadow-lg">
-        {% if bussiness_unit.image %}
-          <img class="w-full" src="{{ bussiness_unit.image.url }}" alt="{{ bussiness_unit.name }}">
+        {% if business_unit.image %}
+          <img class="w-full" src="{{ business_unit.image.url }}" alt="{{ business_unit.name }}">
         {% endif %}
         <div class="px-6 py-4 flex flex-col justify-center items-center">
-          <div class="font-bold text-xl mb-2">{{ bussiness_unit.name }}</div>
+          <div class="font-bold text-xl mb-2">{{ business_unit.name }}</div>
 
         </div>
         <div class="p-5 flex flex-col justify-center items-center">
-          <a href="{% url 'new_submission' %}?bu_id={{ bussiness_unit.id }}">
+          <a href="{% url 'new_submission' %}?bu_id={{ business_unit.id }}">
             <button
               class="bg-red-700 hover:bg-white text-white text-xl hover:text-red-700 font-semibold hover:font-bold py-2 px-4 border border-white hover:border-red-700 rounded">
               Submit idea

@@ -17,20 +17,20 @@
                     <h1 class="mt-6 mb-8 text-2xl font-bold text-center font-nunito">Idea Submission</h1>
                     <form method="POST" enctype="multipart/form-data" name="SubmissionForm">
                     {% csrf_token %}
-                    <label class="font-semibold">Bussiness Unit <span class="text-red-500">*</span></label>
+                    <label class="font-semibold">Business Unit <span class="text-red-500">*</span></label>
                     <select type="text" id="BU" class="block border border-gray-400 w-full p-3 rounded mb-4"
                         name="business_unit" placeholder="Business Unit" onchange="showIC()" required>
                         <option value="0">Select Business Unit</option>
-                        {% for bussiness_unit in bussiness_units %}
-                            {% if bussiness_unit.id == bu_id %}
-                                <option value="{{ bussiness_unit.name }}" label="{{ bussiness_unit.name }}" selected>{{ bussiness_unit.innovation_champion.fullname }} ({{ bussiness_unit.innovation_champion.email }})</option>
+                        {% for business_unit in business_units %}
+                            {% if business_unit.id == bu_id %}
+                                <option value="{{ business_unit.name }}" label="{{ business_unit.name }}" selected>{{ business_unit.innovation_champion.fullname }} ({{ business_unit.innovation_champion.email }})</option>
                             {% else %}
-                            <option value="{{ bussiness_unit.name }}" label="{{ bussiness_unit.name }}">{{ bussiness_unit.innovation_champion.fullname }} ({{ bussiness_unit.innovation_champion.email }})</option>
+                            <option value="{{ business_unit.name }}" label="{{ business_unit.name }}">{{ business_unit.innovation_champion.fullname }} ({{ business_unit.innovation_champion.email }})</option>
                                
                             {% endif %}
                         {% endfor %}
                         </select>
-                    <p id="displayIC" class="hidden pb-5 font-semibold">The Innovation Champion for <span id="BUname" class="text-red-700"></span> bussiness unit is <span id="ICname" class="font-bold"></span></p>
+                    <p id="displayIC" class="hidden pb-5 font-semibold">The Innovation Champion for <span id="BUname" class="text-red-700"></span> business unit is <span id="ICname" class="font-bold"></span></p>
                     
                     <label class="font-semibold">Idea Title <span class="text-red-500">*</span></label>
                     <input type="text" class="block border border-gray-400 w-full p-3 rounded mb-4 placeholder:text-black" name="title" required
