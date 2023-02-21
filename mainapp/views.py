@@ -174,7 +174,7 @@ def on_hold(request):
                 page_obj = p.page(p.num_pages) 
         context = {'submissions': page_obj, 'selected': 'on_hold'}
 
-        return render(request, 'mainapp/ideator/home.html', context)
+        return render(request, 'mainapp/innovation_champion/home.html', context)
 
 
     if request.user.is_ideator:                          
