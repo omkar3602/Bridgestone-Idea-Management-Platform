@@ -1,34 +1,39 @@
 {% extends 'mainapp/base.html' %}
 {% load static %}
 
-{% block title %}Home - Innovation Champion{% endblock title %}
+{% block title %}{{ submission.title }}{% endblock title %}
 
 {% block content %}
 <div class="flex justify-center mx-24 pt-24">
     <div class="border border-black rounded-lg flex-1 text-center py-4">
         <p class="font-bold text-3xl">{{ submission.ideator.fullname }}</p>
         <p class="font-semibold text-xl text-red-700">{{ submission.ideator.email }}</p>
-        <p class="font-normal text-sm py-3">{{ submission.submitted_on }}</p>
+        <p class="font-normal text-sm pt-3 font-semibold">Submitted on:</p>
+        <p class="font-normal text-sm pb-3">{{ submission.submitted_on }}</p>
     </div>
     {% if submission.status == "Review Pending"  %}
     <div class="bg-black rounded-lg flex-1 text-center py-4 mx-3">
         <p class="font-bold text-3xl text-white">{{ submission.status }}</p>
-        <p class="font-normal text-sm py-3 text-white">{{ submission.modified_on }}</p>
+        <p class="font-normal text-sm pt-3 text-white font-semibold">Last Modified on:</p>
+        <p class="font-normal text-sm pb-3 text-white">{{ submission.modified_on }}</p>
     </div>
     {% elif submission.status == "Accepted" %}
     <div class="bg-green-500 rounded-lg flex-1 text-center py-4 mx-3">
         <p class="font-bold text-3xl text-white">{{ submission.status }}</p>
-        <p class="font-normal text-sm py-3 text-white">{{ submission.modified_on }}</p>
+        <p class="font-normal text-sm pt-3 text-white font-semibold">Last Modified on:</p>
+        <p class="font-normal text-sm pb-3 text-white">{{ submission.modified_on }}</p>
     </div>
     {% elif submission.status == "On Hold" %}
     <div class="bg-orange-500 rounded-lg flex-1 text-center py-4 mx-3">
         <p class="font-bold text-3xl text-white">{{ submission.status }}</p>
-        <p class="font-normal text-sm py-3 text-white">{{ submission.modified_on }}</p>
+        <p class="font-normal text-sm pt-3 text-white font-semibold">Last Modified on:</p>
+        <p class="font-normal text-sm pb-3 text-white">{{ submission.modified_on }}</p>
     </div>
     {% elif submission.status == "Rejected" %}
     <div class="bg-red-500 rounded-lg flex-1 text-center py-4 mx-3">
         <p class="font-bold text-3xl text-white">{{ submission.status }}</p>
-        <p class="font-normal text-sm py-3 text-white">{{ submission.modified_on }}</p>
+        <p class="font-normal text-sm pt-3 text-white font-semibold">Last Modified on:</p>
+        <p class="font-normal text-sm pb-3 text-white">{{ submission.modified_on }}</p>
     </div>
 
     {% endif %}
@@ -66,26 +71,22 @@
               </div>
               {% endif %}
     </div>
-    id, status_txt
     <div class="mt-4">
-        <p class="px-1 py-2 font-semibold">Change Status</p>
-        <div class="flex flex-row">
-            <a href=
-                class="bg-green-500 rounded-lg p-4 flex-1 text-center mr-2 font-semibold uppercase text-white text-lg">
-                Accept</a>
-            <a href=
-                class="bg-orange-500 rounded-lg p-4 flex-1 text-center mr-2 font-semibold uppercase text-white text-lg">
-                Hold</a>
-            <a href= class="bg-red-500 rounded-lg p-4 flex-1 text-center font-semibold uppercase text-white text-lg">
-                Reject</a>
-        </div>
-
+        <p class="px-1 py-2 font-semibold">Change Status</p>        
+            <form method="POST" action="{% url 'update_status' %}">
+                {% csrf_token %}
+                <div class="flex flex-row">
+                  <input type="hidden" name="submission_id" value="{{ submission.id }}"></input>
+                  <input type="radio" value="Accept" name="status" class="bg-green-500 rounded-lg p-4 flex-1 text-center mr-2 font-semibold uppercase text-lg">Accept</input>
+                  <input type="radio" value="Hold" name="status" class="bg-orange-500 rounded-lg p-4 flex-1 text-center mr-2 font-semibold uppercase text-lg">Hold</input>
+                  <input type="radio" value="Reject" name="status" class="bg-red-500 rounded-lg p-4 flex-1 text-center mr-2 font-semibold uppercase text-lg">Reject</input>
+                </div>                  
     </div>
     <div class="mt-4">
-        <form class="">
-            <p class="px-1 py-2 font-semibold">Do you have any remarks</p>
-            <input class="bg-gray-100 rounded-lg p-4 w-full" type="textarea" />
-            <button class="bg-red-700 text-white rounded-lg p-2 my-3 " type="submit">Submit Remark</button>
+            <p class="px-1 py-2 font-semibold">Remarks (if any)</p>
+            
+            <textarea class="bg-gray-100 rounded-lg p-4 w-full h-60" name="remark">{% if submission.remark %}{{ submission.remark }}{% endif %}</textarea>
+            <button class="bg-red-700 text-white rounded-lg p-2 my-3" type="submit">Save changes</button>
         </form>
     </div>
 
