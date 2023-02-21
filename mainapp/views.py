@@ -96,7 +96,6 @@ def index(request):
             context['submission_status'] = list(graph3_dict.keys())
             context['no_of_submissions'] = list(graph3_dict.values())
 
-
             return render(request, 'mainapp/IG_admin/home.html', context)
         elif request.user.is_IC:
             business_unit = BusinessUnit.objects.filter(innovation_champion=request.user)
