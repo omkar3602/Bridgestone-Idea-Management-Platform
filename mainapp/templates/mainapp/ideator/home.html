@@ -48,74 +48,74 @@ Ideator{% endblock title %} {% block content %}
       <ul class="flex justify-center pb-3">
         <li class="mr-3">
           {% if selected == 'all' %}
-          <button
+          <a href="{% url 'home' %}"
             class="inline-block border border-red-500 rounded py-2 px-4 text-white bg-red-700"
             name="selected" value="all"
             >
           {% else %}
-          <button
+          <a href="{% url 'home' %}"
             class="inline-block border border-white rounded hover:border-gray-200 text-red-500 hover:bg-gray-200 py-2 px-4"
             name="selected" value="all"
             >
           {% endif %}
-            All</button
+            All</a
           >
         </li>
         <li class="mr-3">
           {% if selected == 'review_pending' %}
-          <button
+          <a href="{% url 'review_pending' %}"
             class="inline-block border border-red-500 rounded py-2 px-4 text-white bg-red-700"
             name="selected" value="review_pending"
             >
           {% else %}
-          <button
+          <a href="{% url 'review_pending' %}"
             class="inline-block border border-white rounded hover:border-gray-200 text-red-500 hover:bg-gray-200 py-2 px-4"
             name="selected" value="review_pending"
             >
           {% endif %}
-          Review Pending</button>
+          Review Pending</a>
         </li>
         <li class="mr-3">
           {% if selected == 'accepted' %}
-          <button
+          <a href="{% url 'accepted' %}"
             class="inline-block border border-red-500 rounded py-2 px-4 text-white bg-red-700"
             name="selected" value="accepted"
             >
           {% else %}
-          <button
+          <a href="{% url 'accepted' %}"
             class="inline-block border border-white rounded hover:border-gray-200 text-red-500 hover:bg-gray-200 py-2 px-4"
             name="selected" value="accepted"
             >
           {% endif %}
-          Accepted</button>
+          Accepted</a>
         </li>
         <li class="mr-3">
           {% if selected == 'on_hold' %}
-          <button
+          <a href="{% url 'on_hold' %}"
             class="inline-block border border-red-500 rounded py-2 px-4 text-white bg-red-700"
             name="selected" value="on_hold"
             >
           {% else %}
-          <button
+          <a href="{% url 'on_hold' %}"
             class="inline-block border border-white rounded hover:border-gray-200 text-red-500 hover:bg-gray-200 py-2 px-4"
             name="selected" value="on_hold"
             >
           {% endif %}
-          On Hold</button>
+          On Hold</a>
         </li>
         <li class="mr-3">
           {% if selected == 'rejected' %}
-          <button
+          <a href="{% url 'rejected' %}"
             class="inline-block border border-red-500 rounded py-2 px-4 text-white bg-red-700"
             name="selected" value="rejected"
             >
           {% else %}
-          <button
+          <a href="{% url 'rejected' %}"
             class="inline-block border border-white rounded hover:border-gray-200 text-red-500 hover:bg-gray-200 py-2 px-4"
             name="selected" value="rejected"
             >
           {% endif %}
-          Rejected</button
+          Rejected</a
           >
         </li>
       </ul>
@@ -305,20 +305,20 @@ Ideator{% endblock title %} {% block content %}
       </div>
       {% endfor %}
       </div>
-    </div>
-    
-    <div class="flex justify-center items-center ">
-    {%if submissions.has_previous %} {# whether the previous page exists #}
-    <a href="?page={{submissions.previous_page_number}}">Previous</a> {# link to the prev page #}
-    {% endif %}
-    <span>{{page_obj.number}}</span> {# the current page number #}
-    {%if submissions.has_next %} {# whether the next page exists #}
-    <a href="?page={{submissions.next_page_number}}">Next</a> {# link to the next page #}
-    {% endif %}
-    </div> 
+    </div>        
   
   </div>
   <br />
+  </div>
+
+  <div class="flex justify-center items-center">
+    {%if submissions.has_previous %} {# whether the previous page exists #}
+    <a href="?page={{submissions.previous_page_number}}" class="bg-gray-300 rounded-lg text-black py-1 px-4 m-2 border-2 border-gray-400"> Prev </a> {# link to the prev page #}
+    {% endif %}
+    <span>{{page_obj.number}}</span> {# the current page number #}
+    {%if submissions.has_next %} {# whether the next page exists #}
+    <a href="?page={{submissions.next_page_number}}" class="bg-gray-300 rounded-lg text-black py-1 px-4 m-2 border-2 border-gray-400"> Next </a> {# link to the next page #}
+    {% endif %}
   </div>
 
 <!-- Javascript code -->

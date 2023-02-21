@@ -12,5 +12,10 @@ urlpatterns = [
     path('add_BU', views.add_BU, name='add_BU'),
     path('invite_IC', views.invite_IC, name='invite_IC'),
     path('adminuser', RedirectView.as_view(url=reverse_lazy('admin:index')), name='adminuser'),
+    path('onhold', views.on_hold, name='on_hold'),
+    path('accepted', views.accepted, name='accepted'),
+    path('rejected', views.rejected, name='rejected'),
+    path('review_pending', views.review_pending, name='review_pending'),
+
 
 ]

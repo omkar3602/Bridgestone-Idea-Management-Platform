@@ -98,61 +98,38 @@ def index(request):
 
 
             return render(request, 'mainapp/IG_admin/home.html', context)
-        elif request.user.is_IC:         
-            if request.method == 'POST':
-                data = request.POST
-                selected = data['selected']
-
-                if selected == "all":
-                    my_status = "All"
-                elif selected == "review_pending":
-                    my_status = "Review Pending"
-                elif selected == "accepted":
-                    my_status = "Accepted"
-                elif selected == "on_hold":
-                    my_status = "On Hold"
-                elif selected == "rejected":
-                    my_status = "Rejected"
-
-                business_unit = BusinessUnit.objects.filter(innovation_champion=request.user)
-                if business_unit:
-                    business_unit = business_unit[0]
-                    # submissions_all=Submission.objects.all()
-                    submissions = Submission.objects.filter(business_unit=business_unit)
-                    if my_status != "All":
-                        submissions = submissions.filter(status=my_status)
-                        p=Paginator(submissions, 2)
-                        page_number = request.GET.get('page')
-                        try:
-                            page_obj = p.get_page(page_number)  
-                        except PageNotAnInteger:
-                            page_obj = p.page(1)
-                        except EmptyPage:
-                            page_obj = p.page(p.num_pages)
-                        context['submissions'] = page_obj
-                    else:
-                        p=Paginator(submissions, 2)
-                        page_number = request.GET.get('page')
-                        try:
-                            page_obj = p.get_page(page_number)  
-                        except PageNotAnInteger:
-                            page_obj = p.page(1)
-                        except EmptyPage:
-                            page_obj = p.page(p.num_pages)
-                        context['submissions'] = page_obj
-                    context['selected'] = selected
-                    context['business_unit'] = business_unit
-                    # context['submissions'] = submissions
-  
-                return render(request, 'mainapp/innovation_champion/home.html', context)
+        elif request.user.is_IC:                    
+                # if selected == "all":
+                #     my_status = "All"
+                # elif selected == "review_pending":
+                #     my_status = "Review Pending"
+                # elif selected == "accepted":
+                #     my_status = "Accepted"
+                # elif selected == "on_hold":
+                #     my_status = "On Hold"
+                # elif selected == "rejected":
+                #     my_status = "Rejected"
 
             business_unit = BusinessUnit.objects.filter(innovation_champion=request.user)
             if business_unit:
-                business_unit = business_unit[0]
-                submissions = Submission.objects.filter(business_unit=business_unit).order_by('submitted_on')                    
-
-                context['business_unit'] = business_unit
-                context['submissions'] = submissions
+                business_unit = business_unit[0]                    
+                submissions = Submission.objects.filter(business_unit=business_unit)
+                p=Paginator(submissions, 2)
+                page_number = request.GET.get('page')
+                try:
+                    page_obj = p.get_page(page_number)  
+                except PageNotAnInteger:
+                    page_obj = p.page(1)
+                except EmptyPage:
+                    page_obj = p.page(p.num_pages)     
+               
+                    
+                context['submissions'] = page_obj
+            context['selected'] = 'all'
+            context['business_unit'] = business_unit
+            # context['submissions'] = submissions
+  
+                  
             return render(request, 'mainapp/innovation_champion/home.html', context)
         elif request.user.is_ideator:
             if request.method == 'POST':
@@ -169,18 +146,10 @@ def index(request):
                     submissions = Submission.objects.filter(ideator=request.user).filter(status="On Hold")
                 elif selected == "rejected":
                     submissions = Submission.objects.filter(ideator=request.user).filter(status="Rejected")
-
-                p = Paginator(submissions,2)
-                page_number = request.GET.get('page')
-                try:
-                    page_obj = p.get_page(page_number)  
-                except PageNotAnInteger:
-                    page_obj = p.page(1)
-                except EmptyPage:
-                    page_obj = p.page(p.num_pages)
+                
 
                 context['selected'] = selected
-                context['submissions'] = page_obj
+                context['submissions'] = submissions
                 print("submissions")
                 print(page_obj)
                 context['go_to_submissions'] = True
@@ -201,6 +170,151 @@ def index(request):
             return render(request, 'mainapp/index.html', context)
     else:
         return render(request, 'mainapp/index.html', context)
+
+@login_required_message(message="Please log in, in order to view the requested page.")
+@login_required
+def on_hold(request):
+    if request.user.is_IC:         
+        business_unit = BusinessUnit.objects.filter(innovation_champion=request.user)
+        if business_unit:
+            business_unit = business_unit[0]                    
+            submissions = Submission.objects.filter(business_unit=business_unit).filter(status="On Hold")
+            p=Paginator(submissions, 2)
+            page_number = request.GET.get('page')
+            try:
+                page_obj = p.get_page(page_number)  
+            except PageNotAnInteger:
+                page_obj = p.page(1)
+            except EmptyPage:
+                page_obj = p.page(p.num_pages) 
+        context = {'submissions': page_obj, 'selected': 'on_hold'}
+
+        return render(request, 'mainapp/ideator/home.html', context);
+
+
+    if request.user.is_ideator:                          
+        submissions = Submission.objects.filter(ideator=request.user).filter(status="On Hold")
+        p=Paginator(submissions, 2)
+        page_number = request.GET.get('page')
+        try:
+            page_obj = p.get_page(page_number)  
+        except PageNotAnInteger:
+            page_obj = p.page(1)
+        except EmptyPage:
+            page_obj = p.page(p.num_pages)                                    
+
+        context = {'submissions': page_obj, 'selected': 'on_hold'}
+
+        return render(request, 'mainapp/ideator/home.html', context);
+
+@login_required_message(message="Please log in, in order to view the requested page.")
+@login_required
+def accepted(request):
+    if request.user.is_IC:         
+        business_unit = BusinessUnit.objects.filter(innovation_champion=request.user)
+        if business_unit:
+            business_unit = business_unit[0]                    
+            submissions = Submission.objects.filter(business_unit=business_unit).filter(status="Accepted")
+            p=Paginator(submissions, 2)
+            page_number = request.GET.get('page')
+            try:
+                page_obj = p.get_page(page_number)  
+            except PageNotAnInteger:
+                page_obj = p.page(1)
+            except EmptyPage:
+                page_obj = p.page(p.num_pages) 
+        context = {'submissions': page_obj, 'selected': 'accepted'}
+
+        return render(request, 'mainapp/innovation_champion/home.html', context);
+
+    if request.user.is_ideator:                         
+        submissions = Submission.objects.filter(ideator=request.user).filter(status="Accepted")
+        p=Paginator(submissions, 2)
+        page_number = request.GET.get('page')
+        try:
+            page_obj = p.get_page(page_number)  
+        except PageNotAnInteger:
+            page_obj = p.page(1)
+        except EmptyPage:
+            page_obj = p.page(p.num_pages)                                    
+        context = {'submissions': page_obj, 'selected': 'accepted'}
+
+        return render(request, 'mainapp/ideator/home.html', context);
+
+@login_required_message(message="Please log in, in order to view the requested page.")
+@login_required
+def rejected(request):
+    if request.user.is_IC:         
+        business_unit = BusinessUnit.objects.filter(innovation_champion=request.user)
+        if business_unit:
+            business_unit = business_unit[0]                    
+            submissions = Submission.objects.filter(business_unit=business_unit).filter(status="Rejected")
+            p=Paginator(submissions, 2)
+            page_number = request.GET.get('page')
+            try:
+                page_obj = p.get_page(page_number)  
+            except PageNotAnInteger:
+                page_obj = p.page(1)
+            except EmptyPage:
+                page_obj = p.page(p.num_pages)
+        context = {'submissions': page_obj, 'selected': 'rejected'}
+
+        return render(request, 'mainapp/innovation_champion/home.html', context);   
+
+    if request.user.is_ideator:                                    
+        submissions = Submission.objects.filter(ideator=request.user).filter(status="Rejected")
+        p=Paginator(submissions, 2)
+        page_number = request.GET.get('page')
+        try:
+            page_obj = p.get_page(page_number)  
+        except PageNotAnInteger:
+            page_obj = p.page(1)
+        except EmptyPage:
+            page_obj = p.page(p.num_pages)                                     
+        context = {'submissions': page_obj, 'selected': 'rejected'}
+
+        return render(request, 'mainapp/ideator/home.html', context);
+    
+
+@login_required_message(message="Please log in, in order to view the requested page.")
+@login_required
+def review_pending(request):
+    if request.user.is_IC:         
+        business_unit = BusinessUnit.objects.filter(innovation_champion=request.user)
+        if business_unit:
+            business_unit = business_unit[0]                    
+            submissions = Submission.objects.filter(business_unit=business_unit).filter(status="Review Pending")
+            p=Paginator(submissions, 2)
+            page_number = request.GET.get('page')
+            try:
+                page_obj = p.get_page(page_number)  
+            except PageNotAnInteger:
+                page_obj = p.page(1)
+            except EmptyPage:
+                page_obj = p.page(p.num_pages) 
+
+            context = {'submissions': page_obj, 'selected': 'review_pending'}
+
+            return render(request, 'mainapp/innovation_champion/home.html', context)
+        return redirect('home')
+
+    if request.user.is_ideator:         
+                        
+        submissions = Submission.objects.filter(ideator=request.user).filter(status="Review Pending")
+        p=Paginator(submissions, 2)
+        page_number = request.GET.get('page')
+        try:
+            page_obj = p.get_page(page_number)  
+        except PageNotAnInteger:
+            page_obj = p.page(1)
+        except EmptyPage:
+            page_obj = p.page(p.num_pages)  
+        context = {'submissions': page_obj, 'selected': 'review_pending'}
+        return render(request, 'mainapp/ideator/home.html', context); 
+                                    
+    return redirect('home')
+
+    
 
 @login_required_message(message="Please log in, in order to view the requested page.")
 @login_required
@@ -472,4 +586,6 @@ def invite_IC(request):
             messages.info(request, 'Invite sent successfully.')
             return redirect('home')
         return render(request, 'mainapp/IG_admin/invite_IC.html')
+    
+
 
