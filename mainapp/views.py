@@ -66,9 +66,10 @@ def index(request):
 
             graph4_dict={}
             for submission in submissions:
-                graph4_dict[str(submission.submitted_on.strftime('%B'))] =0
-            for submission in submissions:
-                graph4_dict[str(submission.submitted_on.strftime('%B'))] +=1
+                if str(submission.submitted_on.strftime('%B')) in graph4_dict.keys():
+                    graph4_dict[str(submission.submitted_on.strftime('%B'))] += 1
+                else:
+                    graph4_dict[str(submission.submitted_on.strftime('%B'))] = 1
 
             context['submitted_month'] = list(graph4_dict.keys())
             context['submitted_month_values'] = list(graph4_dict.values())
