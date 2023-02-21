@@ -33,10 +33,10 @@ def index(request):
             BU_submissions = submissions.filter(business_unit=selected_BU)
             graph4_array = [
                 BU_submissions.count(),
-                BU_submissions.filter(status="Pending").count(),
-                BU_submissions.filter(status="On Hold").count(),
                 BU_submissions.filter(status="Accepted").count(),
-                BU_submissions.filter(status="Rejected").count()
+                BU_submissions.filter(status="Rejected").count(),
+                BU_submissions.filter(status="On Hold").count(),
+                BU_submissions.filter(status="Review Pending").count()
             ]
 
             context["graph4_array"] = graph4_array
@@ -51,10 +51,10 @@ def index(request):
                 BU_submissions = submissions.filter(business_unit=selected_BU)
                 graph4_array = [
                     BU_submissions.count(),
-                    BU_submissions.filter(status="Pending").count(),
-                    BU_submissions.filter(status="On Hold").count(),
                     BU_submissions.filter(status="Accepted").count(),
-                    BU_submissions.filter(status="Rejected").count()
+                    BU_submissions.filter(status="Rejected").count(),
+                    BU_submissions.filter(status="On Hold").count(),
+                    BU_submissions.filter(status="Review Pending").count()
                 ]
 
                 context["graph4_array"] = graph4_array
