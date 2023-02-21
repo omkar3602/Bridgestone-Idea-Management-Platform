@@ -304,11 +304,22 @@ Ideator{% endblock title %} {% block content %}
         </div>
       </div>
       {% endfor %}
+      </div>
     </div>
+    <div class="flex justify-center items-center ">
+    {%if submissions.has_previous %} {# whether the previous page exists #}
+    <a href="?page={{submissions.previous_page_number}}">Previous</a> {# link to the prev page #}
+    {% endif %}
+    <span>{{page_obj.number}}</span> {# the current page number #}
+    {%if submissions.has_next %} {# whether the next page exists #}
+    <a href="?page={{submissions.next_page_number}}">Next</a> {# link to the next page #}
+    {% endif %}
+    </div>
+  
   </div>
   <br />
-</div>
-</div>
+  </div>
+
 <!-- Javascript code -->
 <script>
   function show_modal(divid){
