@@ -87,7 +87,7 @@ def index(request):
             graph3_dict = {
                 "Review Pending":0, 
                 "Accepted":0, 
-                "Rejected":0, 
+                "Rejected":0,
                 "On Hold":0,
             }
             
@@ -110,12 +110,11 @@ def index(request):
                 except PageNotAnInteger:
                     page_obj = p.page(1)
                 except EmptyPage:
-                    page_obj = p.page(p.num_pages)     
-               
-                    
+                    page_obj = p.page(p.num_pages)
                 context['submissions'] = page_obj
+                context['business_unit'] = business_unit
+            
             context['selected'] = 'all'
-            context['business_unit'] = business_unit
 
             return render(request, 'mainapp/innovation_champion/home.html', context)
         elif request.user.is_ideator:
@@ -175,7 +174,7 @@ def on_hold(request):
                 page_obj = p.page(p.num_pages) 
         context = {'submissions': page_obj, 'selected': 'on_hold'}
 
-        return render(request, 'mainapp/ideator/home.html', context);
+        return render(request, 'mainapp/ideator/home.html', context)
 
 
     if request.user.is_ideator:                          
@@ -191,7 +190,7 @@ def on_hold(request):
 
         context = {'submissions': page_obj, 'selected': 'on_hold'}
 
-        return render(request, 'mainapp/ideator/home.html', context);
+        return render(request, 'mainapp/ideator/home.html', context)
 
 @login_required_message(message="Please log in, in order to view the requested page.")
 @login_required
@@ -211,7 +210,7 @@ def accepted(request):
                 page_obj = p.page(p.num_pages) 
         context = {'submissions': page_obj, 'selected': 'accepted'}
 
-        return render(request, 'mainapp/innovation_champion/home.html', context);
+        return render(request, 'mainapp/innovation_champion/home.html', context)
 
     if request.user.is_ideator:                         
         submissions = Submission.objects.filter(ideator=request.user).filter(status="Accepted")
@@ -225,7 +224,7 @@ def accepted(request):
             page_obj = p.page(p.num_pages)                                    
         context = {'submissions': page_obj, 'selected': 'accepted'}
 
-        return render(request, 'mainapp/ideator/home.html', context);
+        return render(request, 'mainapp/ideator/home.html', context)
 
 @login_required_message(message="Please log in, in order to view the requested page.")
 @login_required
@@ -245,7 +244,7 @@ def rejected(request):
                 page_obj = p.page(p.num_pages)
         context = {'submissions': page_obj, 'selected': 'rejected'}
 
-        return render(request, 'mainapp/innovation_champion/home.html', context);   
+        return render(request, 'mainapp/innovation_champion/home.html', context)
 
     if request.user.is_ideator:                                    
         submissions = Submission.objects.filter(ideator=request.user).filter(status="Rejected")
@@ -259,7 +258,7 @@ def rejected(request):
             page_obj = p.page(p.num_pages)                                     
         context = {'submissions': page_obj, 'selected': 'rejected'}
 
-        return render(request, 'mainapp/ideator/home.html', context);
+        return render(request, 'mainapp/ideator/home.html', context)
     
 
 @login_required_message(message="Please log in, in order to view the requested page.")
@@ -296,7 +295,7 @@ def review_pending(request):
         except EmptyPage:
             page_obj = p.page(p.num_pages)  
         context = {'submissions': page_obj, 'selected': 'review_pending'}
-        return render(request, 'mainapp/ideator/home.html', context); 
+        return render(request, 'mainapp/ideator/home.html', context) 
                                     
     return redirect('home')
 
