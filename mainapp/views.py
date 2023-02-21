@@ -61,6 +61,15 @@ def index(request):
                 graph3_dict[str(submission.status)] += 1
             context['submission_status'] = list(graph3_dict.keys())
             context['no_of_submissions'] = list(graph3_dict.values())
+
+            graph4_dict={}
+            for submission in submissions:
+                graph4_dict[str(submission.submitted_on.strftime('%B'))] =0
+            for submission in submissions:
+                graph4_dict[str(submission.submitted_on.strftime('%B'))] +=1
+
+            context['submitted_month'] = list(graph4_dict.keys())
+            context['submitted_month_values'] = list(graph4_dict.values())
             return render(request, 'mainapp/IG_admin/home.html', context)
         elif request.user.is_IC:
             if request.method == 'POST':
