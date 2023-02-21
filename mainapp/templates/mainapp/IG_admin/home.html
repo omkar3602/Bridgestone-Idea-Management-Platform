@@ -10,7 +10,7 @@
 <div class="flex flex-col gap-5 py-28 items-center">
   <!-- line chart  -->
   <div class="flex flex-col w-9/12 justify-center shadow-2xl rounded">
-    <div class="py-3 px-5 bg-gray-100 text-center font-bold text-xl mb-2">Idea Submission Monthly</div>
+    <div class="py-3 px-5 bg-gray-100 text-center font-bold text-xl mb-2">Monthly Idea Submissions</div>
       <canvas class="p-8" id="chartLine"></canvas>
       <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -50,12 +50,12 @@
       <div class="rounded overflow-hidden">
   
         <div class="px-6 py-4 h-100px">
-          <div class="py-3 px-5 bg-gray-50 text-center font-bold text-xl">Idea submitted per Business Unit</div>
+          <div class="py-3 px-5 bg-gray-50 text-center font-bold text-xl">Ideas submitted per Business Unit</div>
           <p class="text-gray-700 text-base">
           </p>
           <br>
           <div class="shadow-lg rounded-lg overflow-hidden">
-            <div class="py-3 px-5 bg-gray-50 text-center font-semibold">Overview of idea submissions per BU</div>
+            <div class="py-3 px-5 bg-gray-50 text-center font-semibold">Overview of idea submissions per Business Unit</div>
             <canvas class="p-10" id="chartDoughnut1"></canvas>
           </div>
         </div>
@@ -64,12 +64,12 @@
       <div class="rounded overflow-hidden">
   
         <div class="px-6 py-4">
-          <div class="py-3 px-5 bg-gray-50 text-center font-bold text-xl mb-2">Ideas pending per Business Unit</div>
+          <div class="py-3 px-5 bg-gray-50 text-center font-bold text-xl mb-2">Ideas pending in each Business Unit</div>
           <p class="text-gray-700 text-base">
           </p>
           <br>
           <div class="shadow-lg rounded-lg overflow-hidden">
-            <div class="py-3 px-5 bg-gray-50 text-center font-semibold">Overview of pending statuses</div>
+            <div class="py-3 px-5 bg-gray-50 text-center font-semibold">Distribution of ideas based on status</div>
             <canvas class="p-10 h-400" id="chartDoughnut2"></canvas>
           </div>
         </div>
@@ -143,14 +143,18 @@
   <div class="flex flex-col items-center w-9/12 shadow-2xl rounded gap-4">
       <!-- dropdown -->
       <!-- <div class="py-3 px-5 bg-gray-100 text-center font-bold text-xl mb-2 m-auto">Idea Submission Monthly</div> -->
-      <div class="bg-gray-100 py-3 px-5 w-full text-center font-bold text-xl"> Idea submission</div>
+      <div class="bg-gray-100 py-3 px-5 w-full text-center font-bold text-xl">Ideas in each Business unit.</div>
      
       <!-- Dropdown menu -->
-      <select name="chartType" id="chartType" onchange="updateChartType()" class="bg-red-50 border border-red-300 text-gray-900 text-sm rounded shadow-lg focus:ring-red-500 focus:border-red-500 block w-1/3 px-6 py-2.5 dark:bg-red-700 dark:border-red-600 dark:placeholder-red-400 dark:text-white dark:focus:ring-red-500 dark:focus:border-red-500 uppercase">
-        {% for itr in bussiness_units %}
-        <option value="bar" hre>{{itr.name}} - {{itr.innovation_champion}}</option>
-        {% endfor %}
-      </select>
+      <form method="POST">
+        {% csrf_token %}
+        <!-- onchange="updateChartType()" -->
+        <select name="chartType" id="chartType" onchange="if(this.value != 0) { this.form.submit(); }" class="bg-red-50 border border-red-300 text-gray-900 text-sm rounded shadow-lg focus:ring-red-500 focus:border-red-500 block w-full px-6 py-2.5 dark:bg-red-700 dark:border-red-600 dark:placeholder-red-400 dark:text-white dark:focus:ring-red-500 dark:focus:border-red-500 uppercase">
+          {% for bussiness_unit in bussiness_units %}
+            <option value="{{ bussiness_unit.innovation_champion.id }}" hre>{{bussiness_unit.name}} - {{ bussiness_unit.innovation_champion }}</option>
+          {% endfor %}
+        </select>
+      </form>
       <div class="flex flex-row justify-around bg-red w-full">
         <div class="flex flex-col shadow-xl py-3 px-4 rounded-md bg-gray-100">
           <div class="text-sm">Business unit</div>
@@ -207,7 +211,6 @@
 
           function updateChartType() {
                 // Destroy the previous chart
-
 				myChart.destroy();
 
                 // Draw a new chart on the basic of dropdown

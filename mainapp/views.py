@@ -86,14 +86,6 @@ def index(request):
             #     page_obj = p.page(p.num_pages)
             # context = {'submissions': page_obj}
             if request.method == 'POST':
-                # data = request.POST
-                # id = data["submission_id"]
-                # status_txt = data["status"]
-
-                # code = update_status(id, status_txt)
-                # if code == 1:
-                    # messages.info(request, 'Status updated successfully!')
-
                 data = request.POST
                 selected = data['selected']
 
