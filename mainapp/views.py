@@ -5,11 +5,10 @@ from userauth.models import Account
 from django.contrib.auth.decorators import login_required
 from utils.decorator import login_required_message
 from utils.email_sender import send_mail
-from utils.status_updater import update_status
 import os
 from dotenv import load_dotenv
 from django.utils.timezone import localtime
-from django.core.paginator import Paginator , EmptyPage , PageNotAnInteger
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 def index(request, ideachamp_id):
@@ -309,13 +308,62 @@ def update_status_view(request):
         messages.info(request, "You don't have access to this page.")
         return redirect('home')
     if request.method == 'POST':
+        
         data = request.POST
         id = data["submission_id"]
-        status_txt = data["status"]
+        
+        submission = Submission.objects.get(id=id)
+        old_status = submission.status
+
+        status_dict = {
+            'Accept':'Accepted',
+            'Hold':'On Hold',
+            'Reject':'Rejected',
+        }
+
+        if "status" in data.keys():
+            new_status_txt = data["status"]
+            new_status = status_dict[new_status_txt]
+        else:
+            new_status = old_status
+
         remark = data["remark"]
 
-        code = update_status(id, status_txt, remark)
-        if code == 1:
+        remark_change = False
+        status_change = False
+
+        if old_status != new_status: # change in status
+            status_change = True
+        
+        
+        if remark != "" and submission.remark != remark: # change in remark
+            remark_change = True
+        
+        load_dotenv()
+        if status_change and remark_change:
+            submission.status = new_status
+            submission.remark = remark
+            submission.modified_on = localtime()
+            
+            submission.save()
+
+            send_mail(submission.ideator.email, f"Idea status updated to {new_status}", f"Hey {submission.ideator.fullname}! Your submission in the business unit {submission.business_unit.name} has been updated from {old_status} to {new_status}. Remark: {submission.remark}. Check it here {os.getenv('WEB_URL')}#YOUR_SUBMISSIONS")
+        elif status_change and not remark_change:
+            submission.status = new_status
+            submission.modified_on = localtime()
+
+            submission.save()
+
+            send_mail(submission.ideator.email, f"Idea status updated to {new_status}", f"Hey {submission.ideator.fullname}! Your submission in the business unit {submission.business_unit.name} has been updated from {old_status} to {new_status}. Check it here {os.getenv('WEB_URL')}#YOUR_SUBMISSIONS")
+        elif not status_change and remark_change:
+            submission.remark = remark
+            submission.modified_on = localtime()
+            
+            submission.save()
+
+            send_mail(submission.ideator.email, f"Your idea has a new remark", f"Hey {submission.ideator.fullname}! Your submission in the business unit {submission.business_unit.name} has a new remark: {submission.remark}. Check it here {os.getenv('WEB_URL')}#YOUR_SUBMISSIONS")
+        
+        if status_change or remark_change:
             messages.info(request, 'Status updated successfully!')
     return redirect('individual_submission', id=id)
 
