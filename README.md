@@ -35,7 +35,21 @@ env\Scripts\activate
 ```
 pip install -r requirements.txt
 ```
+* Create a .env file in the root directory. It sholud contain the following variables.
+    * SECRET_KEY: Secret Key used by Django in `projectname\settings.py`
+    * DEBUG: Describes whether the project is in development or production.
+    * ADMIN_EMAIL: Email ID of sytem admin. Used for automatic mailing purpose.
+    * PASSWORD: Password of admin email. (If password doesn't work, app password is required).
+    * WEB_URL: This is the base url of the website.
 
+&emsp;&emsp;Example:
+```
+SECRET_KEY="abcdefghi"
+DEBUG="False"
+ADMIN_EMAIL="admin@abcd.com"
+PASSWORD="12345678"
+WEB_URL="http://127.0.0.1:8000/"
+```
 * Start the server.
 ```
 python manage.py runserver
