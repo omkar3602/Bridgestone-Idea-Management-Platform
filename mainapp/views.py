@@ -284,7 +284,7 @@ def individual_submission(request, id):
 
 @login_required_message(message="Please log in, in order to view the requested page.")
 @login_required
-def update_status(request):
+def update_status_view(request):
     if request.user.is_IC == False:
         messages.info(request, "You don't have access to this page.")
         return redirect('home')
@@ -292,8 +292,9 @@ def update_status(request):
         data = request.POST
         id = data["submission_id"]
         status_txt = data["status"]
+        remark = data["remark"]
 
-        code = update_status(id, status_txt)
+        code = update_status(id, status_txt, remark)
         if code == 1:
             messages.info(request, 'Status updated successfully!')
     return redirect('individual_submission', id=id)
