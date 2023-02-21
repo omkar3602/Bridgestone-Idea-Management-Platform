@@ -9,7 +9,7 @@ import os
 from dotenv import load_dotenv
 from django.utils.timezone import localtime
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-
+import uuid
 
 def index(request):
     bussiness_units = BusinessUnit.objects.all()
@@ -208,14 +208,18 @@ def new_submission(request):
 
             business_unit_txt = data['business_unit']
 
+            key = uuid.uuid4().hex[:32].lower()
+            while Submission.objects.filter(key=key).count() != 0:
+                key = uuid.uuid4().hex[:32].lower()
+
             ideator = request.user
             business_unit = BusinessUnit.objects.get(name=business_unit_txt)
 
             if 'attachment' in files.keys():
                 attachment = files['attachment']
-                submission = Submission(title=title, identified_problem=identified_problem, proposed_solution=proposed_solution, benefit_of_solution=benefit_of_solution, similar_solutions=similar_solutions, business_unit=business_unit, ideator=ideator, attachment=attachment)
+                submission = Submission(title=title, identified_problem=identified_problem, proposed_solution=proposed_solution, benefit_of_solution=benefit_of_solution, similar_solutions=similar_solutions, business_unit=business_unit, ideator=ideator, attachment=attachment, key=key)
             else:
-                submission = Submission(title=title, identified_problem=identified_problem, proposed_solution=proposed_solution, benefit_of_solution=benefit_of_solution, similar_solutions=similar_solutions, business_unit=business_unit, ideator=ideator)
+                submission = Submission(title=title, identified_problem=identified_problem, proposed_solution=proposed_solution, benefit_of_solution=benefit_of_solution, similar_solutions=similar_solutions, business_unit=business_unit, ideator=ideator, key=key)
             submission.save()
 
 
@@ -241,7 +245,7 @@ def new_submission(request):
 
 @login_required_message(message="Please log in, in order to view the requested page.")
 @login_required
-def edit_submission(request, id):
+def edit_submission(request, key):
     if request.user.is_ideator == False:
         messages.info(request, "You don't have access to this page.")
         return redirect('home')
@@ -255,7 +259,7 @@ def edit_submission(request, id):
             benefit_of_solution = data['benefit_of_solution']
             similar_solutions = data['similar_solutions']
             
-            submission = Submission.objects.get(id=id)
+            submission = Submission.objects.get(key=key)
             submission.title = title
             submission.identified_problem = identified_problem
             submission.proposed_solution = proposed_solution
@@ -286,7 +290,7 @@ def edit_submission(request, id):
             messages.info(request, 'Idea edited successfully!')
             return redirect('home')
 
-        submission = Submission.objects.get(id=id)
+        submission = Submission.objects.get(key=key)
         if request.user != submission.ideator:
             messages.info(request, "You don't have access to this page.")
             return redirect('home')
@@ -306,8 +310,8 @@ def delete_submission(request):
     else:
         if request.method == 'POST':
             data = request.POST
-            id = data['id']
-            submission = Submission.objects.get(id=id)
+            key = data['key']
+            submission = Submission.objects.get(key=key)
 
             if request.user != submission.ideator:
                 messages.info(request, "You don't have access to this page.")
@@ -325,11 +329,11 @@ def delete_submission(request):
 
 @login_required_message(message="Please log in, in order to view the requested page.")
 @login_required
-def individual_submission(request, id):
+def individual_submission(request, key):
     if request.user.is_IC == False:
         messages.info(request, "You don't have access to this page.")
         return redirect('home')
-    submission = Submission.objects.filter(id=id)
+    submission = Submission.objects.filter(key=key)
     submission = submission[0]
 
     context = {
@@ -346,9 +350,9 @@ def update_status_view(request):
     if request.method == 'POST':
         
         data = request.POST
-        id = data["submission_id"]
+        key = data["submission_key"]
         
-        submission = Submission.objects.get(id=id)
+        submission = Submission.objects.get(key=key)
         old_status = submission.status
 
         status_dict = {
@@ -404,7 +408,7 @@ def update_status_view(request):
         
         if status_change or remark_change:
             messages.info(request, 'Status updated successfully!')
-    return redirect('individual_submission', id=id)
+    return redirect('individual_submission', key=key)
 
 @login_required_message(message="Please log in, in order to view the requested page.")
 @login_required
