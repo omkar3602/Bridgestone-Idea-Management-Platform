@@ -43,6 +43,13 @@ python manage.py runserver
 
 * Great! The website should be running at http://localhost:8000/
 ---
+
+### System Admin credentials for testing
+
+Email: `omkarj3602@gmail.com`
+
+Password: `1234`
+
 ### Idea Admin credentials for testing
 
 Email: `omkar3602@gmail.com`
