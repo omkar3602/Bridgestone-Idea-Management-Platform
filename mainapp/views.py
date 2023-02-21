@@ -118,29 +118,7 @@ def index(request):
 
             return render(request, 'mainapp/innovation_champion/home.html', context)
         
-        elif request.user.is_ideator:
-            if request.method == 'POST':
-                data = request.POST
-                selected = data['selected']
-                
-                if selected == "all":
-                    submissions = Submission.objects.filter(ideator=request.user)
-                elif selected == "review_pending":
-                    submissions = Submission.objects.filter(ideator=request.user).filter(status="Review Pending")
-                elif selected == "accepted":
-                    submissions = Submission.objects.filter(ideator=request.user).filter(status="Accepted")
-                elif selected == "on_hold":
-                    submissions = Submission.objects.filter(ideator=request.user).filter(status="On Hold")
-                elif selected == "rejected":
-                    submissions = Submission.objects.filter(ideator=request.user).filter(status="Rejected")
-                
-
-                context['selected'] = selected
-                context['submissions'] = submissions
-                print("submissions")
-                print(page_obj)
-                context['go_to_submissions'] = True
-                return render(request, 'mainapp/ideator/home.html', context)
+        elif request.user.is_ideator:        
             submissions = Submission.objects.filter(ideator=request.user)
             p = Paginator(submissions,10)
             page_number = request.GET.get('page', 1)
