@@ -11,7 +11,7 @@ from django.utils.timezone import localtime
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
-def index(request):
+def index(request, ideachamp_id):
     bussiness_units = BusinessUnit.objects.all()
     innovation_champions = Account.objects.filter(is_IC=True)
     
@@ -23,6 +23,8 @@ def index(request):
     }
 
     if request.user.is_authenticated:
+        if request.user.is_admin:
+            return redirect('adminuser')
         if request.user.is_IG_admin:
             graph1_dict = {}
             ideators = Account.objects.filter(is_ideator=True)
@@ -72,6 +74,16 @@ def index(request):
             context['submitted_month_values'] = list(graph4_dict.values())
             return render(request, 'mainapp/IG_admin/home.html', context)
         elif request.user.is_IC:
+            # submissions= Submission.objects.all()
+            # p=Paginator(submissions, 2)
+            # page_number = request.GET.get('page')
+            # try:
+            #     page_obj = p.get_page(page_number)  
+            # except PageNotAnInteger:
+            #     page_obj = p.page(1)
+            # except EmptyPage:
+            #     page_obj = p.page(p.num_pages)
+            # context = {'submissions': page_obj}
             if request.method == 'POST':
                 # data = request.POST
                 # id = data["submission_id"]
@@ -131,23 +143,30 @@ def index(request):
                 elif selected == "rejected":
                     submissions = Submission.objects.filter(ideator=request.user).filter(status="Rejected")
 
+                # p = Paginator(submissions,1)
+                # page_number = request.GET.get('page', 1)
+                # try:
+                #     page_obj = p.get_page(page_number)  
+                # except PageNotAnInteger:
+                #     page_obj = p.page(1)
+                # except EmptyPage:
+                #     page_obj = p.page(p.num_pages)
+
                 context['selected'] = selected
                 context['submissions'] = submissions
                 context['go_to_submissions'] = True
                 return render(request, 'mainapp/ideator/home.html', context)
             submissions = Submission.objects.filter(ideator=request.user)
-            p=Paginator(submissions,2)
-            print('no of pages')
-            print(p.num_pages)
-            page_number = request.GET.get('page',1)
-            try:
-                page_obj = p.get_page(page_number)  
-            except PageNotAnInteger:
-                page_obj = p.page(1)
-            except EmptyPage:
-                page_obj = p.page(p.num_pages)
-            context = {'submissions': page_obj}
-            # context['submissions'] = submissions
+            # p = Paginator(submissions,1)
+
+            # page_number = request.GET.get('page', 1)
+            # try:
+            #     page_obj = p.get_page(page_number)  
+            # except PageNotAnInteger:
+            #     page_obj = p.page(1)
+            # except EmptyPage:
+            #     page_obj = p.page(p.num_pages)
+            context = {'submissions': submissions}
             return render(request, 'mainapp/ideator/home.html', context)
         else:
             return render(request, 'mainapp/index.html', context)
@@ -348,6 +367,7 @@ def update_status_view(request):
             submission.save()
 
             send_mail(submission.ideator.email, f"Idea status updated to {new_status}", f"Hey {submission.ideator.fullname}! Your submission in the business unit {submission.business_unit.name} has been updated from {old_status} to {new_status}. Remark: {submission.remark}. Check it here {os.getenv('WEB_URL')}#YOUR_SUBMISSIONS")
+            send_mail(submission.business_unit.innovation_champion, f"Idea status updated to {new_status}", f"Hey {submission.business_unit.innovation_champion.fullname}! You have updated a submission in the business unit {submission.business_unit.name} from {old_status} to {new_status}. Remark: {submission.remark}. Check it here {os.getenv('WEB_URL')}#YOUR_SUBMISSIONS")
         elif status_change and not remark_change:
             submission.status = new_status
             submission.modified_on = localtime()
@@ -355,6 +375,7 @@ def update_status_view(request):
             submission.save()
 
             send_mail(submission.ideator.email, f"Idea status updated to {new_status}", f"Hey {submission.ideator.fullname}! Your submission in the business unit {submission.business_unit.name} has been updated from {old_status} to {new_status}. Check it here {os.getenv('WEB_URL')}#YOUR_SUBMISSIONS")
+            send_mail(submission.business_unit.innovation_champion, f"Idea status updated to {new_status}", f"Hey {submission.business_unit.innovation_champion.fullname}! You have updated a submission in the business unit {submission.business_unit.name} from {old_status} to {new_status}. Check it here {os.getenv('WEB_URL')}#YOUR_SUBMISSIONS")
         elif not status_change and remark_change:
             submission.remark = remark
             submission.modified_on = localtime()
@@ -362,6 +383,7 @@ def update_status_view(request):
             submission.save()
 
             send_mail(submission.ideator.email, f"Your idea has a new remark", f"Hey {submission.ideator.fullname}! Your submission in the business unit {submission.business_unit.name} has a new remark: {submission.remark}. Check it here {os.getenv('WEB_URL')}#YOUR_SUBMISSIONS")
+            send_mail(submission.business_unit.innovation_champion, f"Idea status updated to {new_status}", f"Hey {submission.business_unit.innovation_champion.fullname}! You have updated a submission in the business unit {submission.business_unit.name} with remark: {submission.remark}. Check it here {os.getenv('WEB_URL')}#YOUR_SUBMISSIONS")
         
         if status_change or remark_change:
             messages.info(request, 'Status updated successfully!')
