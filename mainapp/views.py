@@ -9,7 +9,7 @@ import os
 from dotenv import load_dotenv
 from django.utils.timezone import localtime
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-
+import uuid
 
 def index(request):
     bussiness_units = BusinessUnit.objects.all()
@@ -23,20 +23,54 @@ def index(request):
     }
 
     if request.user.is_authenticated:
+        if request.user.is_admin:
+            return redirect('adminuser')
         if request.user.is_IG_admin:
-            graph1_dict = {}
-            ideators = Account.objects.filter(is_ideator=True)
+            selected_BU = BusinessUnit.objects.all()[0]
+            context["selected_BU"] = selected_BU
             submissions = Submission.objects.all()
 
-            for ideator in ideators:
-                graph1_dict[str(ideator.fullname)] = 0
+            BU_submissions = submissions.filter(business_unit=selected_BU)
+            graph4_array = [
+                BU_submissions.count(),
+                BU_submissions.filter(status="Accepted").count(),
+                BU_submissions.filter(status="Rejected").count(),
+                BU_submissions.filter(status="On Hold").count(),
+                BU_submissions.filter(status="Review Pending").count()
+            ]
+
+            context["graph4_array"] = graph4_array
             
+            if request.method == "POST":
+                scroll_to_business_unit = True
+                selected_BU_id = request.POST["business_unit"]
+                selected_BU = BusinessUnit.objects.filter(id=selected_BU_id)[0]
+                context["selected_BU"] = selected_BU
+                context["scroll_to_business_unit"] = scroll_to_business_unit
+
+                BU_submissions = submissions.filter(business_unit=selected_BU)
+                graph4_array = [
+                    BU_submissions.count(),
+                    BU_submissions.filter(status="Accepted").count(),
+                    BU_submissions.filter(status="Rejected").count(),
+                    BU_submissions.filter(status="On Hold").count(),
+                    BU_submissions.filter(status="Review Pending").count()
+                ]
+
+                context["graph4_array"] = graph4_array
+
+            # line graph data
+            graph1_dict={}
             for submission in submissions:
-                graph1_dict[str(submission.ideator)] += 1
-            context['ideators'] = list(graph1_dict.keys())
-            context['submissions'] = list(graph1_dict.values())
+                if str(submission.submitted_on.strftime('%B')) in graph1_dict.keys():
+                    graph1_dict[str(submission.submitted_on.strftime('%B'))] += 1
+                else:
+                    graph1_dict[str(submission.submitted_on.strftime('%B'))] = 1
 
+            context['submitted_month'] = list(graph1_dict.keys())
+            context['submitted_month_values'] = list(graph1_dict.values())
 
+            # BU vs submissions
             graph2_dict = {}
             business_units = BusinessUnit.objects.all()
             submissions = Submission.objects.all()
@@ -49,38 +83,23 @@ def index(request):
             context['business_units'] = list(graph2_dict.keys())
             context['submissions'] = list(graph2_dict.values())
 
+            # No of submissions and status
             graph3_dict = {
                 "Review Pending":0, 
                 "Accepted":0, 
                 "Rejected":0, 
                 "On Hold":0,
             }
-            submissions = Submission.objects.all()
             
             for submission in submissions:
                 graph3_dict[str(submission.status)] += 1
             context['submission_status'] = list(graph3_dict.keys())
             context['no_of_submissions'] = list(graph3_dict.values())
 
-            graph4_dict={}
-            for submission in submissions:
-                graph4_dict[str(submission.submitted_on.strftime('%B'))] =0
-            for submission in submissions:
-                graph4_dict[str(submission.submitted_on.strftime('%B'))] +=1
 
-            context['submitted_month'] = list(graph4_dict.keys())
-            context['submitted_month_values'] = list(graph4_dict.values())
             return render(request, 'mainapp/IG_admin/home.html', context)
         elif request.user.is_IC:         
             if request.method == 'POST':
-                # data = request.POST
-                # id = data["submission_id"]
-                # status_txt = data["status"]
-
-                # code = update_status(id, status_txt)
-                # if code == 1:
-                    # messages.info(request, 'Status updated successfully!')
-
                 data = request.POST
                 selected = data['selected']
 
@@ -130,7 +149,7 @@ def index(request):
             business_unit = BusinessUnit.objects.filter(innovation_champion=request.user)
             if business_unit:
                 business_unit = business_unit[0]
-                submissions = Submission.objects.filter(business_unit=business_unit)
+                submissions = Submission.objects.filter(business_unit=business_unit).order_by('submitted_on')                    
 
                 context['business_unit'] = business_unit
                 context['submissions'] = submissions
@@ -201,14 +220,18 @@ def new_submission(request):
 
             business_unit_txt = data['business_unit']
 
+            key = uuid.uuid4().hex[:32].lower()
+            while Submission.objects.filter(key=key).count() != 0:
+                key = uuid.uuid4().hex[:32].lower()
+
             ideator = request.user
             business_unit = BusinessUnit.objects.get(name=business_unit_txt)
 
             if 'attachment' in files.keys():
                 attachment = files['attachment']
-                submission = Submission(title=title, identified_problem=identified_problem, proposed_solution=proposed_solution, benefit_of_solution=benefit_of_solution, similar_solutions=similar_solutions, business_unit=business_unit, ideator=ideator, attachment=attachment)
+                submission = Submission(title=title, identified_problem=identified_problem, proposed_solution=proposed_solution, benefit_of_solution=benefit_of_solution, similar_solutions=similar_solutions, business_unit=business_unit, ideator=ideator, attachment=attachment, key=key)
             else:
-                submission = Submission(title=title, identified_problem=identified_problem, proposed_solution=proposed_solution, benefit_of_solution=benefit_of_solution, similar_solutions=similar_solutions, business_unit=business_unit, ideator=ideator)
+                submission = Submission(title=title, identified_problem=identified_problem, proposed_solution=proposed_solution, benefit_of_solution=benefit_of_solution, similar_solutions=similar_solutions, business_unit=business_unit, ideator=ideator, key=key)
             submission.save()
 
 
@@ -234,7 +257,7 @@ def new_submission(request):
 
 @login_required_message(message="Please log in, in order to view the requested page.")
 @login_required
-def edit_submission(request, id):
+def edit_submission(request, key):
     if request.user.is_ideator == False:
         messages.info(request, "You don't have access to this page.")
         return redirect('home')
@@ -248,7 +271,7 @@ def edit_submission(request, id):
             benefit_of_solution = data['benefit_of_solution']
             similar_solutions = data['similar_solutions']
             
-            submission = Submission.objects.get(id=id)
+            submission = Submission.objects.get(key=key)
             submission.title = title
             submission.identified_problem = identified_problem
             submission.proposed_solution = proposed_solution
@@ -279,7 +302,7 @@ def edit_submission(request, id):
             messages.info(request, 'Idea edited successfully!')
             return redirect('home')
 
-        submission = Submission.objects.get(id=id)
+        submission = Submission.objects.get(key=key)
         if request.user != submission.ideator:
             messages.info(request, "You don't have access to this page.")
             return redirect('home')
@@ -299,8 +322,8 @@ def delete_submission(request):
     else:
         if request.method == 'POST':
             data = request.POST
-            id = data['id']
-            submission = Submission.objects.get(id=id)
+            key = data['key']
+            submission = Submission.objects.get(key=key)
 
             if request.user != submission.ideator:
                 messages.info(request, "You don't have access to this page.")
@@ -318,11 +341,11 @@ def delete_submission(request):
 
 @login_required_message(message="Please log in, in order to view the requested page.")
 @login_required
-def individual_submission(request, id):
+def individual_submission(request, key):
     if request.user.is_IC == False:
         messages.info(request, "You don't have access to this page.")
         return redirect('home')
-    submission = Submission.objects.filter(id=id)
+    submission = Submission.objects.filter(key=key)
     submission = submission[0]
 
     context = {
@@ -339,9 +362,9 @@ def update_status_view(request):
     if request.method == 'POST':
         
         data = request.POST
-        id = data["submission_id"]
+        key = data["submission_key"]
         
-        submission = Submission.objects.get(id=id)
+        submission = Submission.objects.get(key=key)
         old_status = submission.status
 
         status_dict = {
@@ -377,6 +400,7 @@ def update_status_view(request):
             submission.save()
 
             send_mail(submission.ideator.email, f"Idea status updated to {new_status}", f"Hey {submission.ideator.fullname}! Your submission in the business unit {submission.business_unit.name} has been updated from {old_status} to {new_status}. Remark: {submission.remark}. Check it here {os.getenv('WEB_URL')}#YOUR_SUBMISSIONS")
+            send_mail(submission.business_unit.innovation_champion.email, f"Idea status updated to {new_status}", f"Hey {submission.business_unit.innovation_champion.fullname}! You have updated a submission in the business unit {submission.business_unit.name} from {old_status} to {new_status}. Remark: {submission.remark}. Check it here {os.getenv('WEB_URL')}#YOUR_SUBMISSIONS")
         elif status_change and not remark_change:
             submission.status = new_status
             submission.modified_on = localtime()
@@ -384,6 +408,7 @@ def update_status_view(request):
             submission.save()
 
             send_mail(submission.ideator.email, f"Idea status updated to {new_status}", f"Hey {submission.ideator.fullname}! Your submission in the business unit {submission.business_unit.name} has been updated from {old_status} to {new_status}. Check it here {os.getenv('WEB_URL')}#YOUR_SUBMISSIONS")
+            send_mail(submission.business_unit.innovation_champion.email, f"Idea status updated to {new_status}", f"Hey {submission.business_unit.innovation_champion.fullname}! You have updated a submission in the business unit {submission.business_unit.name} from {old_status} to {new_status}. Check it here {os.getenv('WEB_URL')}#YOUR_SUBMISSIONS")
         elif not status_change and remark_change:
             submission.remark = remark
             submission.modified_on = localtime()
@@ -391,10 +416,11 @@ def update_status_view(request):
             submission.save()
 
             send_mail(submission.ideator.email, f"Your idea has a new remark", f"Hey {submission.ideator.fullname}! Your submission in the business unit {submission.business_unit.name} has a new remark: {submission.remark}. Check it here {os.getenv('WEB_URL')}#YOUR_SUBMISSIONS")
+            send_mail(submission.business_unit.innovation_champion.email, f"Idea status updated to {new_status}", f"Hey {submission.business_unit.innovation_champion.fullname}! You have updated a submission in the business unit {submission.business_unit.name} with remark: {submission.remark}. Check it here {os.getenv('WEB_URL')}#YOUR_SUBMISSIONS")
         
         if status_change or remark_change:
             messages.info(request, 'Status updated successfully!')
-    return redirect('individual_submission', id=id)
+    return redirect('individual_submission', key=key)
 
 @login_required_message(message="Please log in, in order to view the requested page.")
 @login_required

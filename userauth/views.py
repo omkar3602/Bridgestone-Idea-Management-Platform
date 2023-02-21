@@ -28,7 +28,6 @@ def signup(request):
         return redirect('home')
     if request.method == 'POST':
         data = request.POST
-        # print(data)
         fullname = data['fullname']
         email = data['email']
 
@@ -58,7 +57,6 @@ def signup_IC(request):
         return redirect('home')
     if request.method == 'POST':
         data = request.POST
-        # print(data)
         fullname = data['fullname']
         email = data['email']
 

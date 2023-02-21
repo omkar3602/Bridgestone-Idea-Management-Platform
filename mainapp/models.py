@@ -27,6 +27,8 @@ class Submission(models.Model):
     submitted_on = models.DateTimeField(default=localtime())
     modified_on = models.DateTimeField(default=localtime())
 
+    key = models.CharField(max_length=50, unique=True)
+
     def __str__(self):
         return self.title
  
