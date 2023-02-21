@@ -23,6 +23,8 @@ def index(request):
     }
 
     if request.user.is_authenticated:
+        if request.user.is_admin:
+            return redirect('adminuser')
         if request.user.is_IG_admin:
             graph1_dict = {}
             ideators = Account.objects.filter(is_ideator=True)
