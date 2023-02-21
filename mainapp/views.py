@@ -117,6 +117,7 @@ def index(request):
             context['selected'] = 'all'
 
             return render(request, 'mainapp/innovation_champion/home.html', context)
+        
         elif request.user.is_ideator:
             if request.method == 'POST':
                 data = request.POST
@@ -172,7 +173,7 @@ def on_hold(request):
                 page_obj = p.page(1)
             except EmptyPage:
                 page_obj = p.page(p.num_pages) 
-        context = {'submissions': page_obj, 'selected': 'on_hold'}
+        context = {'submissions': page_obj, 'selected': 'on_hold', 'business_unit': business_unit}
 
         return render(request, 'mainapp/ideator/home.html', context)
 
@@ -208,7 +209,7 @@ def accepted(request):
                 page_obj = p.page(1)
             except EmptyPage:
                 page_obj = p.page(p.num_pages) 
-        context = {'submissions': page_obj, 'selected': 'accepted'}
+        context = {'submissions': page_obj, 'selected': 'accepted', 'business_unit': business_unit}
 
         return render(request, 'mainapp/innovation_champion/home.html', context)
 
@@ -242,7 +243,7 @@ def rejected(request):
                 page_obj = p.page(1)
             except EmptyPage:
                 page_obj = p.page(p.num_pages)
-        context = {'submissions': page_obj, 'selected': 'rejected'}
+        context = {'submissions': page_obj, 'selected': 'rejected', 'business_unit': business_unit}
 
         return render(request, 'mainapp/innovation_champion/home.html', context)
 
@@ -278,7 +279,7 @@ def review_pending(request):
             except EmptyPage:
                 page_obj = p.page(p.num_pages) 
 
-            context = {'submissions': page_obj, 'selected': 'review_pending'}
+            context = {'submissions': page_obj, 'selected': 'review_pending', "business_unit": business_unit}
 
             return render(request, 'mainapp/innovation_champion/home.html', context)
         return redirect('home')
