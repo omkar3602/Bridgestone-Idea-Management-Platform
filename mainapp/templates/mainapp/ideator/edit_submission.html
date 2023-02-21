@@ -43,11 +43,13 @@
 
                     <input class="form-check-input appearance-none rounded-full h-5 w-5 border border-gray-400 bg-white checked:bg-red-700 checked:border-red-700 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="radio" name="role" id="yes" value="yes" onclick="showDiv()"
                     {% if submission.similar_solutions %}checked{% endif %}
-                    />   
+                    />
                     <label class="form-check-label block text-gray-800" for="yes">
                         Yes
                     </label>  
-                    <input class="form-check-input appearance-none rounded-full h-5 w-5 border border-gray-400 bg-white checked:bg-red-700 checked:border-red-700  focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="radio" name="role" id="no" value="no" onclick="hideDiv()"/>   
+                    <input class="form-check-input appearance-none rounded-full h-5 w-5 border border-gray-400 bg-white checked:bg-red-700 checked:border-red-700  focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="radio" name="role" id="no" value="no" onclick="hideDiv()"
+                    {% if not submission.similar_solutions %}checked{% endif %}
+                    />   
                     <label class="form-check-label block text-gray-800" for="no">
                         No
                     </label>  

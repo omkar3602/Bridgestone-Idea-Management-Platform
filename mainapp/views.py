@@ -98,11 +98,11 @@ def index(request):
 
 
             return render(request, 'mainapp/IG_admin/home.html', context)
-        elif request.user.is_IC:                 
+        elif request.user.is_IC:
             business_unit = BusinessUnit.objects.filter(innovation_champion=request.user)
             if business_unit:
-                business_unit = business_unit[0]                    
-                submissions = Submission.objects.filter(business_unit=business_unit)
+                business_unit = business_unit[0]
+                submissions = Submission.objects.filter(business_unit=business_unit).order_by('-submitted_on')
                 p=Paginator(submissions, 10)
                 page_number = request.GET.get('page')
                 try:
@@ -119,28 +119,6 @@ def index(request):
             return render(request, 'mainapp/innovation_champion/home.html', context)
         
         elif request.user.is_ideator:
-            if request.method == 'POST':
-                data = request.POST
-                selected = data['selected']
-                
-                if selected == "all":
-                    submissions = Submission.objects.filter(ideator=request.user)
-                elif selected == "review_pending":
-                    submissions = Submission.objects.filter(ideator=request.user).filter(status="Review Pending")
-                elif selected == "accepted":
-                    submissions = Submission.objects.filter(ideator=request.user).filter(status="Accepted")
-                elif selected == "on_hold":
-                    submissions = Submission.objects.filter(ideator=request.user).filter(status="On Hold")
-                elif selected == "rejected":
-                    submissions = Submission.objects.filter(ideator=request.user).filter(status="Rejected")
-                
-
-                context['selected'] = selected
-                context['submissions'] = submissions
-                print("submissions")
-                print(page_obj)
-                context['go_to_submissions'] = True
-                return render(request, 'mainapp/ideator/home.html', context)
             submissions = Submission.objects.filter(ideator=request.user)
             p = Paginator(submissions,10)
             page_number = request.GET.get('page', 1)
@@ -163,20 +141,24 @@ def index(request):
 @login_required_message(message="Please log in, in order to view the requested page.")
 @login_required
 def on_hold(request):
+    context = {}
     if request.user.is_IC:         
         business_unit = BusinessUnit.objects.filter(innovation_champion=request.user)
         if business_unit:
-            business_unit = business_unit[0]                    
-            submissions = Submission.objects.filter(business_unit=business_unit).filter(status="On Hold")
+            business_unit = business_unit[0]
+            submissions = Submission.objects.filter(business_unit=business_unit).filter(status="On Hold").order_by('-submitted_on')
             p=Paginator(submissions, 10)
             page_number = request.GET.get('page')
             try:
-                page_obj = p.get_page(page_number)  
+                page_obj = p.get_page(page_number)
             except PageNotAnInteger:
                 page_obj = p.page(1)
             except EmptyPage:
-                page_obj = p.page(p.num_pages) 
-        context = {'submissions': page_obj, 'selected': 'on_hold', 'business_unit': business_unit}
+                page_obj = p.page(p.num_pages)
+            context['submissions'] = page_obj
+            context['business_unit'] = business_unit
+
+        context['selected'] = 'on_hold'
 
         return render(request, 'mainapp/innovation_champion/home.html', context)
 
@@ -199,11 +181,12 @@ def on_hold(request):
 @login_required_message(message="Please log in, in order to view the requested page.")
 @login_required
 def accepted(request):
+    context = {}
     if request.user.is_IC:         
         business_unit = BusinessUnit.objects.filter(innovation_champion=request.user)
         if business_unit:
-            business_unit = business_unit[0]                    
-            submissions = Submission.objects.filter(business_unit=business_unit).filter(status="Accepted")
+            business_unit = business_unit[0]
+            submissions = Submission.objects.filter(business_unit=business_unit).filter(status="Accepted").order_by('-submitted_on')
             p=Paginator(submissions, 10)
             page_number = request.GET.get('page')
             try:
@@ -212,7 +195,10 @@ def accepted(request):
                 page_obj = p.page(1)
             except EmptyPage:
                 page_obj = p.page(p.num_pages) 
-        context = {'submissions': page_obj, 'selected': 'accepted', 'business_unit': business_unit}
+            context['submissions'] = page_obj
+            context['business_unit'] = business_unit
+        
+        context['selected'] = 'accepted'
 
         return render(request, 'mainapp/innovation_champion/home.html', context)
 
@@ -233,20 +219,25 @@ def accepted(request):
 @login_required_message(message="Please log in, in order to view the requested page.")
 @login_required
 def rejected(request):
-    if request.user.is_IC:         
+    context = {}
+    if request.user.is_IC:
         business_unit = BusinessUnit.objects.filter(innovation_champion=request.user)
         if business_unit:
-            business_unit = business_unit[0]                    
-            submissions = Submission.objects.filter(business_unit=business_unit).filter(status="Rejected")
+            business_unit = business_unit[0]
+            submissions = Submission.objects.filter(business_unit=business_unit).filter(status="Rejected").order_by('-submitted_on')
             p=Paginator(submissions, 10)
             page_number = request.GET.get('page')
             try:
-                page_obj = p.get_page(page_number)  
+                page_obj = p.get_page(page_number)
             except PageNotAnInteger:
                 page_obj = p.page(1)
             except EmptyPage:
                 page_obj = p.page(p.num_pages)
-        context = {'submissions': page_obj, 'selected': 'rejected', 'business_unit': business_unit}
+            context['submissions'] = page_obj
+            context['business_unit'] = business_unit
+        
+        context['selected'] = 'rejected'
+
 
         return render(request, 'mainapp/innovation_champion/home.html', context)
 
@@ -268,11 +259,12 @@ def rejected(request):
 @login_required_message(message="Please log in, in order to view the requested page.")
 @login_required
 def review_pending(request):
+    context = {}
     if request.user.is_IC:         
         business_unit = BusinessUnit.objects.filter(innovation_champion=request.user)
         if business_unit:
-            business_unit = business_unit[0]                    
-            submissions = Submission.objects.filter(business_unit=business_unit).filter(status="Review Pending")
+            business_unit = business_unit[0]
+            submissions = Submission.objects.filter(business_unit=business_unit).filter(status="Review Pending").order_by('-submitted_on')
             p=Paginator(submissions, 10)
             page_number = request.GET.get('page')
             try:
@@ -282,10 +274,11 @@ def review_pending(request):
             except EmptyPage:
                 page_obj = p.page(p.num_pages) 
 
-            context = {'submissions': page_obj, 'selected': 'review_pending', "business_unit": business_unit}
+            context['submissions'] = page_obj
+            context['business_unit'] = business_unit
 
-            return render(request, 'mainapp/innovation_champion/home.html', context)
-        return redirect('home')
+        context['selected'] = 'review_pending'
+        return render(request, 'mainapp/innovation_champion/home.html', context)
 
     if request.user.is_ideator:         
                         
