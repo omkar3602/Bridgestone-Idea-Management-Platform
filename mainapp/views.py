@@ -122,7 +122,7 @@ def index(request):
             business_unit = BusinessUnit.objects.filter(innovation_champion=request.user)
             if business_unit:
                 business_unit = business_unit[0]
-                submissions = Submission.objects.filter(business_unit=business_unit)
+                submissions = Submission.objects.filter(business_unit=business_unit).order_by('submitted_on')                    
 
                 context['business_unit'] = business_unit
                 context['submissions'] = submissions
