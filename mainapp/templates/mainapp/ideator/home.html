@@ -275,13 +275,15 @@ Ideator{% endblock title %} {% block content %}
       {% else %}
         <div class="text-center text-2xl font-bold text-black-500 pt-10">
           {% if selected == "accepted" %}
-            <p>No ideas are accepted yet</p>
+            <p>No ideas have been accepted.</p>
           {% elif selected == "on_hold" %}
-            <p>No ideas are on Hold</p>
+            <p>No ideas are on hold.</p>
           {% elif selected == "rejected" %}
-            <p>No ideas are Rejected</p>
+            <p>No ideas have been rejected.</p>
+          {% elif selected == "review_pending" %}
+            <p>No ideas are pending to be reviewed.</p>
           {% else %}
-            <p>No ideas are pending to review</p>
+            <p>You have not submitted any ideas.</p>
           {% endif %}
         </div>
         {% endif %}
