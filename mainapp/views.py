@@ -23,6 +23,8 @@ def index(request, ideachamp_id):
     }
 
     if request.user.is_authenticated:
+        if request.user.is_admin:
+            return redirect('adminuser')
         if request.user.is_IG_admin:
             graph1_dict = {}
             ideators = Account.objects.filter(is_ideator=True)
@@ -72,6 +74,16 @@ def index(request, ideachamp_id):
             context['submitted_month_values'] = list(graph4_dict.values())
             return render(request, 'mainapp/IG_admin/home.html', context)
         elif request.user.is_IC:
+            # submissions= Submission.objects.all()
+            # p=Paginator(submissions, 2)
+            # page_number = request.GET.get('page')
+            # try:
+            #     page_obj = p.get_page(page_number)  
+            # except PageNotAnInteger:
+            #     page_obj = p.page(1)
+            # except EmptyPage:
+            #     page_obj = p.page(p.num_pages)
+            # context = {'submissions': page_obj}
             if request.method == 'POST':
                 # data = request.POST
                 # id = data["submission_id"]
@@ -131,23 +143,30 @@ def index(request, ideachamp_id):
                 elif selected == "rejected":
                     submissions = Submission.objects.filter(ideator=request.user).filter(status="Rejected")
 
+                # p = Paginator(submissions,1)
+                # page_number = request.GET.get('page', 1)
+                # try:
+                #     page_obj = p.get_page(page_number)  
+                # except PageNotAnInteger:
+                #     page_obj = p.page(1)
+                # except EmptyPage:
+                #     page_obj = p.page(p.num_pages)
+
                 context['selected'] = selected
                 context['submissions'] = submissions
                 context['go_to_submissions'] = True
                 return render(request, 'mainapp/ideator/home.html', context)
             submissions = Submission.objects.filter(ideator=request.user)
-            p=Paginator(submissions,2)
-            print('no of pages')
-            print(p.num_pages)
-            page_number = request.GET.get('page',1)
-            try:
-                page_obj = p.get_page(page_number)  
-            except PageNotAnInteger:
-                page_obj = p.page(1)
-            except EmptyPage:
-                page_obj = p.page(p.num_pages)
-            context = {'submissions': page_obj}
-            # context['submissions'] = submissions
+            # p = Paginator(submissions,1)
+
+            # page_number = request.GET.get('page', 1)
+            # try:
+            #     page_obj = p.get_page(page_number)  
+            # except PageNotAnInteger:
+            #     page_obj = p.page(1)
+            # except EmptyPage:
+            #     page_obj = p.page(p.num_pages)
+            context = {'submissions': submissions}
             return render(request, 'mainapp/ideator/home.html', context)
         else:
             return render(request, 'mainapp/index.html', context)
