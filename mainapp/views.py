@@ -43,7 +43,7 @@ def index(request):
             
             if request.method == "POST":
                 scroll_to_business_unit = True
-                selected_BU_id = request.POST["business_unit"]
+                selected_BU_id = request.POST["business_unit_input"]
                 selected_BU = BusinessUnit.objects.filter(id=selected_BU_id)[0]
                 context["selected_BU"] = selected_BU
                 context["scroll_to_business_unit"] = scroll_to_business_unit
