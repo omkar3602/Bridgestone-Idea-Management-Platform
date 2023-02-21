@@ -150,7 +150,7 @@
 
   </div>
   <div class="flex flex-col items-center w-9/12 shadow-2xl rounded gap-4">
-    <div class="bg-gray-100 py-3 px-5 w-full text-center font-bold text-xl">Ideas in each Business unit</div>
+    <div class="bg-gray-100 py-3 px-5 w-full text-center font-bold text-xl">Ideas in each Business Unit</div>
     <form method="POST">
       {% csrf_token %}
       <select name="business_unit_input" id="business_unit" onchange="if(this.value != 0) { this.form.submit(); }"
