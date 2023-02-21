@@ -66,25 +66,24 @@
               </div>
               {% endif %}
     </div>
-    id, status_txt
     <div class="mt-4">
-        <p class="px-1 py-2 font-semibold">Change Status</p>
-        <div class="flex flex-row">
-            <a href=
-                class="bg-green-500 rounded-lg p-4 flex-1 text-center mr-2 font-semibold uppercase text-white text-lg">
-                Accept</a>
-            <a href=
-                class="bg-orange-500 rounded-lg p-4 flex-1 text-center mr-2 font-semibold uppercase text-white text-lg">
-                Hold</a>
-            <a href= class="bg-red-500 rounded-lg p-4 flex-1 text-center font-semibold uppercase text-white text-lg">
-                Reject</a>
-        </div>
+        <p class="px-1 py-2 font-semibold">Change Status</p>        
+            <form method="POST">
+                {% csrf_token %}
+                <div class="flex flex-row">
+                  <input type="hidden" name="submission_id" value="{{ submission.id }}"></input>
+                  <input type="submit" value="Accept" name="status" class="bg-green-500 rounded-lg p-4 flex-1 text-center mr-2 font-semibold uppercase text-white text-lg"></input>
+                  <input type="submit" value="Hold" name="status" class="bg-orange-500 rounded-lg p-4 flex-1 text-center mr-2 font-semibold uppercase text-white text-lg"></input>
+                  <input type="submit" value="Reject" name="status" class="bg-red-500 rounded-lg p-4 flex-1 text-center mr-2 font-semibold uppercase text-white text-lg"></input>
+                </div>
+              </form>                    
+
 
     </div>
     <div class="mt-4">
         <form class="">
             <p class="px-1 py-2 font-semibold">Do you have any remarks</p>
-            <input class="bg-gray-100 rounded-lg p-4 w-full" type="textarea" />
+            <input class="bg-gray-100 rounded-lg p-4 w-full h-60" type="textarea" />
             <button class="bg-red-700 text-white rounded-lg p-2 my-3 " type="submit">Submit Remark</button>
         </form>
     </div>
