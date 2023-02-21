@@ -311,7 +311,7 @@ Ideator{% endblock title %} {% block content %}
 </div>
 <!-- Javascript code -->
 <script>
-    function show_modal(divid){
+  function show_modal(divid){
       const modal_div = document.getElementById(divid);
       modal_div.classList.toggle('hidden');
       modal_div.classList.toggle('flex');
@@ -321,6 +321,20 @@ Ideator{% endblock title %} {% block content %}
       modal_div.classList.toggle('hidden');
       modal_div.classList.toggle('flex');
     }
+  window.addEventListener('DOMContentLoaded', () =>{
+            const overlay = document.querySelector('#overlay')
+            const delBtn = document.querySelector('#remark-btn')
+            const closeBtn = document.querySelector('#close-modal')
+
+            const toggleModal = () => {
+                overlay.classList.toggle('hidden')
+                overlay.classList.toggle('flex')
+            }
+
+            delBtn.addEventListener('click', toggleModal)
+            closeBtn.addEventListener('click',toggleModal)
+            
+        })
     {% if go_to_submissions %}
       window.location.hash = '#YOUR_SUBMISSIONS';
     {% endif %}
