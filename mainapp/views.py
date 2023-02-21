@@ -26,19 +26,8 @@ def index(request):
         if request.user.is_admin:
             return redirect('adminuser')
         if request.user.is_IG_admin:
-            graph1_dict = {}
-            ideators = Account.objects.filter(is_ideator=True)
-            submissions = Submission.objects.all()
 
-            for ideator in ideators:
-                graph1_dict[str(ideator.fullname)] = 0
-            
-            for submission in submissions:
-                graph1_dict[str(submission.ideator)] += 1
-            context['ideators'] = list(graph1_dict.keys())
-            context['submissions'] = list(graph1_dict.values())
-
-
+            # BU vs submissions
             graph2_dict = {}
             business_units = BusinessUnit.objects.all()
             submissions = Submission.objects.all()
@@ -51,6 +40,7 @@ def index(request):
             context['business_units'] = list(graph2_dict.keys())
             context['submissions'] = list(graph2_dict.values())
 
+            # No of submissions and status
             graph3_dict = {
                 "Review Pending":0, 
                 "Accepted":0, 
@@ -64,6 +54,7 @@ def index(request):
             context['submission_status'] = list(graph3_dict.keys())
             context['no_of_submissions'] = list(graph3_dict.values())
 
+            # line graph data
             graph4_dict={}
             for submission in submissions:
                 if str(submission.submitted_on.strftime('%B')) in graph4_dict.keys():
