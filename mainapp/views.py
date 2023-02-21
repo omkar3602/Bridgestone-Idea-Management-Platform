@@ -26,6 +26,49 @@ def index(request):
         if request.user.is_admin:
             return redirect('adminuser')
         if request.user.is_IG_admin:
+            selected_BU = BusinessUnit.objects.all()[0]
+            context["selected_BU"] = selected_BU
+            submissions = Submission.objects.all()
+
+            BU_submissions = submissions.filter(business_unit=selected_BU)
+            graph4_array = [
+                BU_submissions.count(),
+                BU_submissions.filter(status="Pending").count(),
+                BU_submissions.filter(status="On Hold").count(),
+                BU_submissions.filter(status="Accepted").count(),
+                BU_submissions.filter(status="Rejected").count()
+            ]
+
+            context["graph4_array"] = graph4_array
+            
+            if request.method == "POST":
+                scroll_to_business_unit = True
+                selected_BU_id = request.POST["business_unit"]
+                selected_BU = BusinessUnit.objects.filter(id=selected_BU_id)[0]
+                context["selected_BU"] = selected_BU
+                context["scroll_to_business_unit"] = scroll_to_business_unit
+
+                BU_submissions = submissions.filter(business_unit=selected_BU)
+                graph4_array = [
+                    BU_submissions.count(),
+                    BU_submissions.filter(status="Pending").count(),
+                    BU_submissions.filter(status="On Hold").count(),
+                    BU_submissions.filter(status="Accepted").count(),
+                    BU_submissions.filter(status="Rejected").count()
+                ]
+
+                context["graph4_array"] = graph4_array
+
+            # line graph data
+            graph1_dict={}
+            for submission in submissions:
+                if str(submission.submitted_on.strftime('%B')) in graph1_dict.keys():
+                    graph1_dict[str(submission.submitted_on.strftime('%B'))] += 1
+                else:
+                    graph1_dict[str(submission.submitted_on.strftime('%B'))] = 1
+
+            context['submitted_month'] = list(graph1_dict.keys())
+            context['submitted_month_values'] = list(graph1_dict.values())
 
             # BU vs submissions
             graph2_dict = {}
@@ -47,23 +90,13 @@ def index(request):
                 "Rejected":0, 
                 "On Hold":0,
             }
-            submissions = Submission.objects.all()
             
             for submission in submissions:
                 graph3_dict[str(submission.status)] += 1
             context['submission_status'] = list(graph3_dict.keys())
             context['no_of_submissions'] = list(graph3_dict.values())
 
-            # line graph data
-            graph4_dict={}
-            for submission in submissions:
-                if str(submission.submitted_on.strftime('%B')) in graph4_dict.keys():
-                    graph4_dict[str(submission.submitted_on.strftime('%B'))] += 1
-                else:
-                    graph4_dict[str(submission.submitted_on.strftime('%B'))] = 1
 
-            context['submitted_month'] = list(graph4_dict.keys())
-            context['submitted_month_values'] = list(graph4_dict.values())
             return render(request, 'mainapp/IG_admin/home.html', context)
         elif request.user.is_IC:
             # submissions= Submission.objects.all()

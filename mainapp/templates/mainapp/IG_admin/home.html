@@ -9,6 +9,7 @@
 <!-- Required chart.js -->
 <div class="flex flex-col gap-5 py-28 items-center">
   <!-- line chart  -->
+  <h3 class="py-4  text-center text-red-700 text-6xl font-bold pt-16 drop-shadow-lg  hover:underline-offset-8">Hello {{ user.fullname }}</h3>
   <div class="flex flex-col w-9/12 justify-center shadow-2xl rounded">
     <div class="py-3 px-5 bg-gray-100 text-center font-bold text-xl mb-2">Monthly Idea Submissions</div>
       <canvas class="p-8" id="chartLine"></canvas>
@@ -149,20 +150,25 @@
       <form method="POST">
         {% csrf_token %}
         <!-- onchange="updateChartType()" -->
-        <select name="chartType" id="chartType" onchange="if(this.value != 0) { this.form.submit(); }" class="bg-red-50 border border-red-300 text-gray-900 text-sm rounded shadow-lg focus:ring-red-500 focus:border-red-500 block w-full px-6 py-2.5 dark:bg-red-700 dark:border-red-600 dark:placeholder-red-400 dark:text-white dark:focus:ring-red-500 dark:focus:border-red-500 uppercase">
+        <select name="business_unit" id="business_unit" onchange="if(this.value != 0) { this.form.submit(); }" class="bg-red-50 border border-red-300 text-gray-900 text-sm rounded shadow-lg focus:ring-red-500 focus:border-red-500 block w-full px-6 py-2.5 dark:bg-red-700 dark:border-red-600 dark:placeholder-red-400 dark:text-white dark:focus:ring-red-500 dark:focus:border-red-500 uppercase">
           {% for bussiness_unit in bussiness_units %}
-            <option value="{{ bussiness_unit.innovation_champion.id }}" hre>{{bussiness_unit.name}} - {{ bussiness_unit.innovation_champion }}</option>
+            {% if bussiness_unit == selected_BU %}
+              <option value="{{ bussiness_unit.id }}" selected>{{bussiness_unit.name}} - {{ bussiness_unit.innovation_champion }}</option>
+            {% else %}
+              <option value="{{ bussiness_unit.id }}">{{bussiness_unit.name}} - {{ bussiness_unit.innovation_champion }}</option>
+            {% endif %}
+            
           {% endfor %}
         </select>
       </form>
       <div class="flex flex-row justify-around bg-red w-full">
         <div class="flex flex-col shadow-xl py-3 px-4 rounded-md bg-gray-100">
           <div class="text-sm">Business unit</div>
-          <div class="text-2xl font-semibold">HR</div>
+          <div class="text-2xl font-semibold">{{ selected_BU.name }}</div>
         </div>
         <div class="flex flex-col shadow-xl py-3 px-4 rounded-md bg-gray-100">
           <div class="text-sm">Innovation Champion</div>
-          <div class="text-2xl font-semibold">Chaitanya Landge</div>
+          <div class="text-2xl font-semibold">{{ selected_BU.innovation_champion }}</div>
         </div>
       </div>
       <!-- chart -->
@@ -183,7 +189,7 @@
               labels: labelsBarChart,
               datasets: [
                   {
-                      label: "Satistics per Business Unit",
+                      label: "Count",
                       backgroundColor: [
       'rgba(0, 0, 225, 0.9)',
       'rgba(114, 225, 87, 0.9)',
@@ -193,7 +199,7 @@
     ],
                       borderColor: "hsl(0, 100%, 35%)",
                       // provide data of total
-                      data: [0, 10, 5, 2, 20, 30, 45],
+                      data: {{ graph4_array|safe }},
                   },
               ],
           };
@@ -216,11 +222,16 @@
                 // Draw a new chart on the basic of dropdown
 
 				myChart = new Chart(ctx, {
-					type: document.getElementById("chartType").value,  // Select chart type from dropdown
+					type: document.getElementById("business_unit").value,  // Select chart type from dropdown
 					data: myData
 				});
 			};
       </script>
+    {% if scroll_to_business_unit %}
+      <script>
+        window.location.hash = '#business_unit';
+      </script>
+    {% endif %}
   </div>
 </div>
 {% endblock content %}
