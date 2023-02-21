@@ -25,10 +25,10 @@
             <button
               class="inline-block border border-white rounded hover:border-gray-200 text-red-500 hover:bg-gray-200 py-2 px-4"
               name="selected" value="all"
-              >
-            {% endif %}
-              All</button
             >
+            {% endif %}
+              All
+            </button>
           </li>
           <li class="mr-3">
             {% if selected == 'review_pending' %}
@@ -42,7 +42,7 @@
               name="selected" value="review_pending"
               >
             {% endif %}
-            Review Pending</button>
+            Reviews Pending</button>
           </li>
           <li class="mr-3">
             {% if selected == 'accepted' %}
@@ -149,33 +149,33 @@
                     Submission Status
                   </th>
                   <th scope="col" class="text-md font-bold text-gray-900 px-6 py-4 text-left">
-                    Last Modification
+                    Last Modified
                   </th>
                   <th scope="col" class="text-md font-bold  text-gray-900 px-6 py-4 text-left">
                     Remark
                   </th>
                 </tr>
               </thead>
-              {% for submission in pending_submissions %}
+              {% for submission in submissions %}
               <tbody>
                 <tr class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100">
                   <td class="px-6 py-4 text-sm font-medium text-gray-900 cursor-pointer">
                     {{ submission.title }}
                   </td>
                   <td class="text-sm text-gray-900 font-normal px-6 py-4">
-                    Mark
+                    {{ submission.submitted_on|date:"d F Y" }}
                   </td>
                   <td class="text-sm text-gray-900 font-normal px-6 py-4">
                     {{ submission.status }}
                   </td>
                   <td class="text-sm text-gray-900 font-normal px-6 py-4">
-                    @mdo
+                    {{ submission.modified_on|date:"d F Y" }}
                   </td>
                   <td class="text-sm text-gray-900 font-normal px-6 py-4">
                     {{ submission.remark }}
                   </td>
                   <td class="text-sm text-red-700 underline font-normal px-6 py-4 cursor-pointer">
-                    View More
+                    <a href="{% url 'individual_submission' submission.id %}">View More</a>
                   </td>
                 </tr>                
                 

@@ -64,24 +64,47 @@ def index(request):
             return render(request, 'mainapp/IG_admin/home.html', context)
         elif request.user.is_IC:
             if request.method == 'POST':
+                # data = request.POST
+                # id = data["submission_id"]
+                # status_txt = data["status"]
+
+                # code = update_status(id, status_txt)
+                # if code == 1:
+                    # messages.info(request, 'Status updated successfully!')
+
                 data = request.POST
-                id = data["submission_id"]
-                status_txt = data["status"]
+                selected = data['selected']
 
-                code = update_status(id, status_txt)
-                if code == 1:
-                    messages.info(request, 'Status updated successfully!')
+                if selected == "all":
+                    my_status = "All"
+                elif selected == "review_pending":
+                    my_status = "Review Pending"
+                elif selected == "accepted":
+                    my_status = "Accepted"
+                elif selected == "on_hold":
+                    my_status = "On Hold"
+                elif selected == "rejected":
+                    my_status = "Rejected"
 
-                return redirect('home')
+                business_unit = BusinessUnit.objects.filter(innovation_champion=request.user)
+                if business_unit:
+                    business_unit = business_unit[0]
+                    submissions = Submission.objects.filter(business_unit=business_unit)
+                    if my_status != "All":
+                        submissions = submissions.filter(status=my_status)
+
+                    context['selected'] = selected
+                    context['business_unit'] = business_unit
+                    context['submissions'] = submissions
+                return render(request, 'mainapp/innovation_champion/home.html', context)
 
             business_unit = BusinessUnit.objects.filter(innovation_champion=request.user)
             if business_unit:
                 business_unit = business_unit[0]
-                submissions = Submission.objects.filter(business_unit=business_unit )
-                pending_submissions = submissions.filter(status="Review Pending")
+                submissions = Submission.objects.filter(business_unit=business_unit)
 
                 context['business_unit'] = business_unit
-                context['pending_submissions'] = pending_submissions
+                context['submissions'] = submissions
             return render(request, 'mainapp/innovation_champion/home.html', context)
         elif request.user.is_ideator:
             if request.method == 'POST':
@@ -247,120 +270,33 @@ def delete_submission(request):
 
 @login_required_message(message="Please log in, in order to view the requested page.")
 @login_required
-def all(request):
+def individual_submission(request, id):
     if request.user.is_IC == False:
         messages.info(request, "You don't have access to this page.")
         return redirect('home')
-    else:
-        if request.method == 'POST':
-            data = request.POST
-            id = data["submission_id"]
-            status_txt = data["status"]
+    submission = Submission.objects.filter(id=id)
+    submission = submission[0]
 
-            code = update_status(id, status_txt)
-            if code == 1:
-                messages.info(request, 'Status updated successfully!')
-                
-            return redirect('all')
-
-        business_unit = BusinessUnit.objects.filter(innovation_champion=request.user)
-        if business_unit:
-            business_unit = business_unit[0]
-            submissions = Submission.objects.filter(business_unit=business_unit)
-
-            context = {}
-            context['business_unit'] = business_unit
-            context['submissions'] = submissions
-
-        return render(request, 'mainapp/innovation_champion/all.html', context)
+    context = {
+        'submission': submission,
+    }
+    return render(request, 'mainapp/innovation_champion/individual_idea_page.html', context)
 
 @login_required_message(message="Please log in, in order to view the requested page.")
 @login_required
-def onhold(request):
+def update_status(request):
     if request.user.is_IC == False:
         messages.info(request, "You don't have access to this page.")
         return redirect('home')
-    else:
-        if request.method == 'POST':
-            data = request.POST
-            id = data["submission_id"]
-            status_txt = data["status"]
+    if request.method == 'POST':
+        data = request.POST
+        id = data["submission_id"]
+        status_txt = data["status"]
 
-            code = update_status(id, status_txt)
-            if code == 1:
-                messages.info(request, 'Status updated successfully!')
-                
-            return redirect('onhold')
-        business_unit = BusinessUnit.objects.filter(innovation_champion=request.user)
-        if business_unit:
-            business_unit = business_unit[0]
-            submissions = Submission.objects.filter(business_unit=business_unit )
-            onhold_submissions = submissions.filter(status="On Hold")
-
-            context = {}
-            context['business_unit'] = business_unit
-            context['onhold_submissions'] = onhold_submissions
-
-        return render(request, 'mainapp/innovation_champion/onhold.html', context)
-
-@login_required_message(message="Please log in, in order to view the requested page.")
-@login_required
-def accepted(request):
-    if request.user.is_IC == False:
-        messages.info(request, "You don't have access to this page.")
-        return redirect('home')
-    else:
-        if request.method == 'POST':
-            data = request.POST
-            id = data["submission_id"]
-            status_txt = data["status"]
-            code = update_status(id, status_txt)
-            if code == 1:
-                messages.info(request, 'Status updated successfully!')
-                
-            return redirect('accepted')
-        business_unit = BusinessUnit.objects.filter(innovation_champion=request.user)
-        if business_unit:
-            business_unit = business_unit[0]
-            submissions = Submission.objects.filter(business_unit=business_unit )
-            accepted_submissions = submissions.filter(status="Accepted")
-
-
-            context = {}
-            context['business_unit'] = business_unit
-            context['accepted_submissions'] = accepted_submissions
-
-        return render(request, 'mainapp/innovation_champion/accepted.html', context)
-
-@login_required_message(message="Please log in, in order to view the requested page.")
-@login_required
-def rejected(request):
-    if request.user.is_IC == False:
-        messages.info(request, "You don't have access to this page.")
-        return redirect('home')
-    else:
-        if request.method == 'POST':
-            data = request.POST
-            id = data["submission_id"]
-            status_txt = data["status"]
-
-            code = update_status(id, status_txt)
-            if code == 1:
-                messages.info(request, 'Status updated successfully!')
-                
-            return redirect('rejected')
-        business_unit = BusinessUnit.objects.filter(innovation_champion=request.user)
-        if business_unit:
-            business_unit = business_unit[0]
-
-            submissions = Submission.objects.filter(business_unit=business_unit )
-            rejected_submissions = submissions.filter(status="Rejected")
-
-            context = {}
-            context['business_unit'] = business_unit
-            context['rejected_submissions'] = rejected_submissions
-
-        return render(request, 'mainapp/innovation_champion/rejected.html', context)
+        code = update_status(id, status_txt)
+        if code == 1:
+            messages.info(request, 'Status updated successfully!')
+    return redirect('individual_submission', id=id)
 
 @login_required_message(message="Please log in, in order to view the requested page.")
 @login_required
