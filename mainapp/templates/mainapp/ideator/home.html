@@ -43,8 +43,6 @@ Ideator{% endblock title %} {% block content %}
 <br />
 <div class="flex justify-center flex-col alignitems-center h-auto w-auto">
   <div class="alignitems-center">
-    <form method="POST">
-      {% csrf_token %}
       <ul class="flex justify-center pb-3">
         <li class="mr-3">
           {% if selected == 'all' %}
@@ -119,7 +117,6 @@ Ideator{% endblock title %} {% block content %}
           >
         </li>
       </ul>
-    </form>
   </div>
   <div class="alignitems-center px-10 mx-5">
     <div class="">

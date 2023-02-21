@@ -149,7 +149,10 @@ def index(request):
                 page_obj = p.page(1)
             except EmptyPage:
                 page_obj = p.page(p.num_pages)
-            context = {'submissions': page_obj}
+            context = {
+                'submissions': page_obj,
+                'selected':"all"
+            }
             return render(request, 'mainapp/ideator/home.html', context)
         else:
             return render(request, 'mainapp/index.html', context)
