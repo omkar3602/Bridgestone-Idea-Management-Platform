@@ -1,5 +1,8 @@
 from django.shortcuts import render, redirect
+from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.password_validation import validate_password
+from django.core.exceptions import ValidationError
 from django.contrib import messages
 from .models import Account
 # Create your views here.
@@ -37,6 +40,11 @@ def signup(request):
 
         password = data['password']
         password2 = data['password2']
+        try:
+            validate_password(password, user=Account(fullname=fullname, email=email), password_validators=None)
+        except ValidationError as val_err:
+            messages.info(request, f'{" ".join(val_err.messages)}')
+            return redirect('signup')
         if password == password2:
             if Account.objects.filter(email=email).exists():
                 messages.info(request, 'Email already in use. Please use another email.')
@@ -66,10 +74,19 @@ def signup_IC(request):
 
         password = data['password']
         password2 = data['password2']
+        try:
+            validate_password(password, user=Account(fullname=fullname, email=email), password_validators=None)
+        except ValidationError as val_err:
+            messages.info(request, f'{" ".join(val_err.messages)}')
+            
+            url = f"{reverse('signup_IC')}?email={email}"
+            return redirect (url)
         if password == password2:
             if Account.objects.filter(email=email).exists():
                 messages.info(request, 'Email already in use. Please use another email.')
-                return redirect('signup')
+
+                url = f"{reverse('signup_IC')}?email={email}"
+                return redirect (url)
             else:
                 user=Account.objects.create_user(fullname=fullname, email=email, is_ideator=is_ideator, is_IC=is_IC, is_IG_admin=is_IG_admin, password=password)
                 user.save()
@@ -78,7 +95,8 @@ def signup_IC(request):
                 return redirect('login')
         else:
             messages.error(request, 'Please make sure the passwords match.')
-            return redirect('signup')
+            url = f"{reverse('signup_IC')}?email={email}"
+            return redirect (url)
     email = request.GET.get('email', '')
     context = {
         'email':email,
