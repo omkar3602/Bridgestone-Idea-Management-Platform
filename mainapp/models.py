@@ -24,8 +24,8 @@ class Submission(models.Model):
     status = models.CharField(max_length=20, default="Review Pending") # Review Pending, On Hold, Accepted, Rejected
     remark = models.CharField(max_length=1000, null=True, blank=True)
 
-    submitted_on = models.DateTimeField(default=localtime())
-    modified_on = models.DateTimeField(default=localtime())
+    submitted_on = models.DateTimeField(default=localtime)
+    modified_on = models.DateTimeField(default=localtime)
 
     key = models.CharField(max_length=50, unique=True)
 
