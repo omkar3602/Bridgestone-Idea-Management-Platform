@@ -306,7 +306,7 @@ Ideator{% endblock title %} {% block content %}
       {% endfor %}
       </div>
     </div>
-    {% comment %}
+    
     <div class="flex justify-center items-center ">
     {%if submissions.has_previous %} {# whether the previous page exists #}
     <a href="?page={{submissions.previous_page_number}}">Previous</a> {# link to the prev page #}
@@ -315,7 +315,7 @@ Ideator{% endblock title %} {% block content %}
     {%if submissions.has_next %} {# whether the next page exists #}
     <a href="?page={{submissions.next_page_number}}">Next</a> {# link to the next page #}
     {% endif %}
-    </div> {% endcomment %}
+    </div> 
   
   </div>
   <br />
@@ -347,8 +347,13 @@ Ideator{% endblock title %} {% block content %}
             closeBtn.addEventListener('click',toggleModal)
             
         })
-    {% if go_to_submissions %}
-      window.location.hash = '#YOUR_SUBMISSIONS';
-    {% endif %}
+    // {% if go_to_submissions %}
+    //   window.location.hash = '#YOUR_SUBMISSIONS';
+    // {% endif %}
+
+    if ( window.history.replaceState ) {
+  window.history.replaceState( null, null, window.location.href );
+
+}
 </script>
 {% endblock content %}

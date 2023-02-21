@@ -71,17 +71,7 @@ def index(request):
             context['submitted_month'] = list(graph4_dict.keys())
             context['submitted_month_values'] = list(graph4_dict.values())
             return render(request, 'mainapp/IG_admin/home.html', context)
-        elif request.user.is_IC:
-            # submissions= Submission.objects.all()
-            # p=Paginator(submissions, 2)
-            # page_number = request.GET.get('page')
-            # try:
-            #     page_obj = p.get_page(page_number)  
-            # except PageNotAnInteger:
-            #     page_obj = p.page(1)
-            # except EmptyPage:
-            #     page_obj = p.page(p.num_pages)
-            # context = {'submissions': page_obj}
+        elif request.user.is_IC:         
             if request.method == 'POST':
                 # data = request.POST
                 # id = data["submission_id"]
@@ -108,13 +98,33 @@ def index(request):
                 business_unit = BusinessUnit.objects.filter(innovation_champion=request.user)
                 if business_unit:
                     business_unit = business_unit[0]
+                    # submissions_all=Submission.objects.all()
                     submissions = Submission.objects.filter(business_unit=business_unit)
                     if my_status != "All":
                         submissions = submissions.filter(status=my_status)
-
+                        p=Paginator(submissions, 2)
+                        page_number = request.GET.get('page')
+                        try:
+                            page_obj = p.get_page(page_number)  
+                        except PageNotAnInteger:
+                            page_obj = p.page(1)
+                        except EmptyPage:
+                            page_obj = p.page(p.num_pages)
+                        context['submissions'] = page_obj
+                    else:
+                        p=Paginator(submissions, 2)
+                        page_number = request.GET.get('page')
+                        try:
+                            page_obj = p.get_page(page_number)  
+                        except PageNotAnInteger:
+                            page_obj = p.page(1)
+                        except EmptyPage:
+                            page_obj = p.page(p.num_pages)
+                        context['submissions'] = page_obj
                     context['selected'] = selected
                     context['business_unit'] = business_unit
-                    context['submissions'] = submissions
+                    # context['submissions'] = submissions
+  
                 return render(request, 'mainapp/innovation_champion/home.html', context)
 
             business_unit = BusinessUnit.objects.filter(innovation_champion=request.user)
@@ -141,30 +151,32 @@ def index(request):
                 elif selected == "rejected":
                     submissions = Submission.objects.filter(ideator=request.user).filter(status="Rejected")
 
-                # p = Paginator(submissions,1)
-                # page_number = request.GET.get('page', 1)
-                # try:
-                #     page_obj = p.get_page(page_number)  
-                # except PageNotAnInteger:
-                #     page_obj = p.page(1)
-                # except EmptyPage:
-                #     page_obj = p.page(p.num_pages)
+                p = Paginator(submissions,2)
+                page_number = request.GET.get('page')
+                try:
+                    page_obj = p.get_page(page_number)  
+                except PageNotAnInteger:
+                    page_obj = p.page(1)
+                except EmptyPage:
+                    page_obj = p.page(p.num_pages)
 
                 context['selected'] = selected
-                context['submissions'] = submissions
+                context['submissions'] = page_obj
+                print("submissions")
+                print(page_obj)
                 context['go_to_submissions'] = True
                 return render(request, 'mainapp/ideator/home.html', context)
             submissions = Submission.objects.filter(ideator=request.user)
-            # p = Paginator(submissions,1)
+            p = Paginator(submissions,2)
 
-            # page_number = request.GET.get('page', 1)
-            # try:
-            #     page_obj = p.get_page(page_number)  
-            # except PageNotAnInteger:
-            #     page_obj = p.page(1)
-            # except EmptyPage:
-            #     page_obj = p.page(p.num_pages)
-            context = {'submissions': submissions}
+            page_number = request.GET.get('page', 1)
+            try:
+                page_obj = p.get_page(page_number)  
+            except PageNotAnInteger:
+                page_obj = p.page(1)
+            except EmptyPage:
+                page_obj = p.page(p.num_pages)
+            context = {'submissions': page_obj}
             return render(request, 'mainapp/ideator/home.html', context)
         else:
             return render(request, 'mainapp/index.html', context)
@@ -434,4 +446,4 @@ def invite_IC(request):
             messages.info(request, 'Invite sent successfully.')
             return redirect('home')
         return render(request, 'mainapp/IG_admin/invite_IC.html')
-    
+
