@@ -9,61 +9,85 @@
 <!-- Required chart.js -->
 <div class="flex flex-col gap-5 py-28 items-center">
   <!-- line chart  -->
-  <h3 class="py-4  text-center text-red-700 text-6xl font-bold pt-16 drop-shadow-lg  hover:underline-offset-8">Hello {{ user.fullname }}</h3>
+  <h3 class="py-4  text-center text-red-700 text-6xl font-bold pt-16 drop-shadow-lg  hover:underline-offset-8">Hello {{
+    user.fullname }}</h3>
   <div class="flex flex-col w-9/12 justify-center shadow-2xl rounded">
     <div class="py-3 px-5 bg-gray-100 text-center font-bold text-xl mb-2">Monthly Idea Submissions</div>
-      <canvas class="p-8" id="chartLine"></canvas>
-      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <canvas class="p-8" id="chartLine"></canvas>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-      <!-- Chart line -->
-      <script>
-          // labels = ["January", "February", "March", "April", "May", "June","July","August","September", "October","November", "December"];
-          labels = [{% for month_name in submitted_month %} '{{month_name}}', {% endfor %}]
-          data = {
-              labels: labels,
-              datasets: [
-                  {
-                      label: "Submissions Per Month",
-                      backgroundColor: "hsl(0, 100%, 35%)",
-                      borderColor: "hsl(0, 100%, 35%)",
-                      data: {{ submitted_month_values | safe }},
+    <!-- Chart line -->
+    <script>
+      // labels = ["January", "February", "March", "April", "May", "June","July","August","September", "October","November", "December"];
+      labels = [{% for month_name in submitted_month %} '{{month_name}}', {% endfor %}]
+      data = {
+        labels: labels,
+        datasets: [
+          {
+            label: "Submissions Per Month",
+            backgroundColor: "hsl(0, 100%, 35%)",
+            borderColor: "hsl(0, 100%, 35%)",
+            data: {{ submitted_month_values | safe }},
                   },
               ],
           };
 
-          const configLineChart = {
-              type: "line",
-              data,
-              options: {},
-          };
+      const configLineChart = {
+        type: "line",
+        data,
+        options: {
+          scales: {
+            y: {
+              title: {
+                display: true,
+                text: 'Count of Submissions'
+              }
+            },
+            x: {
+              title: {
+                display: true,
+                text: 'Months'
+              }
+            }
+          },
+          y: {
+            beginAtZero: true,
+            grace: '5%',
+            ticks: {
+              stepSize: 2
+            }
+          }
+        },
+      };
 
-          var chartLine = new Chart(
-              document.getElementById("chartLine"),
-              configLineChart
-          );
-      </script>
+      var chartLine = new Chart(
+        document.getElementById("chartLine"),
+        configLineChart
+      );
+    </script>
   </div>
 
   <!-- doughnut charts -->
   <div class="flex flex-row items-stretch w-9/12 rounded">
     <div class="flex flex gap-5 justify-around my-5 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 w-full shadow-2xl">
-    
+
       <div class="rounded overflow-hidden">
-  
+
         <div class="px-6 py-4 h-100px">
           <div class="py-3 px-5 bg-gray-50 text-center font-bold text-xl">Ideas submitted per Business Unit</div>
           <p class="text-gray-700 text-base">
           </p>
           <br>
           <div class="shadow-lg rounded-lg overflow-hidden">
-            <div class="py-3 px-5 bg-gray-50 text-center font-semibold">Overview of idea submissions per Business Unit</div>
+            <div class="py-3 px-5 bg-gray-50 text-center font-semibold">Overview of idea submissions per Business Unit
+            </div>
             <canvas class="p-10" id="chartDoughnut1"></canvas>
           </div>
         </div>
       </div>
       <!--Card 3-->
       <div class="rounded overflow-hidden">
-  
+
         <div class="px-6 py-4">
           <div class="py-3 px-5 bg-gray-50 text-center font-bold text-xl mb-2">Ideas status Distribution</div>
           <p class="text-gray-700 text-base">
@@ -76,7 +100,7 @@
         </div>
       </div>
     </div>
-    
+
     <script>
       function dynamicColors() {
         var r = Math.floor(Math.random() * 255);
@@ -84,7 +108,7 @@
         var b = Math.floor(Math.random() * 255);
         return "rgba(" + r + "," + g + "," + b + ", 0.5)";
       }
-    
+
       function poolColors(a) {
         var pool = [];
         for (i = 0; i < a; i++) {
@@ -103,135 +127,167 @@
             },
       ],
         };
-    
+
       const configDoughnut1 = {
         type: "doughnut",
         data: dataDoughnut1,
         options: {},
-  };
+      };
 
-  var chartBar = new Chart(
-    document.getElementById("chartDoughnut1"),
-    configDoughnut1
-  );
+      var chartBar = new Chart(
+        document.getElementById("chartDoughnut1"),
+        configDoughnut1
+      );
 
-  const dataDoughnut2 = {
-    labels: {{ submission_status| safe }},
-  datasets: [
-    {
-      label: "Submissions",
-      data: {{ no_of_submissions| safe }},
-    backgroundColor: poolColors({{ no_of_submissions| safe }}.length),
-    hoverOffset: 4,
+      const dataDoughnut2 = {
+        labels: {{ submission_status| safe }},
+      datasets: [
+        {
+          label: "Submissions",
+          data: {{ no_of_submissions| safe }},
+        backgroundColor: poolColors({{ no_of_submissions| safe }}.length),
+        hoverOffset: 4,
         },
-  ],
+      ],
     };
 
-  const configDoughnut2 = {
-    type: "doughnut",
-    data: dataDoughnut2,
-    options: {},
-  };
+      const configDoughnut2 = {
+        type: "doughnut",
+        data: dataDoughnut2,
+        options: {},
+      };
 
-  var chartBar = new Chart(
-    document.getElementById("chartDoughnut2"),
-    configDoughnut2
-  );
-</script>
+      var chartBar = new Chart(
+        document.getElementById("chartDoughnut2"),
+        configDoughnut2
+      );
+    </script>
 
   </div>
   <!-- dropdown main with charts-->
   <div class="flex flex-col items-center w-9/12 shadow-2xl rounded gap-4">
-      <!-- dropdown -->
-      <!-- <div class="py-3 px-5 bg-gray-100 text-center font-bold text-xl mb-2 m-auto">Idea Submission Monthly</div> -->
-      <div class="bg-gray-100 py-3 px-5 w-full text-center font-bold text-xl">Ideas in each Business unit</div>
-     
-      <!-- Dropdown menu -->
-      <form method="POST">
-        {% csrf_token %}
-        <!-- onchange="updateChartType()" -->
-        <select name="business_unit" id="business_unit" onchange="if(this.value != 0) { this.form.submit(); }" class="bg-red-50 border border-red-300 text-gray-900 text-sm rounded shadow-lg focus:ring-red-500 focus:border-red-500 block w-full px-6 py-2.5 dark:bg-red-700 dark:border-red-600 dark:placeholder-red-400 dark:text-white dark:focus:ring-red-500 dark:focus:border-red-500 uppercase">
-          {% for bussiness_unit in bussiness_units %}
-            {% if bussiness_unit == selected_BU %}
-              <option value="{{ bussiness_unit.id }}" selected>{{bussiness_unit.name}} - {{ bussiness_unit.innovation_champion }}</option>
-            {% else %}
-              <option value="{{ bussiness_unit.id }}">{{bussiness_unit.name}} - {{ bussiness_unit.innovation_champion }}</option>
-            {% endif %}
-            
-          {% endfor %}
-        </select>
-      </form>
-      <div class="flex flex-row justify-around bg-red w-full">
-        <div class="flex flex-col shadow-xl py-3 px-4 rounded-md bg-gray-100">
-          <div class="text-sm">Business unit</div>
-          <div class="text-2xl font-semibold">{{ selected_BU.name }}</div>
-        </div>
-        <div class="flex flex-col shadow-xl py-3 px-4 rounded-md bg-gray-100">
-          <div class="text-sm">Innovation Champion</div>
-          <div class="text-2xl font-semibold">{{ selected_BU.innovation_champion }}</div>
-        </div>
-      </div>
-      <!-- chart -->
-      <canvas class="p-8" id="chartBar"></canvas>
-      <!-- Required chart.js -->
-      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- dropdown -->
+    <!-- <div class="py-3 px-5 bg-gray-100 text-center font-bold text-xl mb-2 m-auto">Idea Submission Monthly</div> -->
+    <div class="bg-gray-100 py-3 px-5 w-full text-center font-bold text-xl">Ideas in each Business unit</div>
 
-      <!-- Chart bar -->
-      <script>
-          const labelsBarChart = [
-              "Total Ideas Submitted",
-              "Accepted",
-              "Rejected",
-              "On Hold",
-              "Review Pending"
-          ];
-          const dataBarChart = {
-              labels: labelsBarChart,
-              datasets: [
-                  {
-                      label: "Count",
-                      backgroundColor: [
-      'rgba(0, 0, 225, 0.9)',
-      'rgba(114, 225, 87, 0.9)',
-      'rgba(255, 0, 0, 0.9)',
-      'rgba(225, 165, 0, 0.9)',
-      'rgba(0, 0, 0, 0.9)',
-    ],
-                      borderColor: "hsl(0, 100%, 35%)",
-                      barThickness : 80,
-                      // provide data of total
-                      data: {{ graph4_array|safe }},
+    <!-- Dropdown menu -->
+    <form method="POST">
+      {% csrf_token %}
+      <!-- onchange="updateChartType()" -->
+      <select name="business_unit" id="business_unit" onchange="if(this.value != 0) { this.form.submit(); }"
+        class="bg-red-50 border border-red-300 text-gray-900 text-sm rounded shadow-lg focus:ring-red-500 focus:border-red-500 block w-full px-6 py-2.5 dark:bg-red-700 dark:border-red-600 dark:placeholder-red-400 dark:text-white dark:focus:ring-red-500 dark:focus:border-red-500 uppercase">
+        {% for bussiness_unit in bussiness_units %}
+        {% if bussiness_unit == selected_BU %}
+        <option value="{{ bussiness_unit.id }}" selected>{{bussiness_unit.name}} - {{ bussiness_unit.innovation_champion
+          }}</option>
+        {% else %}
+        <option value="{{ bussiness_unit.id }}">{{bussiness_unit.name}} - {{ bussiness_unit.innovation_champion }}
+        </option>
+        {% endif %}
+
+        {% endfor %}
+      </select>
+    </form>
+    <div class="flex flex-row justify-around bg-red w-full">
+      <div class="flex flex-col shadow-xl py-3 px-4 rounded-md bg-gray-100">
+        <div class="text-sm">Business unit</div>
+        <div class="text-2xl font-semibold">{{ selected_BU.name }}</div>
+      </div>
+      <div class="flex flex-col shadow-xl py-3 px-4 rounded-md bg-gray-100">
+        <div class="text-sm">Innovation Champion</div>
+        <div class="text-2xl font-semibold">{{ selected_BU.innovation_champion }}</div>
+      </div>
+    </div>
+    <!-- chart -->
+    <canvas class="p-8" id="chartBar"></canvas>
+    <!-- Required chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Chart bar -->
+    <script>
+      const labelsBarChart = [
+        "Total Ideas Submitted",
+        "Accepted",
+        "Rejected",
+        "On Hold",
+        "Review Pending"
+      ];
+      const dataBarChart = {
+        labels: labelsBarChart,
+        datasets: [
+          {
+            label: "Count",
+            backgroundColor: [
+              'rgba(0, 0, 225, 0.3)',
+              'rgba(114, 225, 87, 0.3)',
+              'rgba(255, 0, 0, 0.3)',
+              'rgba(225, 165, 0, 0.3)',
+              'rgba(0, 0, 0, 0.3)',
+            ],
+            borderColor: [
+              'rgba(0, 0, 225)',
+              'rgba(114, 225, 87)',
+              'rgba(255, 0, 0)',
+              'rgba(225, 165, 0)',
+              'rgba(0, 0, 0)',
+            ],
+            borderWidth: 1,
+            barThickness: 80,
+            // provide data of total
+            data: {{ graph4_array| safe }},
                   },
               ],
           };
 
-          const configBarChart = {
-              type: "bar",
-              data: dataBarChart,
-              options: {},
-          };
+      const configBarChart = {
+        type: "bar",
+        data: dataBarChart,
+        options: {
+          scales: {
+            y: {
+              title: {
+                display: true,
+                text: 'Count of Submissions'
+              }
+            },
+            x: {
+              title: {
+                display: true,
+                text: 'Status of Submissions'
+              }
+            }
+          },
+          y: {
 
-          var chartBar = new Chart(
-              document.getElementById("chartBar"),
-              configBarChart
-          );
+            beginAtZero: true,
+            ticks: {
+              stepSize: 2
+            }
+          }
+        },
+      };
 
-          function updateChartType() {
-                // Destroy the previous chart
-				myChart.destroy();
+      var chartBar = new Chart(
+        document.getElementById("chartBar"),
+        configBarChart
+      );
 
-                // Draw a new chart on the basic of dropdown
+      function updateChartType() {
+        // Destroy the previous chart
+        myChart.destroy();
 
-				myChart = new Chart(ctx, {
-					type: document.getElementById("business_unit").value,  // Select chart type from dropdown
-					data: myData
-				});
-			};
-      </script>
+        // Draw a new chart on the basic of dropdown
+
+        myChart = new Chart(ctx, {
+          type: document.getElementById("business_unit").value,  // Select chart type from dropdown
+          data: myData
+        });
+      };
+    </script>
     {% if scroll_to_business_unit %}
-      <script>
-        window.location.hash = '#business_unit';
-      </script>
+    <script>
+      window.location.hash = '#business_unit';
+    </script>
     {% endif %}
   </div>
 </div>
