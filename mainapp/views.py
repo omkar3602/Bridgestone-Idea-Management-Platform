@@ -11,7 +11,7 @@ from django.utils.timezone import localtime
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
-def index(request, ideachamp_id):
+def index(request):
     bussiness_units = BusinessUnit.objects.all()
     innovation_champions = Account.objects.filter(is_IC=True)
     
