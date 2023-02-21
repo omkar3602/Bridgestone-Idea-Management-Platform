@@ -143,13 +143,15 @@
           {% else %}
             <div class="text-center text-2xl font-bold text-black-500 pt-10">
               {% if selected == "accepted" %}
-                <p>No ideas are accepted yet</p>
+                <p>No ideas have been accepted yet.</p>
               {% elif selected == "on_hold" %}
-                <p>No ideas are on Hold</p>
+                <p>No ideas are on hold.</p>
               {% elif selected == "rejected" %}
-                <p>No ideas are Rejected</p>
-              {% else %}
-                <p>No ideas are pending to review</p>
+                <p>No ideas are rejected.</p>
+              {% elif selected == "review_pending" %}
+                <p>No ideas are pending to review.</p>
+              {% elif selected == "all" %}
+                <p>No ideas have been submitted yet.</p>
               {% endif %}
             </div>
           {% endif %}

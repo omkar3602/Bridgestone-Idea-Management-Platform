@@ -17,10 +17,10 @@
                     <h1 class="mt-6 mb-8 text-2xl font-bold text-center font-nunito">Edit Idea Submission</h1>
                     <form method="POST" enctype="multipart/form-data" name="SubmissionForm">
                     {% csrf_token %}
-                    <label class="font-semibold">Bussiness Unit</label>
+                    <label class="font-semibold">Business Unit</label>
                     <input type="text" id="BU" class="block border border-gray-400 w-full p-3 rounded mb-4"
                         name="business_unit" placeholder="Business Unit" readonly value="{{ submission.business_unit }}">
-                        <p id="displayIC" class="pb-5 font-semibold">The Innovation Champion for <span id="BUname" class="text-red-700">{{ submission.business_unit }}</span> bussiness unit is <span id="ICname" class="font-bold">{{ submission.business_unit.innovation_champion }} ({{ submission.business_unit.innovation_champion.email }})</span></p>
+                        <p id="displayIC" class="pb-5 font-semibold">The Innovation Champion for <span id="BUname" class="text-red-700">{{ submission.business_unit }}</span> business unit is <span id="ICname" class="font-bold">{{ submission.business_unit.innovation_champion }} ({{ submission.business_unit.innovation_champion.email }})</span></p>
                     
                     <label class="font-semibold">Idea Title <span class="text-red-500">*</span></label>
                     <input type="text" class="block border border-grey-light w-full p-3 rounded mb-4 placeholder:text-black" name="title"
@@ -43,11 +43,13 @@
 
                     <input class="form-check-input appearance-none rounded-full h-5 w-5 border border-gray-400 bg-white checked:bg-red-700 checked:border-red-700 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="radio" name="role" id="yes" value="yes" onclick="showDiv()"
                     {% if submission.similar_solutions %}checked{% endif %}
-                    />   
+                    />
                     <label class="form-check-label block text-gray-800" for="yes">
                         Yes
                     </label>  
-                    <input class="form-check-input appearance-none rounded-full h-5 w-5 border border-gray-400 bg-white checked:bg-red-700 checked:border-red-700  focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="radio" name="role" id="no" value="no" onclick="hideDiv()"/>   
+                    <input class="form-check-input appearance-none rounded-full h-5 w-5 border border-gray-400 bg-white checked:bg-red-700 checked:border-red-700  focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="radio" name="role" id="no" value="no" onclick="hideDiv()"
+                    {% if not submission.similar_solutions %}checked{% endif %}
+                    />   
                     <label class="form-check-label block text-gray-800" for="no">
                         No
                     </label>  
