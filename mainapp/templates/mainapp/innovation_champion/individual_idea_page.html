@@ -78,8 +78,6 @@
                 {% csrf_token %}
                 <div class="flex flex-row">
                   <input type="hidden" name="submission_key" value="{{ submission.key }}"></input>
-                    {% comment %} <input type="radio" value="Accept" name="status" class="bg-orange-500 rounded-lg p-4 flex-1 text-white cursor-pointer text-center mr-2 font-semibold uppercase text-lg">Accept</input>
-                    <input type="radio" value="Hold" name="status" class="bg-orange-500 rounded-lg p-4 flex-1 text-white cursor-pointer text-center mr-2 font-semibold uppercase text-lg">Hold</input> {% endcomment %}
                     <input type="radio" id="accept" value="Accept" name="status" class="peer/accept opacity-0 ">
                     <label class=" peer-checked/accept:bg-green-400 peer-checked/accept:text-black peer-checked/accept:text-xl bg-green-500 rounded-lg p-4 flex-1 text-white cursor-pointer text-center mr-2 font-semibold uppercase text-lg" for="accept">
                         Accept

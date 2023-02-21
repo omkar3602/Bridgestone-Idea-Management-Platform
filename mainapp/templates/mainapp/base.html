@@ -75,7 +75,6 @@
           {% endif %}
         </div>
      
-        {% comment %} if else acc to user  {% endcomment %}
         <div class="hidden md:flex items-center space-x-3 ">
 
         {% if user.is_authenticated %}
@@ -135,13 +134,7 @@ while(element.nodeName !== "BUTTON"){
 element.parentNode.parentNode.removeChild(element.parentNode);
 }
 </script>
-  {% comment %} {% if messages %}
-        <ul class="messages">
-          {% for message in messages %}
-            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}><script>alert("{{ message }}")</script> </li>
-          {% endfor %}
-        </ul>
-  {% endif %} {% endcomment %}
+
   {% block content %}{% endblock content %}
 </body>
 </html>
