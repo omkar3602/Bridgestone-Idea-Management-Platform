@@ -8,7 +8,7 @@
 <h3 class="py-4  text-center text-red-700 text-6xl font-bold pt-16 drop-shadow-lg  hover:underline-offset-8">
   Hello {{ user.fullname }}</h3>
 <h3 class="py-4  text-center text-black text-5xl font-bold pb-16 drop-shadow-lg  hover:underline-offset-8">
-    Bussiness Unit: {{ business_unit }}</h3>
+    Business Unit: {{ business_unit }}</h3>
 
   <div class="alignitems-center">
       <form method="POST">
@@ -200,7 +200,7 @@
         </div>
       </div>
     </div>
-    {% comment %}
+    
     <div class="flex justify-center items-center ">
       {%if submissions.has_previous %} {# whether the previous page exists #}
       <a href="?page={{submissions.previous_page_number}}">Previous</a> {# link to the prev page #}
@@ -209,8 +209,11 @@
       {%if submissions.has_next %} {# whether the next page exists #}
       <a href="?page={{submissions.next_page_number}}">Next</a> {# link to the next page #}
       {% endif %}
-    </div>{% endcomment %}
+    </div>
     
  
-
+<script>
+  if ( window.history.replaceState ) {
+  window.history.replaceState( null, null, window.location.href );}
+</script>
 {% endblock content %}
