@@ -9,7 +9,7 @@ from utils.status_updater import update_status
 import os
 from dotenv import load_dotenv
 from django.utils.timezone import localtime
-from django.core.paginator import Paginator , EmptyPage
+from django.core.paginator import Paginator , EmptyPage , PageNotAnInteger
 
 
 def index(request):
