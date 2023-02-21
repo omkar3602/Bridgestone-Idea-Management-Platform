@@ -98,23 +98,12 @@ def index(request):
 
 
             return render(request, 'mainapp/IG_admin/home.html', context)
-        elif request.user.is_IC:                    
-                # if selected == "all":
-                #     my_status = "All"
-                # elif selected == "review_pending":
-                #     my_status = "Review Pending"
-                # elif selected == "accepted":
-                #     my_status = "Accepted"
-                # elif selected == "on_hold":
-                #     my_status = "On Hold"
-                # elif selected == "rejected":
-                #     my_status = "Rejected"
-
+        elif request.user.is_IC:                 
             business_unit = BusinessUnit.objects.filter(innovation_champion=request.user)
             if business_unit:
                 business_unit = business_unit[0]                    
                 submissions = Submission.objects.filter(business_unit=business_unit)
-                p=Paginator(submissions, 2)
+                p=Paginator(submissions, 10)
                 page_number = request.GET.get('page')
                 try:
                     page_obj = p.get_page(page_number)  
@@ -127,9 +116,7 @@ def index(request):
                 context['submissions'] = page_obj
             context['selected'] = 'all'
             context['business_unit'] = business_unit
-            # context['submissions'] = submissions
-  
-                  
+
             return render(request, 'mainapp/innovation_champion/home.html', context)
         elif request.user.is_ideator:
             if request.method == 'POST':
@@ -155,8 +142,7 @@ def index(request):
                 context['go_to_submissions'] = True
                 return render(request, 'mainapp/ideator/home.html', context)
             submissions = Submission.objects.filter(ideator=request.user)
-            p = Paginator(submissions,2)
-
+            p = Paginator(submissions,10)
             page_number = request.GET.get('page', 1)
             try:
                 page_obj = p.get_page(page_number)  
@@ -179,7 +165,7 @@ def on_hold(request):
         if business_unit:
             business_unit = business_unit[0]                    
             submissions = Submission.objects.filter(business_unit=business_unit).filter(status="On Hold")
-            p=Paginator(submissions, 2)
+            p=Paginator(submissions, 10)
             page_number = request.GET.get('page')
             try:
                 page_obj = p.get_page(page_number)  
@@ -194,7 +180,7 @@ def on_hold(request):
 
     if request.user.is_ideator:                          
         submissions = Submission.objects.filter(ideator=request.user).filter(status="On Hold")
-        p=Paginator(submissions, 2)
+        p=Paginator(submissions, 10)
         page_number = request.GET.get('page')
         try:
             page_obj = p.get_page(page_number)  
@@ -215,7 +201,7 @@ def accepted(request):
         if business_unit:
             business_unit = business_unit[0]                    
             submissions = Submission.objects.filter(business_unit=business_unit).filter(status="Accepted")
-            p=Paginator(submissions, 2)
+            p=Paginator(submissions, 10)
             page_number = request.GET.get('page')
             try:
                 page_obj = p.get_page(page_number)  
@@ -229,7 +215,7 @@ def accepted(request):
 
     if request.user.is_ideator:                         
         submissions = Submission.objects.filter(ideator=request.user).filter(status="Accepted")
-        p=Paginator(submissions, 2)
+        p=Paginator(submissions, 10)
         page_number = request.GET.get('page')
         try:
             page_obj = p.get_page(page_number)  
@@ -249,7 +235,7 @@ def rejected(request):
         if business_unit:
             business_unit = business_unit[0]                    
             submissions = Submission.objects.filter(business_unit=business_unit).filter(status="Rejected")
-            p=Paginator(submissions, 2)
+            p=Paginator(submissions, 10)
             page_number = request.GET.get('page')
             try:
                 page_obj = p.get_page(page_number)  
@@ -263,7 +249,7 @@ def rejected(request):
 
     if request.user.is_ideator:                                    
         submissions = Submission.objects.filter(ideator=request.user).filter(status="Rejected")
-        p=Paginator(submissions, 2)
+        p=Paginator(submissions, 10)
         page_number = request.GET.get('page')
         try:
             page_obj = p.get_page(page_number)  
@@ -284,7 +270,7 @@ def review_pending(request):
         if business_unit:
             business_unit = business_unit[0]                    
             submissions = Submission.objects.filter(business_unit=business_unit).filter(status="Review Pending")
-            p=Paginator(submissions, 2)
+            p=Paginator(submissions, 10)
             page_number = request.GET.get('page')
             try:
                 page_obj = p.get_page(page_number)  
@@ -301,7 +287,7 @@ def review_pending(request):
     if request.user.is_ideator:         
                         
         submissions = Submission.objects.filter(ideator=request.user).filter(status="Review Pending")
-        p=Paginator(submissions, 2)
+        p=Paginator(submissions, 10)
         page_number = request.GET.get('page')
         try:
             page_obj = p.get_page(page_number)  
@@ -347,15 +333,11 @@ def new_submission(request):
             else:
                 submission = Submission(title=title, identified_problem=identified_problem, proposed_solution=proposed_solution, benefit_of_solution=benefit_of_solution, similar_solutions=similar_solutions, business_unit=business_unit, ideator=ideator, key=key)
             submission.save()
-
-
             innovation_champion_email = business_unit.innovation_champion.email
             ideator_email = ideator.email
-
             load_dotenv()
             send_mail(innovation_champion_email, f"New Submission received in BU - {business_unit.name}", f"Hey {business_unit.innovation_champion.fullname}! There is a new submission in the business unit {business_unit.name}. Check it out here {os.getenv('WEB_URL')}")
             send_mail(ideator_email, f"Your Submission has been received.", f"Hey {ideator.fullname}! Your submission in the business unit {business_unit.name} has been received. Check the status here {os.getenv('WEB_URL')}#YOUR_SUBMISSIONS")
-
             messages.info(request, 'Idea submitted successfully!')
             return redirect('home')
 
@@ -384,7 +366,7 @@ def edit_submission(request, key):
             proposed_solution = data['proposed_solution']
             benefit_of_solution = data['benefit_of_solution']
             similar_solutions = data['similar_solutions']
-            
+           
             submission = Submission.objects.get(key=key)
             submission.title = title
             submission.identified_problem = identified_problem
@@ -498,11 +480,11 @@ def update_status_view(request):
         remark_change = False
         status_change = False
 
-        if old_status != new_status: # change in status
+        if old_status != new_status: 
             status_change = True
         
         
-        if remark != "" and submission.remark != remark: # change in remark
+        if remark != "" and submission.remark != remark: 
             remark_change = True
         
         load_dotenv()

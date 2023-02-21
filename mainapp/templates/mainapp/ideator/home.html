@@ -164,7 +164,6 @@ Ideator{% endblock title %} {% block content %}
               </div>
               {% endif %}
             </div>  
-            
       
           <div class="fixed bg-black bg-opacity-50 modal fade top-0 left-0 hidden w-full h-full hidden outline-none overflow-x-hidden overflow-y-auto justify-center items-center" id="{{ submission.id }}_overlay" style="z-index:10000;">
               <div class="bg-gray-200 w-3/4 h-3.5/4 py-2 px-3 rounded shadow-xl text-gray-800">
@@ -236,7 +235,6 @@ Ideator{% endblock title %} {% block content %}
                             d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
                             clip-rule="evenodd"></path>
                     </svg>
-
                 </div>
                 <div class="font-semibold">
                   Are you sure, you want to delete the submission: <span class="text-red-700 font-bold">{{ submission.title }}</span>?
@@ -273,40 +271,11 @@ Ideator{% endblock title %} {% block content %}
               <p class="date_of_action mt-4 text-[15px] text-white">Last Modified On: {{ submission.modified_on|date:"d F Y" }} </p>
             </div>
           </div>
-          {% comment %} <div class="basis-1/4 pl-6 text-right flex flex-col justify-evenly">
-            <div class="flex justify-around">
-              {% if submission.status == "Accepted" %}
-              <button
-                class="bg-green-500 rounded-full font-medium text-white py-4 px-4 pointer-events-none"
-              >
-                {{ submission.status }}
-              </button>
-              {% elif submission.status == "On Hold" %}<button
-                class="bg-orange-500 rounded-full font-medium text-white py-4 px-4 pointer-events-none"
-              >
-                {{ submission.status }}
-              </button>
-              {% elif submission.status == "Review Pending" %}
-              <button
-                class="bg-black rounded-full font-medium text-white py-4 px-4 pointer-events-none"
-              >
-                {{ submission.status }}
-              </button>
-              {% else %}
-              <button
-                class="bg-red-500 rounded-full font-medium text-white py-4 px-4 pointer-events-none"
-              >
-                {{ submission.status }}
-              </button>
-              {% endif %}
-            </div>
-          </div> {% endcomment %}
         </div>
       </div>
       {% endfor %}
       </div>
     </div>        
-  
   </div>
   <br />
   </div>
@@ -321,7 +290,6 @@ Ideator{% endblock title %} {% block content %}
     {% endif %}
   </div>
 
-<!-- Javascript code -->
 <script>
   function show_modal(divid){
       const modal_div = document.getElementById(divid);
@@ -347,10 +315,6 @@ Ideator{% endblock title %} {% block content %}
             closeBtn.addEventListener('click',toggleModal)
             
         })
-    // {% if go_to_submissions %}
-    //   window.location.hash = '#YOUR_SUBMISSIONS';
-    // {% endif %}
-
     if ( window.history.replaceState ) {
   window.history.replaceState( null, null, window.location.href );
 

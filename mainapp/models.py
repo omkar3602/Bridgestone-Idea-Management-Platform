@@ -2,7 +2,7 @@ from django.db import models
 from userauth.models import Account
 from django.utils.timezone import localtime
 
-# # Create your models here.
+
 class BusinessUnit(models.Model):
     name = models.CharField(max_length=30, unique=True)
     innovation_champion = models.ForeignKey(Account, on_delete=models.CASCADE)
