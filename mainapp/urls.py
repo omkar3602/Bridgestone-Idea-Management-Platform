@@ -5,6 +5,7 @@ urlpatterns = [
     path('', views.index, name='home'),
     path('new_submission', views.new_submission, name='new_submission'),
     path('edit_submission/<id>/', views.edit_submission, name='edit_submission'),
+    path('delete_submission/', views.delete_submission, name='delete_submission'),
     path('all', views.all, name='all'),
     path('onhold', views.onhold, name='onhold'),
     path('accepted', views.accepted, name='accepted'),

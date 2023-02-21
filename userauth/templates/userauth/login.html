@@ -28,9 +28,9 @@
                             <div class="form-check mb-3">
                                 <input
                                     class="form-check-input appearance-none rounded-full h-5 w-5 border border-gray-300 bg-white checked:bg-primary_red checked:border-primary_red focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
-                                    type="radio" name="role" id="idea_champion" value="show" onclick="showHideDiv()">
-                                <label class="form-check-label inline-block text-gray-800" for="idea_champion">
-                                    Idea Champion
+                                    type="radio" name="role" id="innovation_champion" value="show" onclick="showHideDiv()">
+                                <label class="form-check-label inline-block text-gray-800" for="innovation_champion">
+                                    Innovation Champion
                                 </label>
                             </div>
                              <div class="form-check mb-3">
@@ -56,6 +56,8 @@
                             name="password" placeholder="Password" />
                         <!-- <input type="password" class="block border border-grey-light w-full p-3 rounded mb-4"
                         name="confirm_password" placeholder="Confirm Password" /> -->
+                        
+                        <input type="hidden" name="next_url" value="{{ request.GET.next }}"/>
 
                         <button type="submit"
                             class="w-full text-center py-3 rounded bg-primary_red text-white hover:bg-black focus:outline-none my-1">

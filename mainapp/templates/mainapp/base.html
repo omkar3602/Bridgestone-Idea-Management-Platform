@@ -54,10 +54,10 @@
               <img src="{% static 'images/logo_hori.png' %}" alt="Logo" class="h-8 mr-2">
             </a>
           </div>  
-          {% if user.is_idea_admin %}
+          {% if user.is_IG_admin %}
           <div class="hidden md:flex items-center space-x-1">
-            <a href="{% url 'add_BU' %}" class="py-4 px-2 text-black font-semibold hover:border-b-4 hover:border-red-700 hover:text-red-700 transition duration-300">Add BU</a>
-            <a href="{% url 'invite_IC' %}" class="py-4 px-2 text-black font-semibold hover:border-b-4 hover:border-red-700 hover:text-red-700 transition duration-300">Invite Idea Champion</a>
+            <a href="{% url 'add_BU' %}" class="py-4 px-2 text-black font-semibold hover:border-b-4 hover:border-red-700 hover:text-red-700 transition duration-300">Add Business Unit</a>
+            <a href="{% url 'invite_IC' %}" class="py-4 px-2 text-black font-semibold hover:border-b-4 hover:border-red-700 hover:text-red-700 transition duration-300">Invite Innovation Champion</a>
           </div>
           {% elif user.is_IC %}
           <div class="hidden md:flex items-center space-x-1">
@@ -67,9 +67,15 @@
             <a href="{% url 'accepted' %}" class="py-4 px-2 text-black font-semibold hover:border-b-4 hover:border-red-700 hover:text-red-700 transition duration-300">Accepted</a>
             <a href="{% url 'rejected' %}" class="py-4 px-2 text-black font-semibold hover:border-b-4 hover:border-red-700 hover:text-red-700 transition duration-300">Rejected</a>
             </div>
-          {% else %}
+          {% elif user.is_ideator %}
           <div class="hidden md:flex items-center space-x-1">
-            </div>
+            <a href="{% url 'home' %}" class="py-4 px-2 text-black font-semibold hover:border-b-4 hover:border-red-700 hover:text-red-700 transition duration-300">Home</a>
+          </div>
+          {% elif not user.is_authenticated%}
+          <div class="hidden md:flex items-center space-x-1">
+            <a href="#BUSINESS_UNITS" class="py-4 px-2 text-black font-semibold hover:border-b-4 hover:border-red-700 hover:text-red-700 transition duration-300">Business Units</a>
+            <a href="#INNOVATION_CHAMPIONS" class="py-4 px-2 text-black font-semibold hover:border-b-4 hover:border-red-700 hover:text-red-700 transition duration-300">Innovation Champions</a>
+          </div>
           {% endif %}
         </div>
      

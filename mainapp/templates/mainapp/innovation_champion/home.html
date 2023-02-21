@@ -1,0 +1,192 @@
+{% extends 'mainapp/base.html' %}
+{% load static %}
+
+{% block title %}Home - Innovation Champion{% endblock title %}
+
+{% block content %}
+<div class= "py-3"></div>
+<h3 class="py-4  text-center text-red-700 text-6xl font-bold pt-16 drop-shadow-lg  hover:underline-offset-8">
+  Hello {{ user.fullname }}</h3>
+<h3 class="py-4  text-center text-black text-5xl font-bold pb-16 drop-shadow-lg  hover:underline-offset-8">
+    Bussiness Unit: {{ business_unit }}</h3>
+{% comment %} <h3 class="py-8  text-center text-red-700 text-5xl font-bold pt-16 drop-shadow-lg  hover:underline-offset-8">
+    Pending Reviews</h3> {% endcomment %}
+    <div class="alignitems-center">
+      <form method="POST">
+        {% csrf_token %}
+        <ul class="flex justify-center pb-3">
+          <li class="mr-3">
+            {% if selected == 'all' %}
+            <button
+              class="inline-block border border-red-500 rounded py-2 px-4 text-white bg-red-700"
+              name="selected" value="all"
+              >
+            {% else %}
+            <button
+              class="inline-block border border-white rounded hover:border-gray-200 text-red-500 hover:bg-gray-200 py-2 px-4"
+              name="selected" value="all"
+              >
+            {% endif %}
+              All</button
+            >
+          </li>
+          <li class="mr-3">
+            {% if selected == 'review_pending' %}
+            <button
+              class="inline-block border border-red-500 rounded py-2 px-4 text-white bg-red-700"
+              name="selected" value="review_pending"
+              >
+            {% else %}
+            <button
+              class="inline-block border border-white rounded hover:border-gray-200 text-red-500 hover:bg-gray-200 py-2 px-4"
+              name="selected" value="review_pending"
+              >
+            {% endif %}
+            Review Pending</button>
+          </li>
+          <li class="mr-3">
+            {% if selected == 'accepted' %}
+            <button
+              class="inline-block border border-red-500 rounded py-2 px-4 text-white bg-red-700"
+              name="selected" value="accepted"
+              >
+            {% else %}
+            <button
+              class="inline-block border border-white rounded hover:border-gray-200 text-red-500 hover:bg-gray-200 py-2 px-4"
+              name="selected" value="accepted"
+              >
+            {% endif %}
+            Accepted</button>
+          </li>
+          <li class="mr-3">
+            {% if selected == 'on_hold' %}
+            <button
+              class="inline-block border border-red-500 rounded py-2 px-4 text-white bg-red-700"
+              name="selected" value="on_hold"
+              >
+            {% else %}
+            <button
+              class="inline-block border border-white rounded hover:border-gray-200 text-red-500 hover:bg-gray-200 py-2 px-4"
+              name="selected" value="on_hold"
+              >
+            {% endif %}
+            On Hold</button>
+          </li>
+          <li class="mr-3">
+            {% if selected == 'rejected' %}
+            <button
+              class="inline-block border border-red-500 rounded py-2 px-4 text-white bg-red-700"
+              name="selected" value="rejected"
+              >
+            {% else %}
+            <button
+              class="inline-block border border-white rounded hover:border-gray-200 text-red-500 hover:bg-gray-200 py-2 px-4"
+              name="selected" value="rejected"
+              >
+            {% endif %}
+            Rejected</button
+            >
+          </li>
+        </ul>
+      </form>
+    </div>
+  
+    {% comment %} <div class="bg-gray-200 ml-20 mr-20 px-4 py-8 rounded-lg mb-6 gap-4">
+      <div class="flex justify-between">
+        <div class="basis-1/4 cloumns-1 border-r-[1px] border-black">
+          <div class="container flex items-center">
+            <div>
+              <h2 class="text-lg font-medium">{{ submission.ideator.fullname }}</h2>
+            </div>
+          </div>
+          <div class="container mt-4">
+            <div class="text-gray-600">{{ submission.ideator.email }}</div>
+          </div>
+        </div>
+        <div class="basis-1/2 px-6">
+          <p class="font-bold text-xl uppercase">{{ submission.name }}</p>
+          <p class="mb-4">{{ submission.description }}</p>
+          {% if submission.attachment %}
+            <a href="{{ submission.attachment.url }}" target="_blank" class="underline text-red-700 text-[15px] hover:text-[16px] hover:font-bold transition duration-300">View Attachment</a>
+          {% endif %}
+        </div>
+        <form method="POST">
+          {% csrf_token %}
+          <div class="basis-1/4 pl-6 pr-10 text-right flex flex-col justify-evenly">
+            <input type="hidden" name="submission_id" value="{{ submission.id }}"></input>
+            <div class="flex justify-around">
+              <input type="submit" value="Accept" name="status" class="bg-green-500 text-white py-1 px-4 rounded hover:bg-green-600 mb-2"></input>
+            </div>
+            <div class="flex justify-around">
+              <input type="submit" value="Hold" name="status" class="bg-orange-500 text-white py-1 px-4 rounded hover:bg-red-600 mb-2"></input>
+            </div>
+            <div class="flex justify-around">
+              <input type="submit" value="Reject" name="status" class="bg-red-500 text-white py-1 px-4 rounded hover:bg-red-600"></input>
+            </div>
+          </div>
+        </form>
+  
+
+
+      </div>
+
+    </div> {% endcomment %}
+    <div class="flex flex-col justify-center">
+      <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+        <div class="py-2 block sm:px-6 lg:px-8">
+          <div class="overflow-hidden flex justify-center">
+            
+            <table class="table-auto border">
+              <thead class="bg-white border-b">
+                <tr>
+                  <th scope="col" class="text-md font-bold text-gray-900 px-6 py-4 text-left">
+                    Title
+                  </th>
+                  <th scope="col" class="text-md font-bold text-gray-900 px-6 py-4 text-left">
+                    Date of Submission
+                  </th>
+                  <th scope="col" class="text-md font-bold text-gray-900 px-6 py-4 text-left">
+                    Submission Status
+                  </th>
+                  <th scope="col" class="text-md font-bold text-gray-900 px-6 py-4 text-left">
+                    Last Modification
+                  </th>
+                  <th scope="col" class="text-md font-bold  text-gray-900 px-6 py-4 text-left">
+                    Remark
+                  </th>
+                </tr>
+              </thead>
+              {% for submission in pending_submissions %}
+              <tbody>
+                <tr class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100">
+                  <td class="px-6 py-4 text-sm font-medium text-gray-900 cursor-pointer">
+                    {{ submission.title }}
+                  </td>
+                  <td class="text-sm text-gray-900 font-normal px-6 py-4">
+                    Mark
+                  </td>
+                  <td class="text-sm text-gray-900 font-normal px-6 py-4">
+                    {{ submission.status }}
+                  </td>
+                  <td class="text-sm text-gray-900 font-normal px-6 py-4">
+                    @mdo
+                  </td>
+                  <td class="text-sm text-gray-900 font-normal px-6 py-4">
+                    {{ submission.remark }}
+                  </td>
+                  <td class="text-sm text-red-700 underline font-normal px-6 py-4 cursor-pointer">
+                    View More
+                  </td>
+                </tr>                
+                
+              </tbody>
+              {% endfor %}
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+  </div>
+
+{% endblock content %}

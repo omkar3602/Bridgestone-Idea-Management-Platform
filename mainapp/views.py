@@ -8,21 +8,22 @@ from utils.email_sender import send_mail
 from utils.status_updater import update_status
 import os
 from dotenv import load_dotenv
+from django.utils.timezone import localtime
 
 # Create your views here.
 def index(request):
     bussiness_units = BusinessUnit.objects.all()
-    idea_champions = Account.objects.filter(is_IC=True)
+    innovation_champions = Account.objects.filter(is_IC=True)
     
     context = {
         'is_HOMEPAGE':1,
         'selected':'all',
         'bussiness_units':bussiness_units,
-        'idea_champions':idea_champions,
+        'innovation_champions':innovation_champions,
     }
 
     if request.user.is_authenticated:
-        if request.user.is_idea_admin:
+        if request.user.is_IG_admin:
             graph1_dict = {}
             ideators = Account.objects.filter(is_ideator=True)
             submissions = Submission.objects.all()
@@ -60,7 +61,7 @@ def index(request):
                 graph3_dict[str(submission.status)] += 1
             context['submission_status'] = list(graph3_dict.keys())
             context['no_of_submissions'] = list(graph3_dict.values())
-            return render(request, 'mainapp/idea_admin/home.html', context)
+            return render(request, 'mainapp/IG_admin/home.html', context)
         elif request.user.is_IC:
             if request.method == 'POST':
                 data = request.POST
@@ -73,7 +74,7 @@ def index(request):
 
                 return redirect('home')
 
-            business_unit = BusinessUnit.objects.filter(idea_champion=request.user)
+            business_unit = BusinessUnit.objects.filter(innovation_champion=request.user)
             if business_unit:
                 business_unit = business_unit[0]
                 submissions = Submission.objects.filter(business_unit=business_unit )
@@ -81,7 +82,7 @@ def index(request):
 
                 context['business_unit'] = business_unit
                 context['pending_submissions'] = pending_submissions
-            return render(request, 'mainapp/idea_champion/home.html', context)
+            return render(request, 'mainapp/innovation_champion/home.html', context)
         elif request.user.is_ideator:
             if request.method == 'POST':
                 data = request.POST
@@ -121,26 +122,30 @@ def new_submission(request):
         if request.method == 'POST':
             data = request.POST
             files = request.FILES
-            name = data['idea_title']
+            title = data['title']
+            identified_problem = data['identified_problem']
+            proposed_solution = data['proposed_solution']
+            benefit_of_solution = data['benefit_of_solution']
+            similar_solutions = data['similar_solutions']
+
             business_unit_txt = data['business_unit']
-            description = data['idea_details']
 
             ideator = request.user
             business_unit = BusinessUnit.objects.get(name=business_unit_txt)
 
             if 'attachment' in files.keys():
                 attachment = files['attachment']
-                submission = Submission(name=name, description=description, business_unit=business_unit, ideator=ideator, attachment=attachment)
+                submission = Submission(title=title, identified_problem=identified_problem, proposed_solution=proposed_solution, benefit_of_solution=benefit_of_solution, similar_solutions=similar_solutions, business_unit=business_unit, ideator=ideator, attachment=attachment)
             else:
-                submission = Submission(name=name, description=description, business_unit=business_unit, ideator=ideator)
+                submission = Submission(title=title, identified_problem=identified_problem, proposed_solution=proposed_solution, benefit_of_solution=benefit_of_solution, similar_solutions=similar_solutions, business_unit=business_unit, ideator=ideator)
             submission.save()
 
 
-            idea_champion_email = business_unit.idea_champion.email
+            innovation_champion_email = business_unit.innovation_champion.email
             ideator_email = ideator.email
 
             load_dotenv()
-            send_mail(idea_champion_email, f"New Submission received in BU - {business_unit.name}", f"Hey {business_unit.idea_champion.fullname}! There is a new submission in the business unit {business_unit.name}. Check it out here {os.getenv('WEB_URL')}")
+            send_mail(innovation_champion_email, f"New Submission received in BU - {business_unit.name}", f"Hey {business_unit.innovation_champion.fullname}! There is a new submission in the business unit {business_unit.name}. Check it out here {os.getenv('WEB_URL')}")
             send_mail(ideator_email, f"Your Submission has been received.", f"Hey {ideator.fullname}! Your submission in the business unit {business_unit.name} has been received. Check the status here {os.getenv('WEB_URL')}#YOUR_SUBMISSIONS")
 
             messages.info(request, 'Idea submitted successfully!')
@@ -166,41 +171,79 @@ def edit_submission(request, id):
         if request.method == 'POST':
             data = request.POST
             files = request.FILES
-            name = data['idea_title']
+            title = data['title']
+            identified_problem = data['identified_problem']
+            proposed_solution = data['proposed_solution']
+            benefit_of_solution = data['benefit_of_solution']
+            similar_solutions = data['similar_solutions']
+            
+            submission = Submission.objects.get(id=id)
+            submission.title = title
+            submission.identified_problem = identified_problem
+            submission.proposed_solution = proposed_solution
+            submission.benefit_of_solution = benefit_of_solution
+            submission.similar_solutions = similar_solutions
+
+            submission.modified_on = localtime()
             business_unit_txt = data['business_unit']
-            description = data['idea_details']
 
             ideator = request.user
             business_unit = BusinessUnit.objects.get(name=business_unit_txt)
 
-            submission = Submission.objects.get(id=id)
-            submission.name = name
-            submission.description = description
-            submission.business_unit = business_unit
-            submission.ideator = ideator
-
             if 'attachment' in files.keys():
+                if submission.attachment:
+                    submission.attachment.delete(save=False)
                 attachment = files['attachment']
                 submission.attachment = attachment
             
             submission.save()
 
-            idea_champion_email = business_unit.idea_champion.email
+            innovation_champion_email = business_unit.innovation_champion.email
             ideator_email = ideator.email
 
             load_dotenv()
-            send_mail(idea_champion_email, f"Submission edited in BU - {business_unit.name}", f"Hey {business_unit.idea_champion.fullname}! There is a edited submission in the business unit {business_unit.name}. Check it out here {os.getenv('WEB_URL')}")
+            send_mail(innovation_champion_email, f"Submission edited in BU - {business_unit.name}", f"Hey {business_unit.innovation_champion.fullname}! There is a edited submission in the business unit {business_unit.name}. Check it out here {os.getenv('WEB_URL')}")
             send_mail(ideator_email, f"Your Submission has been edited.", f"Hey {ideator.fullname}! Your submission in the business unit {business_unit.name} has been edited. Check the status here {os.getenv('WEB_URL')}#YOUR_SUBMISSIONS")
 
             messages.info(request, 'Idea edited successfully!')
             return redirect('home')
 
         submission = Submission.objects.get(id=id)
+        if request.user != submission.ideator:
+            messages.info(request, "You don't have access to this page.")
+            return redirect('home')
 
         context = {
             'submission':submission,
         }
         return render(request, 'mainapp/ideator/edit_submission.html', context)
+
+
+@login_required_message(message="Please log in, in order to view the requested page.")
+@login_required
+def delete_submission(request):
+    if request.user.is_ideator == False:
+        messages.info(request, "You don't have access to this page.")
+        return redirect('home')
+    else:
+        if request.method == 'POST':
+            data = request.POST
+            id = data['id']
+            submission = Submission.objects.get(id=id)
+
+            if request.user != submission.ideator:
+                messages.info(request, "You don't have access to this page.")
+                return redirect('home')
+
+            if submission.attachment:
+                submission.attachment.delete(save=False)
+
+            submission.delete()
+
+            messages.info(request, 'Idea has been deleted.')
+            return redirect('home')
+        
+        return redirect('home')
 
 @login_required_message(message="Please log in, in order to view the requested page.")
 @login_required
@@ -220,7 +263,7 @@ def all(request):
                 
             return redirect('all')
 
-        business_unit = BusinessUnit.objects.filter(idea_champion=request.user)
+        business_unit = BusinessUnit.objects.filter(innovation_champion=request.user)
         if business_unit:
             business_unit = business_unit[0]
             submissions = Submission.objects.filter(business_unit=business_unit)
@@ -229,7 +272,7 @@ def all(request):
             context['business_unit'] = business_unit
             context['submissions'] = submissions
 
-        return render(request, 'mainapp/idea_champion/all.html', context)
+        return render(request, 'mainapp/innovation_champion/all.html', context)
 
 @login_required_message(message="Please log in, in order to view the requested page.")
 @login_required
@@ -248,7 +291,7 @@ def onhold(request):
                 messages.info(request, 'Status updated successfully!')
                 
             return redirect('onhold')
-        business_unit = BusinessUnit.objects.filter(idea_champion=request.user)
+        business_unit = BusinessUnit.objects.filter(innovation_champion=request.user)
         if business_unit:
             business_unit = business_unit[0]
             submissions = Submission.objects.filter(business_unit=business_unit )
@@ -258,7 +301,7 @@ def onhold(request):
             context['business_unit'] = business_unit
             context['onhold_submissions'] = onhold_submissions
 
-        return render(request, 'mainapp/idea_champion/onhold.html', context)
+        return render(request, 'mainapp/innovation_champion/onhold.html', context)
 
 @login_required_message(message="Please log in, in order to view the requested page.")
 @login_required
@@ -276,7 +319,7 @@ def accepted(request):
                 messages.info(request, 'Status updated successfully!')
                 
             return redirect('accepted')
-        business_unit = BusinessUnit.objects.filter(idea_champion=request.user)
+        business_unit = BusinessUnit.objects.filter(innovation_champion=request.user)
         if business_unit:
             business_unit = business_unit[0]
             submissions = Submission.objects.filter(business_unit=business_unit )
@@ -287,7 +330,7 @@ def accepted(request):
             context['business_unit'] = business_unit
             context['accepted_submissions'] = accepted_submissions
 
-        return render(request, 'mainapp/idea_champion/accepted.html', context)
+        return render(request, 'mainapp/innovation_champion/accepted.html', context)
 
 @login_required_message(message="Please log in, in order to view the requested page.")
 @login_required
@@ -306,7 +349,7 @@ def rejected(request):
                 messages.info(request, 'Status updated successfully!')
                 
             return redirect('rejected')
-        business_unit = BusinessUnit.objects.filter(idea_champion=request.user)
+        business_unit = BusinessUnit.objects.filter(innovation_champion=request.user)
         if business_unit:
             business_unit = business_unit[0]
 
@@ -317,12 +360,12 @@ def rejected(request):
             context['business_unit'] = business_unit
             context['rejected_submissions'] = rejected_submissions
 
-        return render(request, 'mainapp/idea_champion/rejected.html', context)
+        return render(request, 'mainapp/innovation_champion/rejected.html', context)
 
 @login_required_message(message="Please log in, in order to view the requested page.")
 @login_required
 def add_BU(request):
-    if request.user.is_idea_admin == False:
+    if request.user.is_IG_admin == False:
         messages.info(request, "You don't have access to this page.")
         return redirect('home')
     else:
@@ -330,32 +373,32 @@ def add_BU(request):
             data = request.POST
             files = request.FILES
             name = data['name']
-            idea_champion_txt = data['idea_champion']
+            innovation_champion_txt = data['innovation_champion']
 
-            idea_champion = Account.objects.get(email=idea_champion_txt)
+            innovation_champion = Account.objects.get(email=innovation_champion_txt)
 
             if 'business_unit_img' in files.keys():
                 business_unit_img = files['business_unit_img']
-                BU = BusinessUnit.objects.create(name=name, idea_champion=idea_champion, image=business_unit_img)
+                BU = BusinessUnit.objects.create(name=name, innovation_champion=innovation_champion, image=business_unit_img)
             else:
-                BU = BusinessUnit.objects.create(name=name, idea_champion=idea_champion)
+                BU = BusinessUnit.objects.create(name=name, innovation_champion=innovation_champion)
             BU.save()
 
             load_dotenv()
-            send_mail(idea_champion.email, f"New BU assigned - {name}", f"Hey {idea_champion.fullname}! You have been assigned a new business unit {name}. Check it out here {os.getenv('WEB_URL')}auth/login/")
+            send_mail(innovation_champion.email, f"New Business Unit assigned - {name}", f"Hey {innovation_champion.fullname}! You have been assigned a new business unit {name}. Check it out here {os.getenv('WEB_URL')}auth/login/")
 
             messages.info(request, 'Business Unit added successfully.')
             return redirect('home')
-        idea_champions = Account.objects.filter(is_IC=True)
+        innovation_champions = Account.objects.filter(is_IC=True)
         context = {
-            'idea_champions':idea_champions,
+            'innovation_champions':innovation_champions,
         }
-        return render(request, 'mainapp/idea_admin/add_BU.html', context)
+        return render(request, 'mainapp/IG_admin/add_BU.html', context)
 
 @login_required_message(message="Please log in, in order to view the requested page.")
 @login_required
 def invite_IC(request):
-    if request.user.is_idea_admin == False:
+    if request.user.is_IG_admin == False:
         messages.info(request, "You don't have access to this page.")
         return redirect('home')
     else:
@@ -364,8 +407,8 @@ def invite_IC(request):
             email = data['email']
 
             load_dotenv()
-            send_mail(email, "You are invited as a Idea Champion.", f"Hey you have been invited as an Idea Champion. Complete the registration process here {os.getenv('WEB_URL')}auth/signup_ic/?email={email}")
+            send_mail(email, "You are invited as a Innovation Champion.", f"Hey you have been invited as an Innovation Champion. Complete the registration process here {os.getenv('WEB_URL')}auth/signup_ic/?email={email}")
 
             messages.info(request, 'Invite sent successfully.')
             return redirect('home')
-        return render(request, 'mainapp/idea_admin/invite_IC.html')
+        return render(request, 'mainapp/IG_admin/invite_IC.html')

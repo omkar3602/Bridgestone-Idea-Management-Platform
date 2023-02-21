@@ -1,0 +1,57 @@
+{% extends 'mainapp/base.html' %}
+{% load static %}
+
+{% block title %}On Hold Submissions{% endblock title %}
+
+{% block content %}
+<div class= "py-5"></div>
+<h3 class="py-4  text-center text-red-700 text-6xl font-bold pt-16 drop-shadow-lg  hover:underline-offset-8">
+  BU: {{ business_unit }}</h3>
+<h3 class="py-4  text-center text-red-700 text-5xl font-bold pt-16 drop-shadow-lg  hover:underline-offset-8">
+    On Hold Submissions</h3>
+  {% for submission in onhold_submissions %}
+    <div class="bg-gray-200 mx-20 px-4 py-8 rounded-lg mb-2">
+      <div class="flex justify-between">
+        <div class="basis-1/4 cloumns-1 border-r-[1px] border-black">
+          <div class="container flex items-center">
+            <div>
+              <h2 class="text-lg font-medium">{{ submission.ideator.fullname }}</h2>
+            </div>
+          </div>
+          <div class="container mt-4">
+            <div class="text-gray-600">{{ submission.ideator.email }}</div>
+          </div>
+        </div>
+        <div class="basis-1/2 px-6">
+          <p class="font-bold text-xl uppercase">{{ submission.name }}</p>
+          <p class="mb-4">{{ submission.description }}</p>
+          {% if submission.attachment %}
+            <a href="{{ submission.attachment.url }}" target="_blank" class="underline text-red-700 text-[15px] hover:text-[16px] hover:font-bold transition duration-300">View Attachment</a>
+          {% endif %}
+
+        </div>
+        <form method="POST">
+          {% csrf_token %}
+          <div class="basis-1/4 pl-6 pr-10 text-right flex flex-col justify-evenly">
+            <input type="hidden" name="submission_id" value="{{ submission.id }}"></input>
+            <div class="flex justify-around">
+              <input type="submit" value="Accept" name="status" class="bg-green-500 text-white py-1 px-4 rounded hover:bg-green-600 mb-2"></input>
+            </div>
+            <div class="flex justify-around">
+              <input type="submit" value="Hold" name="status" class="bg-orange-500 text-white py-1 px-4 rounded hover:bg-red-600 mb-2"></input>
+            </div>
+            <div class="flex justify-around">
+              <input type="submit" value="Reject" name="status" class="bg-red-500 text-white py-1 px-4 rounded hover:bg-red-600"></input>
+            </div>
+          </div>
+        </form>
+  
+
+
+      </div>
+
+    </div>
+  {% endfor %}
+  </div>
+
+{% endblock content %}
