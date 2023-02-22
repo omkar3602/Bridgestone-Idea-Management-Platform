@@ -101,7 +101,7 @@ def index(request):
             business_unit = BusinessUnit.objects.filter(innovation_champion=request.user)
             if business_unit:
                 business_unit = business_unit[0]
-                submissions = Submission.objects.filter(business_unit=business_unit).order_by('-submitted_on')
+                submissions = Submission.objects.filter(business_unit=business_unit).order_by('-modified_on')
                 p=Paginator(submissions, 10)
                 page_number = request.GET.get('page')
                 try:
@@ -118,7 +118,7 @@ def index(request):
             return render(request, 'mainapp/innovation_champion/home.html', context)
         
         elif request.user.is_ideator:
-            submissions = Submission.objects.filter(ideator=request.user)
+            submissions = Submission.objects.filter(ideator=request.user).order_by('-modified_on')
             p = Paginator(submissions,10)
             page_number = request.GET.get('page', 1)
             try:
@@ -145,7 +145,7 @@ def on_hold(request):
         business_unit = BusinessUnit.objects.filter(innovation_champion=request.user)
         if business_unit:
             business_unit = business_unit[0]
-            submissions = Submission.objects.filter(business_unit=business_unit).filter(status="On Hold").order_by('-submitted_on')
+            submissions = Submission.objects.filter(business_unit=business_unit).filter(status="On Hold").order_by('-modified_on')
             p=Paginator(submissions, 10)
             page_number = request.GET.get('page')
             try:
@@ -163,7 +163,7 @@ def on_hold(request):
 
 
     if request.user.is_ideator:                          
-        submissions = Submission.objects.filter(ideator=request.user).filter(status="On Hold")
+        submissions = Submission.objects.filter(ideator=request.user).filter(status="On Hold").order_by('-modified_on')
         p=Paginator(submissions, 10)
         page_number = request.GET.get('page')
         try:
@@ -185,7 +185,7 @@ def accepted(request):
         business_unit = BusinessUnit.objects.filter(innovation_champion=request.user)
         if business_unit:
             business_unit = business_unit[0]
-            submissions = Submission.objects.filter(business_unit=business_unit).filter(status="Accepted").order_by('-submitted_on')
+            submissions = Submission.objects.filter(business_unit=business_unit).filter(status="Accepted").order_by('-modified_on')
             p=Paginator(submissions, 10)
             page_number = request.GET.get('page')
             try:
@@ -202,7 +202,7 @@ def accepted(request):
         return render(request, 'mainapp/innovation_champion/home.html', context)
 
     if request.user.is_ideator:                         
-        submissions = Submission.objects.filter(ideator=request.user).filter(status="Accepted")
+        submissions = Submission.objects.filter(ideator=request.user).filter(status="Accepted").order_by('-modified_on')
         p=Paginator(submissions, 10)
         page_number = request.GET.get('page')
         try:
@@ -223,7 +223,7 @@ def rejected(request):
         business_unit = BusinessUnit.objects.filter(innovation_champion=request.user)
         if business_unit:
             business_unit = business_unit[0]
-            submissions = Submission.objects.filter(business_unit=business_unit).filter(status="Rejected").order_by('-submitted_on')
+            submissions = Submission.objects.filter(business_unit=business_unit).filter(status="Rejected").order_by('-modified_on')
             p=Paginator(submissions, 10)
             page_number = request.GET.get('page')
             try:
@@ -241,7 +241,7 @@ def rejected(request):
         return render(request, 'mainapp/innovation_champion/home.html', context)
 
     if request.user.is_ideator:                                    
-        submissions = Submission.objects.filter(ideator=request.user).filter(status="Rejected")
+        submissions = Submission.objects.filter(ideator=request.user).filter(status="Rejected").order_by('-modified_on')
         p=Paginator(submissions, 10)
         page_number = request.GET.get('page')
         try:
@@ -263,7 +263,7 @@ def review_pending(request):
         business_unit = BusinessUnit.objects.filter(innovation_champion=request.user)
         if business_unit:
             business_unit = business_unit[0]
-            submissions = Submission.objects.filter(business_unit=business_unit).filter(status="Review Pending").order_by('-submitted_on')
+            submissions = Submission.objects.filter(business_unit=business_unit).filter(status="Review Pending").order_by('-modified_on')
             p=Paginator(submissions, 10)
             page_number = request.GET.get('page')
             try:
@@ -281,7 +281,7 @@ def review_pending(request):
 
     if request.user.is_ideator:         
                         
-        submissions = Submission.objects.filter(ideator=request.user).filter(status="Review Pending")
+        submissions = Submission.objects.filter(ideator=request.user).filter(status="Review Pending").order_by('-modified_on')
         p=Paginator(submissions, 10)
         page_number = request.GET.get('page')
         try:
