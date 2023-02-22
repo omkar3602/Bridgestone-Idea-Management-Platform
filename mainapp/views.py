@@ -27,6 +27,7 @@ def index(request):
             return redirect('adminuser')
         if request.user.is_IG_admin:
             selected_BU = BusinessUnit.objects.all()[0]
+            context['business_units_objects'] = BusinessUnit.objects.all()
             context["selected_BU"] = selected_BU
             submissions = Submission.objects.all()
 
@@ -38,7 +39,6 @@ def index(request):
                 BU_submissions.filter(status="On Hold").count(),
                 BU_submissions.filter(status="Review Pending").count()
             ]
-
             context["graph4_array"] = graph4_array
             
             if request.method == "POST":

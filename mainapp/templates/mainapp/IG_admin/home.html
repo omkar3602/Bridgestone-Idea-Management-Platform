@@ -155,7 +155,7 @@
       {% csrf_token %}
       <select name="business_unit_input" id="business_unit" onchange="if(this.value != 0) { this.form.submit(); }"
         class="bg-red-50 border border-red-300 text-gray-900 text-sm rounded shadow-lg focus:ring-red-500 focus:border-red-500 block w-full px-6 py-2.5 dark:bg-red-700 dark:border-red-600 dark:placeholder-red-400 dark:text-white dark:focus:ring-red-500 dark:focus:border-red-500 uppercase">
-        {% for business_unit in business_units %}
+        {% for business_unit in business_units_objects %}
           {% if business_unit == selected_BU %}
             <option value="{{ business_unit.id }}" selected>{{ business_unit.name }} - {{ business_unit.innovation_champion }}</option>
           {% else %}
