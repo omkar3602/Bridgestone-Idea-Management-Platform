@@ -9,8 +9,11 @@
             <div class="container max-w-lg flex-1 flex flex-col items-center justify-center px-2">
                 <div class= "py-14"></div>
                 <div class="bg-white px-8 py-2 rounded shadow-md text-black w-full">
-                    <img src="{% static 'images/logo_hori.png' %}">
-                    <h1 class="mt-6 mb-8 text-2xl font-bold text-center font-nunito">Edit Business Unit</h1>
+                    <img class="mb-6" src="{% static 'images/logo_hori.png' %}">
+                    <a class="text-red-700 text-[15px] font-semibold hover:underline cursor-pointer" href="{% url 'edit_BU' %}">          
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-arrow-left-short inline" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z"/> </svg>
+                      Back</a>
+                    <h1 class="mb-8 text-2xl font-bold text-center font-nunito">Edit Business Unit</h1>
                     <form method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
                     <label class="font-semibold">Business Unit Name <span class="text-red-500">*</span></label>

@@ -14,13 +14,14 @@
                     <form method="POST">
                     {% csrf_token %}
                             {% for business_unit in business_units %}
-                            <div class="w-full block p-3">
-                                <input type="radio" id="{{ business_unit.id }}" name="BU_id" value="{{ business_unit.id }}">
-                                <label for="{{ business_unit.id }}">{{ business_unit.name }}</label>
-                            </div>
+                            <input class="form-check-input appearance-none rounded-full h-5 w-5 border border-gray-400 bg-white checked:bg-red-700 checked:border-red-700 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="radio" name="BU_id" id="{{ business_unit.id }}" value="{{ business_unit.id }}" required />   
+                            <label class="form-check-label block text-gray-800 mb-3" for="{{ business_unit.id }}">
+                                {{ business_unit.name }}
+                            </label>
                             {% endfor %}
                     <button type="submit"
-                        class="w-full text-center py-3 mt-4 rounded bg-primary_red text-white bg-black focus:outline-none my-1">Edit Business Unit
+                        class="w-full text-center py-3 mt-4 rounded bg-primary_red text-white bg-black focus:outline-none my-1">Continue
+                        <svg style="color: white" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-arrow-right-short inline" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z" fill="white"></path> </svg>
                     </button>
 
                     </form>
