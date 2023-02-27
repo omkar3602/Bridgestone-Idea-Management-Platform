@@ -146,7 +146,7 @@ Ideator{% endblock title %} {% block content %}
                   </a>
                 </div>
                 {% endif %}
-                {% if submission.status == "Review Pending"  %}
+                {% if submission.status == "Review Pending" or submission.status == "On Hold" %}
                 <div class="flex-auto pr-1">
                   <a class="text-red-700 text-[15px] font-semibold hover:underline" href="{% url 'edit_submission' submission.key %}">          
                       <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-pencil-square inline" viewBox="0 0 16 16">
@@ -155,6 +155,8 @@ Ideator{% endblock title %} {% block content %}
                       </svg>
                     Edit Submission</a>
                 </div>
+                {% endif %}
+                {% if submission.status == "Review Pending" %}
                 <div class="flex-auto pr-1">
                   <a class="text-red-700 text-[15px] font-semibold hover:underline cursor-pointer" onclick="show_modal('{{ submission.id }}_del_confirm')">          
                     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 24 24" class="inline"> <g> <path fill="none" d="M0 0h24v24H0z"/> <path d="M4 8h16v13a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V8zm2 2v10h12V10H6zm3 2h2v6H9v-6zm4 0h2v6h-2v-6zM7 5V3a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v2h5v2H2V5h5zm2-1v1h6V4H9z"/> </g> </svg>
@@ -211,13 +213,18 @@ Ideator{% endblock title %} {% block content %}
                               View Attachment</a
                             >
                             {% endif %}
-                            {% if submission.status == "Review Pending"  %}
-                              <a class="text-red-700 text-[15px] font-semibold hover:underline" href="{% url 'edit_submission' submission.key %}">          
+                            {% if submission.status == "Review Pending" or submission.status == "On Hold"  %}
+                              <a class="text-red-700 text-[15px] font-semibold hover:underline cursor-pointer" href="{% url 'edit_submission' submission.key %}">          
                                   <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-pencil-square inline" viewBox="0 0 16 16">
                                     <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
                                     <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
                                   </svg>
                                 Edit Submission</a>
+                              {% endif %}
+                              {% if submission.status == "Review Pending" %}
+                                <a class="text-red-700 text-[15px] font-semibold hover:underline cursor-pointer" onclick="show_modal('{{ submission.id }}_del_confirm')">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 24 24" class="inline"> <g> <path fill="none" d="M0 0h24v24H0z"/> <path d="M4 8h16v13a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V8zm2 2v10h12V10H6zm3 2h2v6H9v-6zm4 0h2v6h-2v-6zM7 5V3a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v2h5v2H2V5h5zm2-1v1h6V4H9z"/> </g> </svg>
+                                    Delete Submission</a>
                               {% endif %}
                             </div>
                     </div>

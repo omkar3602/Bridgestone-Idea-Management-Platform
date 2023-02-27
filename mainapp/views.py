@@ -397,6 +397,9 @@ def edit_submission(request, key):
         if request.user != submission.ideator:
             messages.info(request, "You don't have access to this page.")
             return redirect('home')
+        if submission.status == 'Accepted' or submission.status == 'Rejected':
+            messages.info(request, "You can't edit this submission.")
+            return redirect('home')
 
         context = {
             'submission':submission,
