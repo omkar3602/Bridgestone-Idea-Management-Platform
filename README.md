@@ -38,7 +38,7 @@ pip install -r requirements.txt
 * Create a .env file in the root directory. It sholud contain the following variables.
     * SECRET_KEY: Secret Key used by Django in `projectname\settings.py`
     * DEBUG: Describes whether the project is in development or production.
-    * ADMIN_EMAIL: Email ID of sytem admin. Used for automatic mailing purpose.
+    * ADMIN_EMAIL: Email ID of sytem admin. Used for automatic mailing feature.
     * PASSWORD: Password of admin email. (If password doesn't work, app password is required).
     * WEB_URL: This is the base url of the website.
 
