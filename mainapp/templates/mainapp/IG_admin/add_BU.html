@@ -15,7 +15,7 @@
                     {% csrf_token %}
                     <input class="block border border-grey-light w-full p-3 rounded mb-4" type="text" name="name" placeholder="Business Unit Name"></input>
                     <select type="text" class="block border border-grey-light w-full p-3 rounded mb-4"
-                        name="innovation_champion" placeholder="Business Unit" >
+                        name="innovation_champion" placeholder="Innovation Champion" >
                         <option value="0">Assign Innovation Champion</option>
                         {% for innovation_champion in innovation_champions %}
                             <option value="{{ innovation_champion.email }}">{{ innovation_champion.fullname }} ({{ innovation_champion.email }})</option>

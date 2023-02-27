@@ -551,6 +551,66 @@ def add_BU(request):
 
 @login_required_message(message="Please log in, in order to view the requested page.")
 @login_required
+def edit_BU(request):
+    if request.user.is_IG_admin == False:
+        messages.info(request, "You don't have access to this page.")
+        return redirect('home')
+    else:
+        if request.method == 'POST':
+            data = request.POST
+            id = data['BU_id']
+
+            return redirect('edit_BU_single', id=id)
+        business_units = BusinessUnit.objects.all()
+        context = {
+            'business_units': business_units,
+        }
+        return render(request, 'mainapp/IG_admin/edit_BU.html', context)
+
+@login_required_message(message="Please log in, in order to view the requested page.")
+@login_required
+def edit_BU_single(request, id):
+    if request.user.is_IG_admin == False:
+        messages.info(request, "You don't have access to this page.")
+        return redirect('home')
+    else:
+        if request.method == 'POST':
+            data = request.POST
+            files = request.FILES
+            name = data['name']
+            innovation_champion_txt = data['innovation_champion']
+
+            innovation_champion = Account.objects.get(email=innovation_champion_txt)
+
+            BU = BusinessUnit.objects.get(id=id)
+            BU.name = name
+            BU.innovation_champion = innovation_champion
+
+            if 'business_unit_img' in files.keys():
+                if BU.image:
+                    BU.image.delete(save=False)
+                business_unit_img = files['business_unit_img']
+                BU.image = business_unit_img
+            
+            BU.save()
+
+            load_dotenv()
+            send_mail(innovation_champion.email, f"New Business Unit assigned - {name}", f"Hey {innovation_champion.fullname}! You have been assigned a new business unit {name}. Check it out here {os.getenv('WEB_URL')}auth/login/")
+
+            messages.info(request, 'Business Unit edited successfully.')
+            return redirect('home')
+        
+        business_unit = BusinessUnit.objects.get(id=id)
+        innovation_champions = Account.objects.filter(is_IC=True)
+
+        context = {
+            'business_unit': business_unit,
+            'innovation_champions':innovation_champions,
+        }
+        return render(request, 'mainapp/IG_admin/edit_BU_single.html', context)
+
+@login_required_message(message="Please log in, in order to view the requested page.")
+@login_required
 def invite_IC(request):
     if request.user.is_IG_admin == False:
         messages.info(request, "You don't have access to this page.")
